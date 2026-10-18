@@ -1,0 +1,1638 @@
+<title>İK Kampüs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky kurumsal üst bar + sekmeli tek sayfa; her modül "vaka dosyası | işlem alanı" bölünmüş kokpit olarak kurulur */
+:root{
+  --bg:#F5F7FB; --surface:#FFFFFF; --surface-2:#EEF2F8; --ink:#0F1B3D; --muted:#56627A; --line:#D9E1EC;
+  --brand:#1E3A8A; --brand-ink:#FFFFFF; --brand-soft:#E3E9F8;
+  --accent:#0D9488; --accent-soft:#D5F1EE;
+  --good:#15803D; --good-soft:#DDF3E4; --warn:#B45309; --warn-soft:#FBEBD3; --bad:#B42318; --bad-soft:#FBE1DE;
+  --f-display:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1222; --surface:#111B30; --surface-2:#18243D; --ink:#E6ECF7; --muted:#9AA8C2; --line:#27344F;
+  --brand:#8EA6F2; --brand-ink:#0B1222; --brand-soft:#1C2A4E;
+  --accent:#2DD4BF; --accent-soft:#113A3A;
+  --good:#4ADE80; --good-soft:#123323; --warn:#FBBF24; --warn-soft:#3A2B10; --bad:#F87171; --bad-soft:#3D1716; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1222; --surface:#111B30; --surface-2:#18243D; --ink:#E6ECF7; --muted:#9AA8C2; --line:#27344F;
+  --brand:#8EA6F2; --brand-ink:#0B1222; --brand-soft:#1C2A4E;
+  --accent:#2DD4BF; --accent-soft:#113A3A;
+  --good:#4ADE80; --good-soft:#123323; --warn:#FBBF24; --warn-soft:#3A2B10; --bad:#F87171; --bad-soft:#3D1716; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.2;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(1.9rem,4.4vw,3rem);font-weight:800}
+h2{font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:700}
+h3{font-size:1.1rem;font-weight:700}
+h4{font-size:.95rem;font-weight:700}
+p{margin:0}
+a{color:var(--brand)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--f-display);font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.mono{font-family:var(--f-mono);font-size:.85em}
+.num{font-variant-numeric:tabular-nums}
+
+/* Header */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-row{display:flex;align-items:center;gap:16px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:800;font-size:1.1rem;white-space:nowrap}
+button.brand{background:none;border:0;padding:0;cursor:pointer}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-size:.8rem;font-weight:800}
+.xp-pill{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);white-space:nowrap}
+.xp-pill b{color:var(--ink);font-variant-numeric:tabular-nums}
+nav.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding-bottom:0}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs a{flex:none;padding:10px 12px;text-decoration:none;color:var(--muted);font-weight:600;font-size:.88rem;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs a:hover{color:var(--ink)}
+nav.tabs a[aria-current="page"]{color:var(--brand);border-bottom-color:var(--brand)}
+
+main{padding-block:28px 56px}
+.shell main{padding-block:24px 56px}
+section.view{display:flex;flex-direction:column;gap:28px}
+.view-head{display:flex;flex-direction:column;gap:6px;max-width:70ch}
+
+/* Generic */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.split{display:grid;gap:16px;grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+@media (max-width:860px){.split{grid-template-columns:minmax(0,1fr)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:8px;border:1px solid transparent;background:var(--brand);color:var(--brand-ink);font-weight:600;cursor:pointer;text-decoration:none;font-size:.92rem}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--brand);border-color:var(--line)}
+.btn.ghost:hover{background:var(--brand-soft)}
+.btn.acc{background:var(--accent);color:var(--brand-ink)}
+.btn.sm{padding:6px 10px;font-size:.82rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--surface-2);font-size:.78rem;font-weight:600;color:var(--muted);border:1px solid var(--line)}
+button.chip{cursor:pointer}
+button.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.pill{display:inline-block;padding:2px 8px;border-radius:6px;font-size:.75rem;font-weight:700}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--brand-soft);color:var(--brand)}
+label.field{display:flex;flex-direction:column;gap:4px;font-size:.82rem;font-weight:600;color:var(--muted)}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-size:.92rem;font-variant-numeric:tabular-nums}
+textarea{min-height:110px;resize:vertical}
+.fb{border-radius:8px;padding:10px 12px;font-size:.9rem;border:1px solid}
+.fb.ok{background:var(--good-soft);color:var(--good);border-color:transparent}
+.fb.err{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.fb.note{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.fb b{font-weight:700}
+.fb p{color:var(--ink);margin-top:4px}
+.opt{display:block;width:100%;text-align:left;padding:12px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:.92rem}
+.opt:hover{border-color:var(--brand)}
+.opt.sel-ok{border-color:var(--good);background:var(--good-soft)}
+.opt.sel-bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt .k{font-family:var(--f-display);font-weight:800;color:var(--brand);margin-right:8px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.85rem;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--surface-2);font-weight:600;color:var(--muted);font-size:.76rem;letter-spacing:.03em;text-transform:uppercase}
+tr:last-child td{border-bottom:0}
+td input{min-width:90px;padding:5px 7px}
+code.f{display:block;font-family:var(--f-mono);font-size:.8rem;background:var(--surface-2);border:1px solid var(--line);padding:8px 10px;border-radius:6px;overflow-x:auto;white-space:pre}
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.step{flex:1 1 120px;padding:8px 10px;border-radius:8px;background:var(--surface-2);font-size:.78rem;font-weight:600;color:var(--muted);border:1px solid var(--line)}
+.step.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.step.done{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.88rem}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.stat{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:8px;background:var(--surface-2)}
+.stat .v{font-family:var(--f-display);font-size:1.5rem;font-weight:800;font-variant-numeric:tabular-nums}
+.stat .l{font-size:.78rem;color:var(--muted);font-weight:600}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0}
+
+/* Hero */
+.hero{display:grid;gap:28px;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:start}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}}
+.hero-copy{display:flex;flex-direction:column;gap:16px;padding-top:8px}
+.hero-copy .lead{font-size:1.08rem;color:var(--muted);max-width:52ch}
+.hero-copy h1 em{font-style:normal;color:var(--accent)}
+.calc{border:1px solid var(--line);background:var(--surface);border-radius:12px;overflow:hidden}
+.calc-head{background:var(--brand);color:var(--brand-ink);padding:12px 18px;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.calc-head h3{font-size:1rem}
+.calc-body{padding:18px;display:flex;flex-direction:column;gap:12px}
+.calc-out{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px}
+.calc-out .line{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;font-variant-numeric:tabular-nums}
+.calc-out .line.total{font-family:var(--f-display);font-weight:800;font-size:1.1rem;color:var(--accent)}
+.tools-bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:14px 0;border-block:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+.tools-bar b{font-family:var(--f-display);color:var(--ink)}
+.path-card{border-top:3px solid var(--brand)}
+.path-card ul{margin:0;padding-left:18px;font-size:.9rem;color:var(--muted)}
+.case-box{background:var(--brand);color:var(--brand-ink);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.case-box .eyebrow{color:inherit;opacity:.8}
+.case-box textarea{background:var(--surface);color:var(--ink)}
+.case-box p.q{font-family:var(--f-display);font-size:1.15rem;font-weight:600;max-width:70ch}
+
+/* Radar ve gösterge paneli */
+.radar svg{width:100%;max-width:340px;height:auto;display:block;margin:0 auto}
+.dash{display:grid;gap:16px;grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+@media (max-width:860px){.dash{grid-template-columns:minmax(0,1fr)}}
+.port-card{border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:6px;background:var(--surface)}
+.port-card.locked{opacity:.6;border-style:dashed}
+
+/* ATS */
+.ats{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1.1fr)}
+@media (max-width:1000px){.ats{grid-template-columns:minmax(0,1fr)}}
+.bubble{padding:12px 14px;border-radius:10px;font-size:.92rem;max-width:92%}
+.bubble.cand{background:var(--surface-2);align-self:flex-start;border-top-left-radius:2px}
+.bubble.me{background:var(--brand);color:var(--brand-ink);align-self:flex-end;border-top-right-radius:2px}
+.chat{display:flex;flex-direction:column;gap:8px;min-height:160px}
+.star{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.star span{text-align:center;padding:6px 0;border-radius:6px;background:var(--surface-2);font-weight:800;font-family:var(--f-display);color:var(--muted);font-size:.85rem}
+.star span.on{background:var(--good-soft);color:var(--good)}
+.rate{display:flex;gap:4px}
+.rate button{width:32px;height:32px;border-radius:6px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:700}
+.rate button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--brand-ink)}
+.cand-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.cand-tabs button{flex:1 1 100px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:.85rem;text-align:left}
+.cand-tabs button[aria-pressed="true"]{border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand)}
+.cand-tabs small{display:block;font-weight:500;color:var(--muted)}
+
+/* Templates */
+details.tpl{border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+details.tpl summary{cursor:pointer;padding:16px 18px;display:flex;gap:12px;align-items:center;list-style:none}
+details.tpl summary::-webkit-details-marker{display:none}
+details.tpl summary .ix{font-family:var(--f-display);font-weight:800;color:var(--brand);font-size:1.2rem;width:28px}
+details.tpl summary .chev{margin-left:auto;transition:transform .2s;color:var(--muted)}
+details.tpl[open] summary .chev{transform:rotate(90deg)}
+details.tpl .body{padding:0 18px 18px;display:flex;flex-direction:column;gap:14px}
+.formula-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:start}
+.formula-row .lbl{grid-column:1/-1;font-size:.82rem;font-weight:600;color:var(--muted)}
+
+/* Calendar */
+.cal{display:grid;gap:10px}
+.wk{display:grid;grid-template-columns:72px minmax(0,1fr) minmax(0,1.6fr) minmax(0,1fr);gap:14px;align-items:start;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+.wk .n{font-family:var(--f-display);font-weight:800;color:var(--brand)}
+.wk .n small{display:block;font-weight:600;color:var(--muted);font-size:.72rem}
+@media (max-width:760px){.wk{grid-template-columns:minmax(0,1fr)}}
+.month-head{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-top:8px}
+
+/* Portfolio */
+.prof{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
+.avatar{width:84px;height:84px;border-radius:14px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.8rem}
+.skill-line{display:grid;grid-template-columns:minmax(0,1fr) 110px 40px;gap:10px;align-items:center;font-size:.86rem}
+.proj{border:1px solid var(--line);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.proj ul{margin:0;padding-left:18px;font-size:.88rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-size:.88rem;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.2)}
+nav.tabs .spacer{flex:1 0 12px}
+nav.tabs a.user{color:var(--accent)}
+.subnav{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.subnav .crumb{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.subnav .crumb b{font-family:var(--f-display);font-size:.95rem}
+.subnav .crumb span{font-size:.84rem;color:var(--muted);max-width:80ch}
+.subnav .segs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.subnav .segs::-webkit-scrollbar{display:none}
+.subnav .segs a{flex:none;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--muted);font-weight:600;font-size:.86rem}
+.subnav .segs a:hover{color:var(--ink);border-color:var(--brand)}
+.subnav .segs a[aria-current="page"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:32px;align-items:start}
+aside.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);max-height:calc(100vh - 86px);overflow-y:auto;padding-block:24px 24px;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin}
+.side .ni{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;color:var(--muted);font:inherit;font-size:.88rem;padding:7px 10px;border-radius:7px;font-weight:500}
+.side .ni:hover{color:var(--ink);background:var(--surface-2)}
+.side .ni[aria-current="page"]{background:var(--brand-soft);color:var(--brand);font-weight:700}
+button.as-link{background:none;border:0;padding:0;font:inherit;color:var(--brand);text-decoration:underline;text-underline-offset:2px;cursor:pointer;text-align:left}
+button.card{text-align:left;cursor:pointer;font:inherit;color:inherit;width:100%}
+button.card:hover{border-color:var(--brand)}
+.map-card .subs button{font-size:.88rem;font-weight:600;text-decoration:none}
+.map-card .subs button:hover{text-decoration:underline}
+.side .grp{display:flex;flex-direction:column;gap:1px;margin-top:10px}
+.side .grp-h{font-family:var(--f-display);font-weight:700;font-size:.9rem;color:var(--ink);padding:6px 10px}
+.side .grp-h.on{color:var(--brand)}
+.side .grp .sub{padding-left:22px;position:relative}
+.side .grp .sub::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:2px;border-radius:2px;background:var(--line)}
+.side .grp .sub[aria-current="page"]::before{background:var(--brand)}
+.side .sep{border-top:1px solid var(--line);margin:12px 4px 2px}
+.side .lbl{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:6px 10px 2px}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;font-weight:600;cursor:pointer;font-size:.88rem}
+main{min-width:0}
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0}
+  .menu-btn{display:inline-flex}
+  aside.side{position:static;max-height:none;display:none;border-bottom:1px solid var(--line);padding-block:12px}
+  aside.side.open{display:flex}
+}
+.term{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.term b{font-family:var(--f-display)}
+details.law{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+details.law summary{cursor:pointer;padding:12px 14px;font-weight:600;display:flex;gap:10px;align-items:baseline}
+details.law summary .mono{color:var(--brand);font-weight:700;flex:none}
+details.law div{padding:0 14px 14px;font-size:.9rem;color:var(--muted)}
+.map-card{border-top:3px solid var(--accent)}
+.map-card .subs{display:flex;flex-direction:column;gap:4px}
+.map-card .subs a{font-size:.88rem;font-weight:600;text-decoration:none}
+.map-card .subs a:hover{text-decoration:underline}
+.ladder{display:grid;gap:10px;grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:860px){.ladder{grid-template-columns:minmax(0,1fr)}}
+.rung{border:1px solid var(--line);border-radius:var(--r);padding:14px;background:var(--surface);display:flex;flex-direction:column;gap:6px;position:relative}
+.rung .lv{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.rung.here{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.thread{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.reply{border-left:3px solid var(--line);padding:4px 0 4px 12px;font-size:.9rem}
+.reply b{font-size:.82rem}
+.job{border:1px solid var(--line);border-radius:var(--r);padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.fav{background:none;border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.8rem;font-weight:600;color:var(--muted)}
+.fav[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.check-item{display:flex;gap:10px;align-items:flex-start;font-size:.9rem;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.check-item input{margin-top:3px}
+footer{border-top:1px solid var(--line);padding-block:22px;font-size:.84rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <a class="brand" href="#anasayfa"><span class="brand-mark">İK</span>İK Kampüs</a>
+      <div class="xp-pill"><span>Toplam</span><b id="xpTop">0 puan</b></div>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="side">Menü</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap shell">
+<aside class="side" id="side" aria-label="Site menüsü"></aside>
+<main id="main">
+<div class="subnav" id="subnav" hidden></div>
+
+<!-- ============ ANA SAYFA ============ -->
+<section class="view" id="v-anasayfa" data-view="anasayfa">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">İKY lisans mezunları için uygulama platformu</span>
+      <h1>Diplomanı aldın. Şimdi <em>gerçek İK pratiği</em> zamanı.</h1>
+      <p class="lead">4857 sayılı İş Kanunu simülasyonları, aday takip sistemi deneyimi ve gerçek vaka analizleriyle 0-2 yıl deneyim bariyerini aş. Çözdüğün her vaka, CV'ne ekleyebileceğin portfolyona dönüşür.</p>
+      <div class="row">
+        <a class="btn" href="#pusula">Yetkinlik testini çöz</a>
+        <a class="btn ghost" href="#bordro">Örnek vakayı incele</a>
+      </div>
+      <div class="row small muted">
+        <span class="chip">5 pratik laboratuvar</span><span class="chip">5 hazır Excel şablonu</span><span class="chip">12 haftalık program</span>
+      </div>
+    </div>
+    <div class="calc" aria-label="Kıdem ve ihbar tazminatı mini hesaplayıcı">
+      <div class="calc-head"><h3>Kıdem ve ihbar hesapla</h3><span class="small">Üye olmadan dene</span></div>
+      <div class="calc-body">
+        <div class="grid g2" style="gap:10px">
+          <label class="field">Giydirilmiş brüt ücret (TL)<input type="number" id="hcBrut" value="45000" min="0" step="500"></label>
+          <label class="field">Kıdem tavanı (TL)<input type="number" id="hcTavan" value="53919.68" min="0" step="0.01"></label>
+          <label class="field">Çalışma süresi (yıl)<input type="number" id="hcYil" value="2" min="0" max="50"></label>
+          <label class="field">+ ay<input type="number" id="hcAy" value="4" min="0" max="11"></label>
+        </div>
+        <p class="small muted">Tavan alanındaki değer 2025 ikinci yarısına ait örnektir; hesaplamadan önce güncel dönem tavanını girin.</p>
+        <div class="calc-out" id="hcOut"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tools-bar"><b>Deneme ortamında tanıtılan araç türleri</b><span>İK bilgi sistemi (SAP SuccessFactors, Workday, Kolay İK)</span><span>Aday takip sistemi (Peoplise, Greenhouse)</span><span>LinkedIn Recruiter</span><span>Excel / Power BI</span></div>
+
+  <div class="view-head"><span class="eyebrow">Platform haritası</span><h2>Beş ana menü, on beş çalışma alanı</h2><p class="muted">"Nereden başlamalıyım?" sorusundan "Nasıl uzmanlaşırım?" aşamasına kadar olan yolculuk bu sırayla kurgulandı.</p></div>
+  <div class="grid g3" id="siteMap"></div>
+
+  <div class="view-head"><span class="eyebrow">Bölüm 1</span><h2>Hangi İK alanı sana uygun?</h2><p class="muted">Dört ana uzmanlık yolu. Her biri kendi laboratuvarı ve şablon setiyle gelir.</p></div>
+  <div class="grid g4" id="pathCards"></div>
+
+  <div class="case-box">
+    <span class="eyebrow">Bölüm 2 · Haftanın gerçek İK vakası · Vaka #42</span>
+    <p class="q">Üretim tesisinde ilk 3 ayda %35'e çıkan mavi yaka işten ayrılma oranını, ek İK bütçesi olmadan düşürmek için nasıl bir aksiyon planı hazırlarsınız?</p>
+    <label class="field" for="caseAns" style="color:inherit">Çözüm taslağın (bu tarayıcıda saklanır)</label>
+    <textarea id="caseAns" placeholder="Kök neden hipotezin, ilk 30 günlük aksiyonların ve ölçeceğin metrikler..."></textarea>
+    <div class="row"><button class="btn acc" id="caseSave">Taslağı kaydet (+20 puan)</button><span class="small" id="caseMsg"></span></div>
+  </div>
+
+  <div class="view-head"><span class="eyebrow">Bölüm 3</span><h2>Hazır İK şablon kütüphanesi</h2></div>
+  <div class="grid g4">
+    <a class="card" href="#sablon" style="text-decoration:none;color:inherit"><h4>Yıllık izin takip tablosu</h4><p class="small muted">4857 Md. 53 yaş ve kıdem kuralı otomatik.</p></a>
+    <a class="card" href="#sablon" style="text-decoration:none;color:inherit"><h4>Aylık puantaj cetveli</h4><p class="small muted">Fazla mesai, genel tatil, SGK eksik gün kodu.</p></a>
+    <a class="card" href="#sablon" style="text-decoration:none;color:inherit"><h4>İşten ayrılma analiz kiti</h4><p class="small muted">Gönüllü/zorunlu ayrılma ve ilk 90 gün kaybı.</p></a>
+    <a class="card" href="#sablon" style="text-decoration:none;color:inherit"><h4>Eğitim bütçesi ve yatırım getirisi</h4><p class="small muted">Kirkpatrick / Phillips yatırım getirisi formülleri.</p></a>
+  </div>
+</section>
+
+<!-- ============ KARİYER PUSULASI ============ -->
+<section class="view" id="v-pusula" data-view="pusula" hidden>
+  <div class="view-head"><span class="eyebrow">Kariyer Pusulası</span><h2>İK yetkinlik envanteri</h2><p class="muted">Her ifadeye ne kadar katıldığını 1 (hiç) ile 5 (tamamen) arasında işaretle. Sonuç, sana en yakın İK modülünü ve rol kartını gösterir; puanların gelişim panelindeki radarın başlangıç noktası olur.</p></div>
+  <div class="split">
+    <div class="card"><div id="testQs" style="display:flex;flex-direction:column;gap:14px"></div><button class="btn" id="testBtn">Sonucu hesapla</button></div>
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <div class="card" id="testRes"><h3>Sonucun burada görünecek</h3><p class="muted small">Soruları yanıtladıktan sonra "Sonucu hesapla"ya bas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KARİYER YOLU HARİTASI ============ -->
+<section class="view" data-view="yol" hidden>
+  <div class="view-head"><h2>İK kariyer yolu haritası</h2><p class="muted">Dört uzmanlık hattında yeni mezun seviyesinden liderliğe giden basamaklar. Bir hat seç; her basamakta beklenen beceriler ve platformda o beceriyi kazandıran modül görünür. Tüm hatlar kıdemli seviyede İK İş Ortağı rolüne bağlanabilir.</p></div>
+  <div class="row" id="trackChips"></div>
+  <div class="ladder" id="ladder"></div>
+  <div class="card"><h4>Genel İK uzmanı mı, modül uzmanı mı?</h4><p class="small muted" style="max-width:75ch">Yeni mezunların çoğu "her işi yapan İK'cı" olarak başlar. Küçük işletmelerde genel İK rolü özlük, işe alım ve eğitimi birlikte kapsar; büyük kurumlarda ise ilk yıldan bir modülde uzmanlaşma beklenir. Yol haritası, genel İK uzmanı olarak başlasan bile hangi modülde derinleşeceğini seçmene yardım eder.</p></div>
+</section>
+
+<!-- ============ POZİSYON KÜTÜPHANESİ ============ -->
+<section class="view" data-view="pozisyon" hidden>
+  <div class="view-head"><h2>Pozisyon kütüphanesi</h2><p class="muted">Rol kartları: günlük iş rutini, takip edilen Performans göstergeleri ve tipik unvan basamakları. Yetkinlik testi sonucuna en yakın rol vurgulanır.</p></div>
+  <div class="grid g3" id="roleCards"></div>
+</section>
+
+<!-- ============ BORDRO SİMÜLATÖRÜ ============ -->
+<section class="view" id="v-bordro" data-view="bordro" hidden>
+  <div class="view-head"><span class="eyebrow">İK Akademi · Modül 3</span><h2>Bordro ve 4857 İş Kanunu simülatörü</h2><p class="muted">Özlük İşleri ve Bordro Uzmanı koltuğundasın. Vaka dosyasını incele, adım adım karar ver; her hatanın şirkete olası maliyeti ve hukuki sonucu gösterilir.</p></div>
+  <div class="steps" id="bSteps"></div>
+  <div class="split">
+    <aside class="card">
+      <span class="eyebrow">Vaka dosyası</span>
+      <h3>Performans düşüklüğü ve devamsızlık ikilemi</h3>
+      <dl class="kv">
+        <dt>Personel</dt><dd>Mert Kaya</dd>
+        <dt>Pozisyon</dt><dd>Üretim Planlama Uzmanı</dd>
+        <dt>İşe giriş</dt><dd>12.02.2022</dd>
+        <dt>Kök brüt maaş</dt><dd>42.000 TL</dd>
+        <dt>Yemek kartı</dt><dd>200 TL × 22 gün</dd>
+        <dt>Yol yardımı</dt><dd>2.000 TL (nakit, düzenli)</dd>
+        <dt>Kalan yıllık izin</dt><dd>8 gün</dd>
+      </dl>
+      <hr class="sep">
+      <div class="fb note"><b>Üretim Müdüründen e-posta</b><p>"Mert zaten düşük performanslıydı, 2 gün de gelmedi. Hemen bugün tazminatsız olarak (Madde 25/II-g) çıkışını verelim."</p></div>
+      <p class="small muted">Son 6 aydır hedeflerin altında. Geçen hafta Pazartesi ve Salı (ardışık 2 iş günü) amirine haber vermeden gelmedi.</p>
+      <details><summary class="small" style="cursor:pointer;font-weight:600">4857 madde rehberi</summary>
+        <ul class="small muted" style="padding-left:18px;margin:8px 0 0">
+          <li>Md. 17: İhbar önelleri — 6 aya kadar 2 hafta, 6 ay–1,5 yıl 4 hafta, 1,5–3 yıl 6 hafta, 3 yıldan fazla 8 hafta.</li>
+          <li>Md. 18–19: Geçerli nedenle fesih ve savunma alınması.</li>
+          <li>Md. 25/II-g: Ardı ardına 2 iş günü izinsiz devamsızlık.</li>
+          <li>Md. 59: Kullanılmayan yıllık izin ücreti fesihte ödenir.</li>
+        </ul></details>
+    </aside>
+    <div class="card" id="bArea"></div>
+  </div>
+</section>
+
+<!-- ============ ATS ============ -->
+<section class="view" id="v-ats" data-view="ats" hidden>
+  <div class="view-head"><h2>İK teknolojileri: bilgi sistemleri ve aday takip</h2><p class="muted">İlanlarda en sık istenen dört yazılım ailesi ve her birinde yeni mezundan beklenen beceriler. Aşağıdaki simülatör, bir aday takip ekranında işe alım uzmanı olarak çalışmanı sağlar.</p></div>
+  <div class="grid g4">
+    <div class="card"><span class="pill info" style="align-self:flex-start">İK bilgi sistemi</span><p class="small">Personel ana verisi, organizasyon şeması, izin ve özlük kayıtları.</p><p class="small muted">Örnekler: SAP SuccessFactors, Workday, Kolay İK</p></div>
+    <div class="card"><span class="pill info" style="align-self:flex-start">Aday takip sistemi</span><p class="small">İlan yayını, aday hunisi, mülakat puan kartı, teklif akışı.</p><p class="small muted">Örnekler: Peoplise, Greenhouse</p></div>
+    <div class="card"><span class="pill info" style="align-self:flex-start">Bordro yazılımı</span><p class="small">Puantaj aktarımı, tahakkuk, SGK ve muhtasar bildirgeleri.</p><p class="small muted">Beceri: kod tabloları ve kontrol raporları</p></div>
+    <div class="card"><span class="pill info" style="align-self:flex-start">Öğrenme yönetimi ve raporlama</span><p class="small">Eğitim kayıtları, adam/saat; Excel ve Power BI panoları.</p><p class="small muted">Beceri: veri dışa aktarım ve temizleme</p></div>
+  </div>
+  <div class="view-head"><span class="eyebrow">Simülatör</span><h2>Yapay zekâ destekli mülakat ve aday takip simülatörü</h2><p class="muted">Görev: Kıdemli B2B Kurumsal Satış Uzmanı alımı. Bütçe 65.000–75.000 TL brüt + prim. Kritik yetkinlikler: zorlu müşteri ikna, veri/CRM odaklılık, ekip uyumu. Her adayın yuvarlak cevabını doğru DGES sondajıyla aç, puan kartını doldur, kararını ver.</p></div>
+  <div class="steps" id="aSteps"></div>
+  <div id="aStage"></div>
+</section>
+
+<!-- ============ EXCEL LAB ============ -->
+<section class="view" id="v-lab" data-view="lab" hidden>
+  <div class="view-head"><span class="eyebrow">Laboratuvar 2</span><h2>İşten ayrılma, işe alım süresi ve ücret konum oranı analizi</h2><p class="muted">NovaTech'in 3. çeyrek personel verisi. Önce kirli veriyi temizle, sonra metrikleri hesapla, en sonda yönetim kuruluna sunulacak yorumu seç. Maaş hücrelerini değiştirerek sonuçların nasıl oynadığını izleyebilirsin.</p></div>
+  <div class="steps" id="lSteps"></div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h3>Aşama 1 · Veri temizleme</h3><span class="pill" id="cleanPill"></span></div>
+    <p class="small muted">İK bilgi sisteminden çekilen tabloda bilerek bırakılmış üç hata var. Her birini uygun Excel işlemiyle düzelt.</p>
+    <div class="grid g3" id="cleanCards"></div>
+  </div>
+  <div class="card">
+    <h3>Aşama 2 · Personel hareket listesi ve metrikler</h3>
+    <div class="tbl-wrap"><table id="empTbl"></table></div>
+    <div class="grid g4" style="gap:10px">
+      <label class="field">Dönem başı çalışan<input type="number" id="hcStart" value="24" min="1"></label>
+      <label class="field">Dönem sonu çalışan<input type="number" id="hcEnd" value="20" min="1"></label>
+      <label class="field">Ücret konum oranı alarm eşiği (%)<input type="number" id="crTh" value="90" min="50" max="120"></label>
+      <label class="field">Pozisyon doldurma süresi hedefi (gün)<input type="number" id="ttfTarget" value="30" min="1"></label>
+    </div>
+    <div class="grid g4" id="labStats"></div>
+    <div class="grid g2">
+      <div style="min-width:0;display:flex;flex-direction:column;gap:8px"><h4>Ücret bantları</h4><div class="tbl-wrap"><table id="bandTbl"></table></div></div>
+      <div style="min-width:0;display:flex;flex-direction:column;gap:8px"><h4>İşe alım takip listesi</h4><div class="tbl-wrap"><table id="reqTbl"></table></div></div>
+    </div>
+    <div class="grid g2">
+      <div><h4>Formül rehberi</h4><code class="f">Ayrılma oranı % = Ayrılan / ((Başı + Sonu) / 2) × 100
+Ücret konum oranı % = Maaş / Kademe orta noktası × 100
+=ÇOKEĞERSAY(D:D;"Ayrıldı";E:E;"Gönüllü (İstifa)")
+=DÜŞEYARA(C2;Ucret_Bantlari!A:D;4;YANLIŞ)</code></div>
+      <div><h4>Departman bazında ücret konum oranı</h4><div id="crBars" style="display:flex;flex-direction:column;gap:10px;margin-top:8px"></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Aşama 3 · Yönetim kurulu sunumu için hangi yorumu seçersin?</h3>
+    <div id="interp" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</section>
+
+<!-- ============ ŞABLONLAR ============ -->
+<section class="view" id="v-sablon" data-view="sablon" hidden>
+  <div class="view-head"><h2>Evrak ve politika şablonları</h2><p class="muted">İlk iş gününde elinin altında olması gereken resmi belge iskeletleri. Her taslağı kopyalayıp kendi kurumuna uyarla; hukuki sonuç doğuran metinleri kullanmadan önce bir iş hukukçusuna gözden geçirt.</p></div>
+  <div class="row" id="docFilter"></div>
+  <div class="grid g3" id="docList"></div>
+  <div class="view-head"><span class="eyebrow">Excel kitaplığı</span><h2>Tak-çalıştır Excel şablonları</h2><p class="muted">Her şablonun sütun mimarisi ve hücre formülleri. Dil seçimine göre formülleri Türkçe ya da İngilizce Excel için kopyala. Açık mavi hücreler veri girişi, gri hücreler kilitli formül alanıdır.</p></div>
+  <div class="row"><span class="small muted">Formül dili:</span><button class="chip" data-lang="tr" aria-pressed="true">Türkçe Excel</button><button class="chip" data-lang="en" aria-pressed="false">İngilizce Excel</button></div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><h3>Canlı deneme: yıllık izin hakedişi (Şablon 1, G2 formülü)</h3><span class="pill info">4857 Md. 53</span></div>
+    <div class="grid g4" style="gap:10px">
+      <label class="field">Doğum tarihi<input type="date" id="izDog" value="1973-05-14"></label>
+      <label class="field">İşe giriş tarihi<input type="date" id="izGir" value="2023-03-10"></label>
+      <label class="field">Devreden izin (gün)<input type="number" id="izDev" value="4" min="0"></label>
+      <label class="field">Kullanılan izin (gün)<input type="number" id="izKul" value="12" min="0"></label>
+    </div>
+    <div class="grid g4" id="izOut"></div>
+  </div>
+  <div id="tplList" style="display:flex;flex-direction:column;gap:12px"></div>
+</section>
+
+<!-- ============ VAKA ANALİZLERİ ============ -->
+<section class="view" data-view="vaka" hidden>
+  <div class="view-head"><h2>Vaka analizleri</h2><p class="muted">Gerçek iş dünyası problemleri. Önce kendi çözümünü yaz; taslağın yeterli uzunluğa ulaşınca uzman çözüm çerçevesi açılır ve kendi yaklaşımınla karşılaştırabilirsin.</p></div>
+  <div class="row" id="caseFilter"></div>
+  <div id="caseList" style="display:flex;flex-direction:column;gap:16px"></div>
+</section>
+
+<!-- ============ MÜLAKAT SORU BANKASI ============ -->
+<section class="view" data-view="soru" hidden>
+  <div class="view-head"><h2>Mülakat soru bankası</h2><p class="muted">Yetkinlik bazlı DGES soruları, her biri için sondaj sorusu ve 1-3-5 puanlama çapaları. Yetkinliğe göre süz, ara, tek tek ya da set olarak kopyala.</p></div>
+  <div class="card">
+    <div class="row"><input type="text" id="qbSearch" placeholder="Soru veya yetkinlik ara" style="max-width:320px"><button class="btn ghost sm" id="qbCopyAll">Görünen seti kopyala</button><span class="small muted" id="qbCount"></span></div>
+    <div class="row" id="qbFilter"></div>
+  </div>
+  <div class="grid g2" id="qbList"></div>
+  <div class="card" style="border-color:var(--bad)"><h4>Sorulmaması gereken sorular</h4><p class="small muted">Bu konular iş ile ilgisiz özel nitelikli veri talebidir; 4857 Md. 5 eşit davranma ilkesine, 6356 Md. 25 sendikal güvenceye ve 6698 KVKK'ya aykırı düşer.</p>
+    <div class="row"><span class="chip">Medeni hal, evlilik veya çocuk planı</span><span class="chip">Hamilelik</span><span class="chip">Din ve mezhep</span><span class="chip">Siyasi görüş</span><span class="chip">Sendika üyeliği</span><span class="chip">Sağlık geçmişi (işin gereği değilse)</span><span class="chip">Etnik köken</span><span class="chip">Yaş (işin gereği değilse)</span></div></div>
+</section>
+
+<!-- ============ MENTOR EŞLEŞME ============ -->
+<section class="view" data-view="eslesme" hidden>
+  <div class="view-head"><h2>Kıdemli İK'cılarla eşleşme</h2><p class="muted">Sektördeki İK müdür ve direktörleriyle aylık 30 dakikalık online kahve sohbeti. İlgi alanlarını seç; eşleşme puanı, test sonucun ve hedef rolünle birlikte hesaplanır.</p></div>
+  <div class="fb note small"><b>Prototip.</b> Mentor kartları örnektir; randevu talepleri yalnızca bu tarayıcıda listelenir, kimseye gönderilmez.</div>
+  <div class="card"><h4>Konuşmak istediğin alanlar</h4><div class="row" id="mInterests"></div></div>
+  <div class="grid g3" id="mList"></div>
+  <div class="card"><h4>Randevu taleplerim</h4><div id="mReqs" class="small muted">Henüz talep yok.</div></div>
+</section>
+
+<!-- ============ CV KLİNİĞİ ============ -->
+<section class="view" data-view="klinik" hidden>
+  <div class="view-head"><h2>Özgeçmiş ve LinkedIn kliniği</h2><p class="muted">Üç araç: özgeçmişini bir iş ilanıyla doğal dil işleme yöntemleriyle karşılaştıran uyum analizi, kontrol listesiyle öz denetim ve metin üslubu analizi. Mentor incelemesinden önce bu adımları tamamla.</p></div>
+  <div class="card" id="nlpCard">
+    <div class="row" style="justify-content:space-between"><div><span class="eyebrow">Doğal dil işleme</span><h3>Özgeçmiş ve iş ilanı uyum analizi</h3></div><span class="pill info">Metinler bu cihazda işlenir, kaydedilmez</span></div>
+    <p class="small muted" style="max-width:80ch">Özgeçmişini ve başvurmak istediğin ilanı yapıştır ya da dosya olarak yükle (.txt, .docx, .pdf). Araç; beceri kapsamasını, metinler arası anlamsal yakınlığı ve ilandaki her gereksinimin özgeçmişte karşılanıp karşılanmadığını hesaplar. Örnek metinlerle açılır.</p>
+    <div class="grid g2">
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <div class="row" style="justify-content:space-between"><label class="field" for="nlpCv" style="margin:0">Özgeçmiş metni</label><label class="btn ghost sm" style="cursor:pointer">Dosya yükle<input type="file" id="nlpCvFile" accept=".txt,.docx,.pdf" hidden></label></div>
+        <textarea id="nlpCv" style="min-height:260px"></textarea><span class="small muted" id="nlpCvMsg"></span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <div class="row" style="justify-content:space-between"><label class="field" for="nlpJob" style="margin:0">İş ilanı metni</label><label class="btn ghost sm" style="cursor:pointer">Dosya yükle<input type="file" id="nlpJobFile" accept=".txt,.docx,.pdf" hidden></label></div>
+        <textarea id="nlpJob" style="min-height:260px"></textarea><span class="small muted" id="nlpJobMsg"></span>
+      </div>
+    </div>
+    <div class="row"><button class="btn" id="nlpRun">Uyumu analiz et</button><button class="btn ghost sm" id="nlpSample">Örnek metinleri geri yükle</button><button class="btn ghost sm" id="nlpClear">Alanları temizle</button></div>
+    <div id="nlpOut" style="display:flex;flex-direction:column;gap:16px"></div>
+    <details class="law"><summary>Yöntem: araç metni nasıl işliyor?</summary><div>
+      <ol style="margin:0;padding-left:18px">
+        <li><b>Ön işleme:</b> Türkçe küçük harfe çevirme, noktalama temizliği, dolgu (stop) kelimelerin atılması.</li>
+        <li><b>Hafif gövdeleme:</b> Türkçe çekim ekleri (-lar, -ın, -da, -dan, -lık vb.) en az 4 harflik gövde kalacak şekilde ayıklanır; "raporlarının" ve "raporlama" aynı köke yaklaşır.</li>
+        <li><b>Temsil:</b> Tek kelime ve iki kelimelik öbekler; ağırlıklar TF-IDF ile, ters belge sıklığı platformdaki İK metinlerinden oluşan başvuru derlemiyle hesaplanır.</li>
+        <li><b>Anlamsal yakınlık:</b> İki metnin TF-IDF vektörleri arasındaki kosinüs benzerliği.</li>
+        <li><b>Beceri çıkarımı:</b> Eş anlamlılarıyla tanımlanmış İK beceri sözlüğü (ör. "özet tablo" ve "pivot" aynı beceri) ile kural tabanlı varlık tanıma.</li>
+        <li><b>Gereksinim eşleşmesi:</b> İlanın her madde satırındaki anlamlı kökler özgeçmişte aranır; deneyim yılı ayrıca sayısal olarak karşılaştırılır.</li>
+        <li><b>Uyum puanı:</b> %45 beceri kapsaması, %30 gereksinim karşılama, %25 anlamsal yakınlık.</li>
+      </ol>
+      <p style="margin-top:8px">Bu, aday takip sistemlerinin anahtar kelime eşleştirmesine benzeyen, açıklanabilir bir yöntemdir; anlamı tam kavrayan bir dil modeli değildir. Sonucu bir ön kontrol olarak kullan.</p></div></details>
+  </div>
+  <div class="split">
+    <div class="card"><div class="row" style="justify-content:space-between"><h3>Öz denetim listesi</h3><span class="pill" id="ckScore"></span></div><div id="ckList" style="display:flex;flex-direction:column;gap:6px"></div></div>
+    <div class="card"><h3>CV metni analizi</h3><p class="small muted">Deneyim maddelerini veya özet paragrafını yapıştır. Metin bu cihazda analiz edilir, hiçbir yere gönderilmez.</p>
+      <textarea id="cvText" style="min-height:180px">Stajyer olarak İK departmanında çalıştım. İletişimi güçlü, takım çalışmasına yatkın biriyim. Biz ekipçe işe alım süreçlerine destek verdik. 120 başvuruyu ön elemeden geçirerek mülakat listesini hazırladım ve ilk 90 gün işten ayrılma raporunu Excel'de hazırladım.</textarea>
+      <div id="cvOut" style="display:flex;flex-direction:column;gap:8px"></div></div>
+  </div>
+</section>
+
+<!-- ============ FORUM ============ -->
+<section class="view" data-view="forum" hidden>
+  <div class="view-head"><h2>Vaka tartışma forumu</h2><p class="muted">Güncel iş hukuku ve İK vakalarının tartışıldığı alan. Örnek başlıkları incele, kendi sorunu aç veya yanıt yaz.</p></div>
+  <div class="fb note small"><b>Prototip.</b> Örnek başlıklar kurgusaldır; yazdıkların yalnızca bu tarayıcıda saklanır.</div>
+  <div class="split">
+    <div class="card"><h3>Yeni başlık aç</h3>
+      <label class="field">Başlık<input type="text" id="fTitle" placeholder="Örn. Deneme süresinde fesihte ihbar gerekir mi?"></label>
+      <label class="field">Etiket<select id="fTag"><option>İş Hukuku</option><option>Bordro</option><option>İşe Alım</option><option>Eğitim ve Gelişim</option><option>İK Analitiği</option></select></label>
+      <label class="field">Vaka / soru<textarea id="fBody"></textarea></label>
+      <button class="btn" id="fPost">Başlığı yayınla (+10 puan)</button></div>
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:0"><div class="row" id="fFilter"></div><div id="fList" style="display:flex;flex-direction:column;gap:12px"></div></div>
+  </div>
+</section>
+
+<!-- ============ İLANLAR ============ -->
+<section class="view" data-view="ilan" hidden>
+  <div class="view-head"><h2>Yönetici adayı ve yeni mezun ilanları</h2><p class="muted">Yalnızca 0-2 yıl deneyimli İK mezunlarına filtrelenmiş iş, yönetici adayı programı ve uzun dönem staj ilanları. Her ilanda, o rol için hazırlanmanı sağlayacak platform modülü önerilir.</p></div>
+  <div class="fb note small"><b>Örnek ilanlar.</b> Firma adları kurgusaldır; gerçek ilanlar yayına alındığında bu listede görünecek.</div>
+  <div class="card"><div class="grid g4" style="gap:10px">
+    <label class="field">Alan<select id="jArea"><option value="">Tümü</option><option>İşe Alım</option><option>Bordro ve Özlük</option><option>Eğitim ve Gelişim</option><option>İK Analitiği</option><option>Genel İK</option></select></label>
+    <label class="field">İlan türü<select id="jType"><option value="">Tümü</option><option>Yönetici Adayı Programı</option><option>Tam zamanlı</option><option>Uzun dönem staj</option></select></label>
+    <label class="field">Çalışma şekli<select id="jMode"><option value="">Tümü</option><option>Ofis</option><option>Hibrit</option><option>Uzaktan</option></select></label>
+    <label class="field">Kayıtlı ilanlar<select id="jFav"><option value="">Tümü</option><option value="1">Yalnızca kaydettiklerim</option></select></label>
+  </div></div>
+  <div class="grid g2" id="jList"></div>
+</section>
+
+<!-- ============ SERTİFİKA ============ -->
+<section class="view" data-view="sertifika" hidden>
+  <div class="view-head"><h2>Sertifika rehberi</h2><p class="muted">Uluslararası tanınan İK sertifikaları ve platformun kendi mikro-sertifikaları. Ücret, sınav dili ve uygunluk koşulları değişebildiği için başvurmadan önce kurumun resmi sitesini kontrol et.</p></div>
+  <div class="row" id="certFilter"></div>
+  <div class="grid g3" id="certList"></div>
+</section>
+
+<!-- ============ SÖZLÜK ============ -->
+<section class="view" data-view="sozluk" hidden>
+  <div class="view-head"><span class="eyebrow">Kaynaklar</span><h2>İK sözlüğü</h2><p class="muted">Platformdaki simülatörlerde, şablonlarda ve ilanlarda geçen temel kavramlar. Ara ya da alana göre süz.</p></div>
+  <div class="card"><div class="row"><input type="text" id="glSearch" placeholder="Kavram ara (ör. ücret konum, kıdem, DGES)" style="max-width:340px"><span class="small muted" id="glCount"></span></div><div class="row" id="glFilter"></div></div>
+  <div class="grid g2" id="glList"></div>
+</section>
+
+<!-- ============ İŞ HUKUKU REHBERİ ============ -->
+<section class="view" data-view="rehber" hidden>
+  <div class="view-head"><span class="eyebrow">Kaynaklar</span><h2>İş hukuku rehberi</h2><p class="muted">Yeni mezun bir İK uzmanının ilk yılında en sık başvurduğu 4857 sayılı İş Kanunu maddeleri ve ilgili kanunlar, sade özetlerle. Özetler öğretim amaçlıdır; somut uyuşmazlıkta güncel mevzuat metni ve Yargıtay içtihadı esas alınmalıdır.</p></div>
+  <div class="card"><div class="row"><input type="text" id="lawSearch" placeholder="Madde no veya konu ara (ör. 41, izin, fesih)" style="max-width:340px"></div><div class="row" id="lawFilter"></div></div>
+  <div id="lawList" style="display:flex;flex-direction:column;gap:8px"></div>
+</section>
+
+<!-- ============ HAKKIMIZDA ============ -->
+<section class="view" data-view="hakkimizda" hidden>
+  <div class="view-head"><span class="eyebrow">Kaynaklar</span><h2>Hakkımızda</h2><p class="muted">İK Kampüs, İnsan Kaynakları Yönetimi lisans mezunlarının akademik teoriden sektör pratiğine geçişini hızlandırmak için tasarlanmış bir gelişim platformu prototipidir.</p></div>
+  <div class="grid g3">
+    <div class="card"><h4>Sorun</h4><p class="small muted">İş ilanları 0-2 yıl deneyim ve "Excel, bordro, aday takip sistemi bilgisi" istiyor; lisans eğitimi ise bu becerileri çoğunlukla kavramsal düzeyde bırakıyor. Yeni mezunun gösterebileceği somut bir çıktısı yok.</p></div>
+    <div class="card"><h4>Yaklaşım</h4><p class="small muted">Öğrenci izleyici değil uygulayıcı: bordro uzmanı, işe alım uzmanı veya analist koltuğunda gerçek vakaları çözer, hatasının şirkete maliyetini görür.</p></div>
+    <div class="card"><h4>Çıktı</h4><p class="small muted">Çözülen her vaka, işverenle paylaşılabilen doğrulanmış bir İK portfolyosuna dönüşür; mentor onayı ve mikro-sertifikalarla desteklenir.</p></div>
+  </div>
+  <div class="card"><h3>Öğrenme yolculuğu</h3>
+    <div class="ladder">
+      <div class="rung"><span class="lv">Keşfet</span><h4>Kariyer Pusulası</h4><p class="small muted">Yetkinlik testi ve kariyer yolu haritası.</p><a class="small" href="#pusula">Başla</a></div>
+      <div class="rung"><span class="lv">Uygula</span><h4>İK Akademi</h4><p class="small muted">Bordro, Aday takip ve Excel simülatörleri.</p><a class="small" href="#bordro">Simülatörler</a></div>
+      <div class="rung"><span class="lv">Derinleş</span><h4>Vaka ve Şablon + Mentorluk</h4><p class="small muted">Vaka çözümleri, şablonlar, mentor geri bildirimi.</p><a class="small" href="#vaka">Vakalar</a></div>
+      <div class="rung"><span class="lv">Göster</span><h4>Portfolyo ve Fırsatlar</h4><p class="small muted">Doğrulanmış portfolyo ve yeni mezun ilanları.</p><a class="small" href="#portfolyo">Portfolyo</a></div>
+    </div></div>
+  <div class="card"><h4>Kimler için?</h4><p class="small muted">İKY, çalışma ekonomisi ve endüstri ilişkileri, işletme lisans öğrencileri ve 0-2 yıl deneyimli mezunlar; ayrıca derslerinde uygulamalı İK içeriği kullanmak isteyen öğretim elemanları.</p></div>
+</section>
+
+<!-- ============ KVKK ============ -->
+<section class="view" data-view="kvkk" hidden>
+  <div class="view-head"><span class="eyebrow">Kaynaklar</span><h2>KVKK ve veri kullanımı</h2><p class="muted">Bu prototip kişisel verilerini sunucuya göndermez. Aşağıda hangi bilgilerin nerede tutulduğu ve nasıl silebileceğin yer alır.</p></div>
+  <div class="grid g2">
+    <div class="card"><h4>Bu tarayıcıda saklananlar</h4><ul class="small muted" style="margin:0;padding-left:18px"><li>Adın ve hedef rolün (panelde girdiğin)</li><li>Test ve simülasyon puanların, puan</li><li>Vaka çözümlerin, günlük görev yanıtların, forum yazıların</li><li>Kaydettiğin ilanlar, etkinlikler ve mentor talepleri</li><li>CV kliniği kontrol listesi işaretlerin</li></ul></div>
+    <div class="card"><h4>Saklanmayanlar ve gönderilmeyenler</h4><ul class="small muted" style="margin:0;padding-left:18px"><li>CV kliniğine yapıştırdığın metin kaydedilmez, yalnızca ekranda analiz edilir</li><li>İletişim formu ve mülakat davetleri hiçbir yere gönderilmez</li><li>Başka kullanıcılar senin verilerini göremez; veriler başka cihaza taşınmaz</li></ul></div>
+  </div>
+  <div class="card"><h4>Platform yayına alındığında</h4><p class="small muted" style="max-width:75ch">Üyelik sistemine geçildiğinde veri sorumlusunun kimliği, işleme amaçları, hukuki sebepler (KVKK Md. 5), aktarım alıcıları ve ilgili kişi hakları (KVKK Md. 11) bu sayfada aydınlatma metni olarak yayımlanacaktır. İskelet için Vaka ve Şablon Merkezi'ndeki KVKK aydınlatma metni şablonuna bakabilirsin.</p></div>
+  <div class="card"><h4>Verilerimi sil</h4><p class="small muted">Bu tarayıcıdaki tüm ilerlemeni, yazılarını ve kayıtlarını kalıcı olarak siler.</p><div class="row"><button class="btn ghost" id="wipeBtn">Tüm verilerimi sil</button><span class="small" id="wipeMsg"></span></div></div>
+</section>
+
+<!-- ============ İLETİŞİM ============ -->
+<section class="view" data-view="iletisim" hidden>
+  <div class="view-head"><span class="eyebrow">Kaynaklar</span><h2>İletişim</h2><p class="muted">Öneri, hata bildirimi veya mentor olmak için mesajını yaz. Prototipte mesajlar gönderilmez; metni panoya kopyalayıp e-posta ile iletebilirsin.</p></div>
+  <div class="split">
+    <form class="card" id="ctForm">
+      <label class="field">Adın<input type="text" id="ctName" autocomplete="name"></label>
+      <label class="field">Konu<select id="ctTopic"><option>Öneri</option><option>Hata bildirimi</option><option>Mentor olmak istiyorum</option><option>Kurumsal iş birliği</option><option>Diğer</option></select></label>
+      <label class="field">Mesajın<textarea id="ctMsg"></textarea></label>
+      <div class="row"><button class="btn" type="submit">Mesajı hazırla</button><span class="small" id="ctOut"></span></div>
+    </form>
+    <div class="card"><h4>Sık sorulanlar</h4>
+      <details class="law"><summary>Platform ücretli mi?</summary><div>Prototip aşamasında tüm modüller açıktır.</div></details>
+      <details class="law"><summary>İlerlemem başka cihazda görünür mü?</summary><div>Hayır. Prototipte veriler yalnızca kullandığın tarayıcıda tutulur.</div></details>
+      <details class="law"><summary>Mentor nasıl olunur?</summary><div>En az 5 yıl İK deneyimin varsa konu olarak "Mentor olmak istiyorum"u seç; uzmanlık alanlarını ve ayda ayırabileceğin süreyi yaz.</div></details>
+      <details class="law"><summary>Kurumum ilan yayınlayabilir mi?</summary><div>Yalnızca 0-2 yıl deneyimli İK mezunlarına yönelik iş, yönetici adayı ve uzun dönem staj ilanları kabul edilir.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PANEL ============ -->
+<section class="view" id="v-panel" data-view="panel" hidden>
+  <div class="card" style="flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between">
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <h2>Merhaba <span id="pName">Deniz</span>!</h2>
+      <div class="row small muted"><span>Hedefin:</span>
+        <select id="pGoal" style="width:auto;padding:4px 8px"><option>Yetenek Kazanımı Uzmanı</option><option>Bordro ve Özlük Uzmanı</option><option>Eğitim ve Gelişim Uzmanı</option><option>İK Analitiği Uzmanı</option><option>İK İş Ortağı</option></select>
+        <label class="row" style="gap:6px">Adın <input type="text" id="pNameIn" value="Deniz" style="width:130px;padding:4px 8px"></label>
+      </div>
+    </div>
+    <div style="min-width:220px;flex:0 1 300px;display:flex;flex-direction:column;gap:6px">
+      <div class="row small" style="justify-content:space-between"><span class="muted">Profil tamamlama</span><b id="pPct" class="num">0%</b></div>
+      <div class="bar"><i id="pBar" style="width:0"></i></div>
+      <a class="small" href="#portfolyo">Portfolyo sayfamı gör</a>
+    </div>
+  </div>
+  <div class="dash">
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <div class="card"><span class="eyebrow">Kaldığın yerden devam et</span><div id="pNext"></div></div>
+      <div class="card"><span class="eyebrow">Günlük pratik görevin · 10 dakika</span><div id="pTask"></div></div>
+      <div class="card"><span class="eyebrow">Modül ilerlemesi</span><div id="pMods" style="display:flex;flex-direction:column;gap:10px"></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <div class="card radar"><span class="eyebrow">İK yetkinlik radarı</span><div id="radar"></div><p class="small" id="radarTip"></p></div>
+      <div class="card"><span class="eyebrow">Yaklaşan mentorluk</span><h4>CV kliniği ve mülakat provası</h4><p class="small muted">22 Ekim Perşembe, 19:00 · Mentor: Selin K. (Kıdemli İK İş Ortağı) · örnek etkinlik</p><button class="btn ghost sm" id="mentorBtn">Takvimime not al</button></div>
+      <div class="card"><span class="eyebrow">Takvimim</span><div id="pEvents" class="small"></div><a class="small" href="#takvim">Tüm etkinlikleri gör</a></div>
+    </div>
+  </div>
+  <div class="card"><span class="eyebrow">İK portfolyom ve doğrulanmış çıktılarım</span><p class="small muted">Simülasyonları tamamladıkça kilitler açılır.</p><div class="grid g3" id="pPort"></div>
+    <div class="row"><button class="btn ghost sm" id="resetBtn">İlerlememi sıfırla</button><span class="small muted" id="resetMsg"></span></div></div>
+</section>
+
+<!-- ============ PORTFOLYO ============ -->
+<section class="view" id="v-portfolyo" data-view="portfolyo" hidden>
+  <div class="fb note small"><b>Örnek profil.</b> Bu sayfa, ikkampus.com/portfolyo/ad-soyad adresinde işverenlerin göreceği herkese açık profilin taslağıdır. Senin ilerlemen kendi panelinden yansır.</div>
+  <div class="card">
+    <div class="prof">
+      <div class="avatar" id="pfAv">DY</div>
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <div class="row"><h2 id="pfName">Deniz Yılmaz</h2><span class="pill good">İşe açık</span></div>
+        <p class="small muted">İKY Lisans Mezunu '26 · Odak: Yetenek Kazanımı ve İK Analitiği · İstanbul (hibrit/uzaktan)</p>
+        <p style="max-width:70ch">Veri odaklı işe alım süreçleri, mantıksal arama stratejileri ve 4857 sayılı İş Kanunu uygulamalarında 12+ vaka simülasyonu tamamlamış yeni nesil İK profesyoneli.</p>
+        <div class="row"><button class="btn sm" id="pfShare">Profil bağlantısını kopyala</button><button class="btn ghost sm" id="pfInviteBtn" aria-expanded="false">Mülakata davet et</button></div>
+      </div>
+    </div>
+    <div class="grid g3" style="gap:10px">
+      <div class="stat"><span class="v">%92</span><span class="l">İş hukuku test başarısı</span></div>
+      <div class="stat"><span class="v">8</span><span class="l">Vaka çözümü</span></div>
+      <div class="stat"><span class="v">3</span><span class="l">Canlı İK gösterge paneli</span></div>
+    </div>
+  </div>
+  <form class="card" id="pfInvite" hidden>
+    <span class="eyebrow">İşveren görünümü</span><h3>Mülakata davet et</h3>
+    <div class="grid g3" style="gap:10px"><label class="field">Kurum<input type="text" id="invCo" placeholder="Kurum adı"></label><label class="field">Pozisyon<input type="text" id="invPos" placeholder="Ör. İK Uzman Yardımcısı"></label><label class="field">Referans vaka<select id="invCase"></select></label></div>
+    <label class="field">Not<textarea id="invMsg" style="min-height:80px" placeholder="Vaka çözümünüzü inceledik ve sizinle görüşmek istiyoruz."></textarea></label>
+    <div class="row"><button class="btn" type="submit">Daveti hazırla</button><span class="small muted">Prototip: davet gönderilmez, önizlemesi gösterilir.</span></div>
+    <div id="invOut"></div>
+  </form>
+  <div class="split">
+    <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <div class="card"><span class="eyebrow">Doğrulanmış yetkinlikler</span>
+        <div id="pfSkills" style="display:flex;flex-direction:column;gap:8px"></div>
+        <p class="small muted">Skorlar adayın beyanı değil, platformdaki vaka ve sınav sonuçlarıdır.</p></div>
+      <div class="card"><span class="eyebrow">Mikro-sertifikalar</span>
+        <div class="row"><span class="chip">Uygulamalı Kıdem/İhbar Hesaplama · #TR-8842</span><span class="chip">Yetkinlik Bazlı Mülakat Teknikleri · #TR-9104</span></div></div>
+      <div class="card"><span class="eyebrow">Mentor referansı</span><p>"Deniz, mavi yaka işten ayrılma vakası için hazırladığı çıkış mülakatı analiziyle 2 yıllık uzman seviyesinde bakış açısı sundu."</p><p class="small muted">Selin K., Kıdemli İK İş Ortağı</p></div>
+      <div class="card"><span class="eyebrow">İşverene güven mekanizmaları</span>
+        <ul class="small muted" style="margin:0;padding-left:18px"><li>Uzman onaylı çözüm rozeti ve inceleyen mentorun yorumu</li><li>Sürüm ve süreç geçmişi: çözüm tarihi, atıf yapılan mevzuat maddeleri</li><li>Tek tıkla "Mülakata davet et" ile vaka referanslı görüşme talebi</li></ul></div>
+    </div>
+    <div class="card"><div class="row" style="justify-content:space-between"><span class="eyebrow">Somut İK projeleri ve vaka çıktıları</span></div>
+      <div class="row" id="pfFilters"></div>
+      <div id="pfProjects" style="display:flex;flex-direction:column;gap:12px"></div></div>
+  </div>
+</section>
+
+<!-- ============ TAKVİM ============ -->
+<section class="view" id="v-takvim" data-view="takvim" hidden>
+  <div class="view-head"><h2>İK zirveleri ve çevrim içi seminerlar</h2><p class="muted">Platform içi canlı yayınlar ve sektör etkinlikleri. Not aldığın etkinlikler gelişim panelinde listelenir.</p></div>
+  <div class="fb note small"><b>Örnek etkinlikler.</b> Tarihler açılış dönemi için planlanan akışı gösterir. Sektör zirveleri (ör. PERYÖN İnsan Yönetimi Kongresi) için düzenleyici kurumların resmi duyurularını takip et.</div>
+  <div class="grid g3" id="evList"></div>
+  <div class="view-head"><span class="eyebrow">Açılış programı</span><h2>İlk 12 hafta içerik takvimi</h2><p class="muted">Haftada ortalama 4-5 saatlik modüler çalışma. Pazartesi yeni vaka ve veri seti, Çarşamba canlı rehber yayını, Cuma "Haftanın Örnek Çözümü" rozeti ve mentor değerlendirmesi.</p></div>
+  <div class="row" id="calFilter"></div>
+  <div class="cal" id="cal"></div>
+</section>
+
+</main>
+</div>
+<footer><div class="wrap row" style="justify-content:space-between"><span>İK Kampüs · İKY mezunları gelişim platformu prototipi</span><span class="row" style="gap:14px"><a href="#hakkimizda">Hakkımızda</a><a href="#sozluk">İK Sözlüğü</a><a href="#rehber">İş Hukuku Rehberi</a><a href="#kvkk">KVKK</a><a href="#iletisim">İletişim</a></span></div></footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const nf=new Intl.NumberFormat('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const nf0=new Intl.NumberFormat('tr-TR',{maximumFractionDigits:1});
+const TL=n=>nf.format(n)+' TL';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- state ---------- */
+const KEY='ikkampus.v1';
+const blank={xp:0,name:'Deniz',goal:'Yetenek Kazanımı Uzmanı',test:null,bordro:null,ats:null,lab:null,clean:[],interp:null,caseSaved:false,tasks:{},lastView:null,cases:{},forum:[],replies:{},mreq:[],interests:[],cv:[],favs:[],events:[]};
+let S;
+const mkBlank=()=>JSON.parse(JSON.stringify(blank));
+try{S=Object.assign(mkBlank(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){S=mkBlank()}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} renderXP()};
+const addXP=n=>{S.xp+=n;save();toast('+'+n+' puan')};
+function renderXP(){$('#xpTop').textContent=S.xp+' puan'}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,1800)}
+
+/* ---------- site haritası (Excel) ve router ---------- */
+const MENU=[
+ {t:'Kariyer Pusulası',v:'Mezunların hangi İK modülüne (İşe Alım, Bordro, İK Analitiği vb.) yatkın olduğunu keşfetmesi ve unvan hiyerarşisini anlaması.',subs:[['pusula','Uzmanlık Alanları Testi'],['yol','İK Kariyer Yolu Haritası'],['pozisyon','Pozisyon Kütüphanesi']]},
+ {t:'İK Akademi',v:'Lisans eğitiminde teorik kalan konuları gerçek vaka çalışmaları ve yazılım simülasyonlarıyla pratiğe dökme alanı.',subs:[['bordro','Bordro ve Mevzuat Simülatörü'],['ats','İK Teknolojileri ve Aday Takip'],['lab','İK Analitiği ve Excel Laboratuvarı']]},
+ {t:'Vaka ve Şablon Merkezi',v:'İş hayatında hemen kullanılabilecek resmi belge taslakları, KVKK metinleri, iş sözleşmeleri ve yetkinlik bazlı soru setleri.',subs:[['vaka','Vaka Analizleri'],['sablon','Evrak ve Politika Şablonları'],['soru','Mülakat Soru Bankası']]},
+ {t:'Mentorluk ve Topluluk',v:'Sektör profesyonelleriyle birebir görüşme, özgeçmiş incelemesi ve güncel iş hukuku/İK vakalarının tartışıldığı sosyal alan.',subs:[['eslesme',"Kıdemli İK'cılarla Eşleşme"],['klinik','Özgeçmiş ve LinkedIn Kliniği'],['forum','Vaka Tartışma Forumu']]},
+ {t:'Fırsatlar ve Etkinlikler',v:'Sadece 0-2 yıl deneyimli İK mezunlarına filtrelenmiş iş/staj ilanları ve sektörel etkinlik takvimi.',subs:[['ilan','Yönetici Adayı ve Yeni Mezun İlanları'],['takvim','İK Zirveleri ve Çevrim İçi Seminerler'],['sertifika','Sertifika Rehberi']]}];
+const menuOf=id=>MENU.find(m=>m.subs.some(s=>s[0]===id));
+const EXTRA=[['sozluk','İK Sözlüğü'],['rehber','İş Hukuku Rehberi'],['hakkimizda','Hakkımızda'],['kvkk','KVKK'],['iletisim','İletişim']];
+const ni=(id,t,c)=>`<button type="button" class="ni${c?' '+c:''}" data-go="${id}" data-nav="${id}">${t}</button>`;
+$('#side').innerHTML=ni('anasayfa','Ana Sayfa')+MENU.map((m,i)=>`<div class="grp"><span class="grp-h" data-grp="${i}">${i+1}. ${m.t}</span>${m.subs.map(s=>ni(s[0],s[1],'sub')).join('')}</div>`).join('')+`<div class="sep"></div><span class="lbl">Benim alanım</span>`+ni('panel','Gelişim Panelim')+ni('portfolyo','Portfolyom')+`<div class="sep"></div><span class="lbl">Kaynaklar</span>`+EXTRA.map(e=>ni(e[0],e[1])).join('');
+$('#menuBtn').addEventListener('click',()=>{const o=$('#side').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',o);$('#menuBtn').textContent=o?'Kapat':'Menü'});
+$('#siteMap').innerHTML=MENU.map((m,i)=>`<div class="card map-card"><span class="eyebrow">${i+1}. ana menü</span><h3>${m.t}</h3><div class="subs">${m.subs.map(s=>`<a href="#${s[0]}">${s[1]}</a>`).join('')}</div><p class="small muted">${m.v}</p></div>`).join('');
+const views=$$('[data-view]').map(v=>v.dataset.view);
+function show(req,user){
+  let id=typeof req==='string'?req:(location.hash||'').slice(1); if(!views.includes(id)) id='anasayfa';
+  $$('[data-view]').forEach(v=>v.hidden=v.dataset.view!==id);
+  const m=menuOf(id), mi=m?MENU.indexOf(m):-1;
+  $$('#side .ni').forEach(a=>a.setAttribute('aria-current',a.dataset.nav===id?'page':'false'));
+  $$('#side .grp-h').forEach(h=>h.classList.toggle('on',+h.dataset.grp===mi));
+  $('#side').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false');$('#menuBtn').textContent='Menü';
+  const sn=$('#subnav');
+  if(m){const si=m.subs.findIndex(s=>s[0]===id);sn.hidden=false;sn.innerHTML=`<div class="crumb"><b>${mi+1}. ${m.t} › ${m.subs[si][1]}</b><span>${m.v}</span></div>`}else sn.hidden=true;
+  if(['bordro','ats','lab','sablon','pusula','vaka','soru'].includes(id)){S.lastView=id;save()}
+  if(id==='panel') renderPanel();
+  if(id==='portfolyo') renderPortfolio();
+  if(id==='yol') renderLadder();
+  if(id==='eslesme') renderMentors();
+  if(id==='takvim') renderEvents();
+  window.scrollTo(0,0);
+  if(user){try{$('header.top').scrollIntoView({block:'start'})}catch(e){}}
+}
+window.addEventListener('hashchange',()=>show());
+/* Sayfa içi gezinme: bağlantılar düğmeye çevrilir, görünüm doğrudan değişir (çerçeve bağlantıları yakalasa da çalışır) */
+function go(id){if(!views.includes(id))return;try{history.replaceState(null,'','#'+id)}catch(err){}show(id,true)}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-go]'); if(b){e.preventDefault();go(b.dataset.go);return}
+  const a=e.target.closest('a[href^="#"]'); if(a){const id=a.getAttribute('href').slice(1);if(views.includes(id)){e.preventDefault();go(id)}}
+});
+function linkify(root){
+  (root.querySelectorAll?root:document).querySelectorAll('a[href^="#"]').forEach(a=>{
+    const id=a.getAttribute('href').slice(1); if(!views.includes(id)) return;
+    const b=document.createElement('button'); b.type='button';
+    for(const at of a.attributes){if(at.name!=='href'&&at.name!=='target'&&at.name!=='rel')b.setAttribute(at.name,at.value)}
+    b.dataset.go=id; if(!b.className) b.className='as-link';
+    b.innerHTML=a.innerHTML; a.replaceWith(b);
+  });
+}
+linkify(document);
+new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes){if(n.nodeType!==1)continue;if(n.matches&&n.matches('a[href^="#"]'))linkify(n.parentNode);else if(n.querySelector&&n.querySelector('a[href^="#"]'))linkify(n)}}).observe(document.body,{childList:true,subtree:true});
+
+/* ---------- hero calc ---------- */
+function ihbarWeeks(totalMonths){ if(totalMonths<6) return 2; if(totalMonths<18) return 4; if(totalMonths<36) return 6; return 8; }
+function heroCalc(){
+  const b=+$('#hcBrut').value||0, tv=+$('#hcTavan').value||0, y=+$('#hcYil').value||0, m=+$('#hcAy').value||0;
+  const months=y*12+m, base=Math.min(b,tv||b), years=y+m/12;
+  const kidem = months>=12 ? base*years : 0;
+  const dKidem=kidem*0.00759;
+  const w=ihbarWeeks(months), ihbar=b/30*w*7, dIhbar=ihbar*0.00759;
+  $('#hcOut').innerHTML=`
+   <div class="line"><span>Kıdem esas ücret ${b>tv&&tv?'<span class="pill warn">tavan uygulandı</span>':''}</span><b>${TL(base)}</b></div>
+   <div class="line"><span>Brüt kıdem tazminatı</span><b>${months<12?'<span class="pill bad">1 yıl dolmadı</span>':TL(kidem)}</b></div>
+   <div class="line"><span class="muted">Damga vergisi (‰7,59)</span><span>− ${TL(dKidem)}</span></div>
+   <div class="line total"><span>Net kıdem</span><span>${TL(kidem-dKidem)}</span></div>
+   <div class="line"><span>İhbar öneli (Md. 17)</span><b>${w} hafta · ${w*7} gün</b></div>
+   <div class="line"><span>Brüt ihbar tazminatı</span><b>${TL(ihbar)}</b></div>
+   <p class="small muted">Kıdemden yalnızca damga vergisi kesilir. İhbar tazminatından gelir vergisi (kümülatif dilime göre) ve damga vergisi kesilir; burada gelir vergisi gösterilmemiştir.</p>`;
+}
+['#hcBrut','#hcTavan','#hcYil','#hcAy'].forEach(s=>$(s).addEventListener('input',heroCalc));
+
+/* path cards */
+const PATHS=[
+ {t:'İşe Alım ve Yetenek Kazanımı',i:['Mülakat laboratuvarı','Aday takip simülasyonu','Mantıksal aday arama'],h:'#ats'},
+ {t:'Bordro, Özlük ve İş Hukuku',i:['4857 vaka laboratuvarı','Puantaj ve SGK kodları','Kıdem / ihbar'],h:'#bordro'},
+ {t:'Eğitim ve Organizasyonel Gelişim',i:['9’lu yetenek matrisi','360 performans','Eğitim yatırım getirisi'],h:'#sablon'},
+ {t:'İK Analitiği',i:['Excel laboratuvarı','İşten ayrılma ve ücret konum oranı','Power BI İK'],h:'#lab'}];
+$('#pathCards').innerHTML=PATHS.map(p=>`<div class="card path-card"><h4>${p.t}</h4><ul>${p.i.map(x=>`<li>${x}</li>`).join('')}</ul><a class="btn ghost sm" href="${p.h}" style="align-self:flex-start">Yolu incele</a></div>`).join('');
+
+/* case draft */
+try{$('#caseAns').value=localStorage.getItem(KEY+'.case')||''}catch(e){}
+$('#caseSave').addEventListener('click',()=>{
+  const v=$('#caseAns').value.trim();
+  if(v.length<40){$('#caseMsg').textContent='Taslak en az 40 karakter olmalı; kök neden ve en az bir aksiyon yaz.';return}
+  try{localStorage.setItem(KEY+'.case',v)}catch(e){}
+  $('#caseMsg').textContent='Kaydedildi.';
+  if(!S.caseSaved){S.caseSaved=true;addXP(20)}
+});
+
+/* ---------- Kariyer pusulası ---------- */
+const AREAS={ise:'İşe Alım',hukuk:'İş Hukuku',bordro:'Ücret ve Bordro',od:'Eğitim ve Gelişim',analitik:'İK Analitiği'};
+const QS=[
+ ['ise','Yeni insanlarla tanışıp onları bir pozisyona uygunluk açısından değerlendirmek beni heyecanlandırır.'],
+ ['ise','Bir adayın yuvarlak cevabının arkasındaki somut davranışı sorgulamaktan keyif alırım.'],
+ ['hukuk','Kanun maddelerini ve Yargıtay kararlarını takip etmek bana zor gelmez.'],
+ ['hukuk','Bir fesih sürecinde prosedürün eksiksiz işlemesi benim için önceliklidir.'],
+ ['bordro','Hesaplamalarda kuruşu kuruşuna doğruluk ararım.'],
+ ['bordro','SGK bildirgeleri, puantaj ve vergi dilimleri gibi detaylar ilgimi çeker.'],
+ ['od','İnsanların gelişim yolculuğunu tasarlamak, eğitim programı kurgulamak isterim.'],
+ ['od','Kurum kültürü, aidiyet ve oryantasyon deneyimi üzerine düşünürüm.'],
+ ['analitik','Dağınık bir tabloyu temizleyip anlamlı bir göstergeye dönüştürmeyi severim.'],
+ ['analitik','Kararlarımı rakam ve trendlerle desteklemeyi tercih ederim.']];
+$('#testQs').innerHTML=QS.map((q,i)=>`<fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:6px"><legend class="small" style="font-weight:600;margin-bottom:6px">${i+1}. ${q[1]}</legend><div class="rate" role="group">${[1,2,3,4,5].map(v=>`<button type="button" data-q="${i}" data-v="${v}" aria-pressed="${v===3}">${v}</button>`).join('')}</div></fieldset>`).join('');
+const ans=QS.map(()=>3);
+$('#testQs').addEventListener('click',e=>{const b=e.target.closest('button[data-q]');if(!b)return;const q=+b.dataset.q;ans[q]=+b.dataset.v;$$(`#testQs button[data-q="${q}"]`).forEach(x=>x.setAttribute('aria-pressed',x===b))});
+const ROLES=[
+ {k:'ise',t:'Yetenek Kazanımı Uzmanı',r:'Aday arama, ön eleme, yapılandırılmış mülakat, teklif yönetimi.',day:'Sabah aday takip hunisini günceller, öğlene kadar telefon ön görüşmeleri, öğleden sonra yönetici ile kısa liste toplantısı.',kpi:'İşe alım süresi, teklif kabul oranı, quality-of-hire',lad:'Uzman Yrd. → Uzman → Kıdemli Uzman → Yetenek Kazanımı Müdürü',goal:'Yetenek Kazanımı Uzmanı',h:'#ats'},
+ {k:'bordro',t:'Bordro ve Özlük Uzmanı',r:'Puantaj, bordro tahakkuku, SGK bildirgeleri, izin ve tazminat hesapları.',day:'Ay başında puantaj kapanışı, ortasında yan hak ve kesinti girişleri, ay sonunda tahakkuk, kontrol ve bildirge.',kpi:'Bordro hata oranı, zamanında ödeme, denetim bulgusu',lad:'Uzman Yrd. → Uzman → Toplam Ödüllendirme Uzmanı → Ücret Yönetimi Müdürü',goal:'Bordro ve Özlük Uzmanı',h:'#bordro'},
+ {k:'hukuk',t:'Genel İK Uzmanı / Çalışma İlişkileri',r:'İş akdi yönetimi, disiplin ve fesih süreçleri, arabuluculuk hazırlığı.',day:'Yönetici taleplerini dinler, savunma ve ihtar evraklarını hazırlar, sendika temsilcisiyle görüşür.',kpi:'İşe iade davası sayısı, süreç uyum oranı',lad:'İK Uzman Yrd. → İK Uzmanı → Çalışma İlişkileri Müdürü',goal:'İK İş Ortağı',h:'#vaka'},
+ {k:'od',t:'Eğitim ve Organizasyonel Gelişim Uzmanı',r:'Eğitim ihtiyaç analizi, oryantasyon, performans ve yetenek yönetimi.',day:'Eğitim takvimini yönetir, eğitmenlerle görüşür, oryantasyon akışını ve performans dönemini koordine eder.',kpi:'Kişi başı eğitim saati, eğitim yatırım getirisi, 90 gün tutundurma',lad:'Uzman Yrd. → Uzman → Organizasyonel Gelişim Uzmanı → Organizasyonel Gelişim Müdürü',goal:'Eğitim ve Gelişim Uzmanı',h:'#sablon'},
+ {k:'analitik',t:'İK Analitiği Uzmanı',r:'İK verisini temizleme, metrik panoları, işten ayrılma ve ücret adaleti analizleri.',day:'İK bilgi sistemi çıktısını temizler, haftalık panoyu yeniler, yöneticiler için kök neden analizi hazırlar.',kpi:'Rapor doğruluğu, öngörü isabeti, karar desteği',lad:'Raporlama Uzman Yrd. → Uzman → Kıdemli Uzman → İK Analitiği Lideri',goal:'İK Analitiği Uzmanı',h:'#lab'},
+ {k:'hrbp',t:'İK İş Ortağı',r:'İş birimlerine stratejik İK danışmanlığı; veriyi aksiyona çevirme.',day:'Birim yöneticisiyle haftalık toplantı, organizasyon değişikliği planı, uzman ekiplerle koordinasyon.',kpi:'Birim bazlı işten ayrılma, bağlılık skoru, yönetici memnuniyeti',lad:'Herhangi bir modülde 5+ yıl → İK İş Ortağı → Kıdemli İK İş Ortağı → İK Direktörü',goal:'İK İş Ortağı',h:'#lab'}];
+$('#roleCards').innerHTML=ROLES.map(r=>`<div class="card" id="role-${r.k}"><h4>${r.t}</h4><p class="small">${r.r}</p><p class="small"><b>Bir günü:</b> ${r.day}</p><p class="small muted"><b>Performans göstergeleri:</b> ${r.kpi}</p><p class="small muted"><b>Unvan basamakları:</b> ${r.lad}</p><a class="btn ghost sm" href="${r.h}" style="align-self:flex-start">Bu role hazırlan</a></div>`).join('');
+
+/* ---------- kariyer yolu haritası ---------- */
+const LVLS=['Yeni mezun · 0-2 yıl','Uzman · 2-5 yıl','Kıdemli · 5-8 yıl','Yönetici · 8+ yıl'];
+const TRACKS=[
+ {k:'ise',t:'İşe Alım',r:[['İşe Alım Uzman Yardımcısı','İlan yazımı, Aday takip sisteminde ön eleme, mülakat planlama','#ats','aday takip simülatörü'],['Yetenek Kazanımı Uzmanı','Mantıksal aday arama, DGES mülakat, huni metrikleri','#soru','Soru bankası'],['Kıdemli Yetenek Kazanımı / İşveren Markası Uzmanı','Teklif müzakeresi, kanal verimliliği, aday deneyimi','#sablon','Huni şablonu'],['Yetenek Kazanımı Müdürü / Yetenek Direktörü','İş gücü planlama, işveren markası stratejisi, işe alım bütçesi','#eslesme','Mentor eşleşme']]},
+ {k:'bordro',t:'Bordro ve Özlük',r:[['Bordro ve Özlük Uzman Yardımcısı','Puantaj, izin hakedişi, SGK giriş-çıkış kodları','#sablon','Puantaj ve izin şablonları'],['Bordro ve Özlük Uzmanı','Kıdem/ihbar, giydirilmiş ücret, vergi dilimleri','#bordro','Bordro simülatörü'],['Ücret ve Yan Haklar Uzmanı','Ücret bantları, ücret konum oranı, yan hak tasarımı','#lab','Ücret konum oranı laboratuvarı'],['Ücret Yönetimi Müdürü','Ücret politikası, bütçe, iş değerleme','#vaka','Vaka analizleri']]},
+ {k:'od',t:'Eğitim ve Gelişim',r:[['Eğitim Uzman Yardımcısı','Eğitim takvimi, katılım kaydı, adam/saat','#sablon','Eğitim getirisi şablonu'],['Eğitim ve Gelişim Uzmanı','İhtiyaç analizi, Kirkpatrick değerlendirme','#sablon','Eğitim getirisi şablonu'],['Organizasyonel Gelişim / Yetenek Yönetimi Uzmanı','9’lu yetenek matrisi, 360 performans, yedekleme planı','#vaka','9’lu yetenek matrisi vakası'],['Organizasyonel Gelişim Müdürü','Kültür dönüşümü, liderlik programları','#eslesme','Mentor eşleşme']]},
+ {k:'analitik',t:'İK Analitiği',r:[['İK Raporlama Uzman Yardımcısı','Veri temizleme, pivot, DÜŞEYARA','#lab','Excel laboratuvarı'],['İK Analitiği Uzmanı','İşten ayrılma, işe alım süresi, ücret konum oranı panoları','#lab','Excel laboratuvarı'],['Kıdemli İK Analitiği ve Bilgi Sistemleri Uzmanı','Tahmin modelleri, İK bilgi sistemi veri mimarisi','#ats','İK bilgi sistemleri tanıtımı'],['İK Analitiği Lideri','Veriye dayalı İK stratejisi, yönetim kurulu raporlaması','#eslesme','Mentor eşleşme']]}];
+let trackK=null;
+function renderLadder(){
+  if(!trackK){const top=S.test?Object.entries(S.test).sort((a,b)=>b[1]-a[1])[0][0]:'ise';trackK=TRACKS.some(t=>t.k===top)?top:'bordro'}
+  $('#trackChips').innerHTML=TRACKS.map(t=>`<button class="chip" data-t="${t.k}" aria-pressed="${t.k===trackK}">${t.t}</button>`).join('')+(S.test?'<span class="small muted">Varsayılan hat test sonucuna göre seçildi.</span>':'<a class="small" href="#pusula">Testi çözersen sana uygun hat otomatik seçilir.</a>');
+  $$('#trackChips [data-t]').forEach(b=>b.onclick=()=>{trackK=b.dataset.t;renderLadder()});
+  const t=TRACKS.find(x=>x.k===trackK);
+  $('#ladder').innerHTML=t.r.map((r,i)=>`<div class="rung ${i===0?'here':''}"><span class="lv">${LVLS[i]}${i===0?' · başlangıç noktan':''}</span><h4>${r[0]}</h4><p class="small muted">${r[1]}</p><a class="small" href="${r[2]}">Platformda: ${r[3]}</a></div>`).join('');
+}
+function testScores(a){const s={};Object.keys(AREAS).forEach(k=>s[k]=[]);QS.forEach((q,i)=>s[q[0]].push(a[i]));const o={};for(const k in s){o[k]=Math.round((s[k].reduce((x,y)=>x+y,0)/(s[k].length*5))*60)}return o}
+function renderTest(){
+  if(!S.test){return}
+  const sc=S.test, top=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+  const best=ROLES.find(r=>r.k===top[0][0]);
+  $('#testRes').innerHTML=`<span class="eyebrow">Sonucun</span><h3>En yakın alan: ${AREAS[top[0][0]]}</h3>
+  <div style="display:flex;flex-direction:column;gap:8px">${top.map(([k,v])=>`<div class="skill-line"><span>${AREAS[k]}</span><div class="bar"><i style="width:${v/60*100}%"></i></div><b class="num">${Math.round(v/60*100)}</b></div>`).join('')}</div>
+  <div class="fb ok"><b>Önerilen rol: ${best.t}</b><p>${best.r}</p></div>
+  <div class="row"><button class="btn sm" id="setGoal">Bu rolü hedefim yap</button><a class="btn ghost sm" href="#panel">Paneli aç</a></div>`;
+  $('#setGoal').onclick=()=>{S.goal=best.goal;save();toast('Hedef güncellendi')};
+  $$('#roleCards .card').forEach(c=>c.style.borderColor='');
+  const rc=$('#role-'+best.k); if(rc) rc.style.borderColor='var(--accent)';
+}
+$('#testBtn').addEventListener('click',()=>{const first=!S.test;S.test=testScores(ans);save();if(first)addXP(50);renderTest()});
+
+/* ---------- Bordro simülatörü ---------- */
+const B={step:0,score:0,log:[],answers:{}};
+const BSTEPS=['1 · Hukuki süreç','2 · İhbar öneli','3 · Giydirilmiş brüt','4 · Yıllık izin ücreti','5 · Risk karnesi'];
+function bStepsRender(){$('#bSteps').innerHTML=BSTEPS.map((s,i)=>`<div class="step ${i===B.step?'on':i<B.step?'done':''}">${s}</div>`).join('')}
+function bNext(){B.step++;bRender()}
+function bRender(){
+  bStepsRender(); const a=$('#bArea');
+  if(B.step===0){
+    a.innerHTML=`<span class="eyebrow">Adım 1 · Karar ağacı</span><h3>Üretim Müdürünün "bugün hemen tazminatsız çıkış" talebine nasıl yanıt verirsin?</h3>
+    <div style="display:flex;flex-direction:column;gap:8px" id="q1">
+     <button class="opt" data-v="A"><span class="k">A</span>Müdür haklı; ardışık 2 iş günü devamsızlık 25/II-g'ye göre haklı fesih sebebidir, hemen SGK çıkışını yaparım.</button>
+     <button class="opt" data-v="B"><span class="k">B</span>Performans düşüklüğü olduğu için devamsızlık tutanağına gerek yok; Kod 04 ile tazminatlı çıkış yaparım.</button>
+     <button class="opt" data-v="C"><span class="k">C</span>Devamsızlık tutanaklarını tutarım ama hemen fesih yapmam. Noter ihtarıyla mazeretini (rapor vb.) bildirmesi için makul süre tanırım; mazeret yoksa haklı fesih, varsa savunma ve performans geliştirme planı ile performans sürecini işletirim.</button>
+    </div><div id="q1fb"></div>`;
+    $('#q1').onclick=e=>{const b=e.target.closest('.opt');if(!b||B.answers.q1)return;const v=b.dataset.v;B.answers.q1=v;
+      $$('#q1 .opt').forEach(o=>{if(o.dataset.v==='C')o.classList.add('sel-ok');else if(o===b)o.classList.add('sel-bad')});
+      const ok=v==='C'; if(ok)B.score+=25; else B.log.push(v==='A'?'Mazeret sorulmadan devamsızlıktan fesih: işçinin o günlere ait raporu çıkarsa işe iade davası kaybedilir; 4+4 ay boşta geçen süre ücreti ve işe başlatmama tazminatı riski.':'Tutanaksız, gerekçesiz Kod 04 çıkışı: savunma ve ihtar prosedürü atlandığı için fesih geçersiz sayılabilir.');
+      $('#q1fb').innerHTML=(ok?`<div class="fb ok"><b>Doğru.</b><p>Önce mazeret ve savunma; sonra ölçülü fesih. Bu, işe iade riskini kapatır.</p></div>`:`<div class="fb err"><b>Hukuki risk uyarısı.</b><p>${B.log[B.log.length-1]}</p></div>`)+`<div class="fb note" style="margin-top:10px"><b>Gelişme.</b><p>Mert'in o 2 gün için geçerli sağlık raporu olduğu anlaşıldı. Savunması alınmış ve PGP uygulanmış olmasına rağmen hedefleri tutmadığı için şirket, 18.10.2026'da Md. 18 kapsamında geçerli nedenle, kıdem ve ihbar ödeyerek feshe karar verdi.</p></div><button class="btn" style="margin-top:12px" id="bn">2. adıma geç</button>`;
+      $('#bn').onclick=bNext;};
+  } else if(B.step===1){
+    a.innerHTML=`<span class="eyebrow">Adım 2 · Md. 17</span><h3>12.02.2022 – 18.10.2026 hizmet süresine göre ihbar öneli kaç haftadır?</h3>
+    <div class="row"><label class="field" style="width:160px">Hafta<input type="number" id="q2" min="0" max="12"></label><button class="btn" id="q2b" style="align-self:flex-end">Kontrol et</button></div><div id="q2fb"></div>`;
+    $('#q2b').onclick=()=>{const v=+$('#q2').value;if(B.answers.q2!==undefined)return;B.answers.q2=v;const ok=v===8;if(ok)B.score+=25;else B.log.push(`İhbar öneli ${v} hafta girildi; doğrusu 8 hafta. Eksik önel, ${8-v>0?(8-v)*7+' günlük':'fazla'} ihbar tazminatı farkı ve işçi alacağı davası riski doğurur.`);
+      $('#q2fb').innerHTML=`<div class="fb ${ok?'ok':'err'}"><b>${ok?'Doğru: 8 hafta (56 gün).':'Doğru cevap 8 hafta (56 gün).'}</b><p>Çalışma süresi 4 yıl 8 ay 6 gündür. Kıdemi 3 yıldan fazla olan işçinin ihbar öneli 8 haftadır.</p></div><button class="btn" style="margin-top:12px" id="bn">3. adıma geç</button>`;$('#bn').onclick=bNext;};
+  } else if(B.step===2){
+    const items=[['kok','Aylık kök brüt maaş',42000,true],['yol','Yol yardımı (düzenli nakit)',2000,true],['yemek','Yemek kartı (22 × 200 TL = 4.400 net → brütleştirilmiş)',5300,true],['odul','Bir defalık proje ödülü (Eylül)',10000,false],['fm','Fazla mesai ücreti (değişken, son ay)',3200,false]];
+    a.innerHTML=`<span class="eyebrow">Adım 3 · Kıdeme esas ücret</span><h3>Hangi kalemler giydirilmiş brüt ücrete dahil edilmeli?</h3><p class="small muted">Süreklilik arz eden, düzenli ödemeler dahil edilir. Basitleştirilmiş modda yemek yardımının brüt karşılığı 5.300 TL kabul edilmiştir.</p>
+    <div style="display:flex;flex-direction:column;gap:8px">${items.map(i=>`<label class="opt" style="display:flex;gap:10px;align-items:center"><input type="checkbox" data-id="${i[0]}" data-v="${i[2]}"> <span style="flex:1">${i[1]}</span><b class="num">${TL(i[2])}</b></label>`).join('')}</div>
+    <div class="row" style="justify-content:space-between"><span>Seçimine göre giydirilmiş brüt: <b id="q3sum" class="num">0,00 TL</b></span><span class="small muted">Tavan kontrolü için tavanı <a href="#anasayfa">ana sayfadaki</a> alana girebilirsin.</span></div>
+    <button class="btn" id="q3b">Hesaplamayı doğrula</button><div id="q3fb"></div>`;
+    const upd=()=>{const t=$$('#bArea input[type=checkbox]').filter(c=>c.checked).reduce((s,c)=>s+ +c.dataset.v,0);$('#q3sum').textContent=TL(t);return t};
+    $$('#bArea input[type=checkbox]').forEach(c=>c.addEventListener('change',upd));
+    $('#q3b').onclick=()=>{if(B.answers.q3!==undefined)return;const t=upd();B.answers.q3=t;const ok=t===49300;
+      const sel=$$('#bArea input[type=checkbox]').filter(c=>c.checked).map(c=>c.dataset.id);
+      if(ok)B.score+=25;else{const diff=t-49300;B.log.push(`Giydirilmiş brüt ${TL(t)} bulundu (doğrusu 49.300,00 TL). Aylık ${TL(Math.abs(diff))} ${diff>0?'fazla':'eksik'} esas, yaklaşık 4,68 yıllık kıdemde ${TL(Math.abs(diff)*4.683)} ${diff>0?'fazla ödeme':'eksik ödeme ve alacak davası riski'} demektir.`)}
+      $('#q3fb').innerHTML=`<div class="fb ${ok?'ok':'err'}"><b>${ok?'Doğru: 49.300,00 TL.':'Doğrusu: 42.000 + 2.000 + 5.300 = 49.300,00 TL.'}</b><p>${sel.includes('odul')?'Tek seferlik ödül süreklilik arz etmez; dahil edilmez. ':''}${sel.includes('fm')?'Değişken fazla mesai ücreti kıdeme esas ücrete katılmaz. ':''}Günlük giydirilmiş brüt: ${TL(49300/30)}.</p></div><button class="btn" style="margin-top:12px" id="bn">4. adıma geç</button>`;$('#bn').onclick=bNext;};
+  } else if(B.step===3){
+    a.innerHTML=`<span class="eyebrow">Adım 4 · Md. 59</span><h3>Kullanılmamış 8 günlük yıllık izin ücreti hangi ücret üzerinden hesaplanır?</h3>
+    <div style="display:flex;flex-direction:column;gap:8px" id="q4"><button class="opt" data-v="A"><span class="k">A</span>Giydirilmiş brüt ücret (49.300 TL) üzerinden</button><button class="opt" data-v="B"><span class="k">B</span>Çıplak (kök) brüt ücret (42.000 TL) üzerinden</button></div>
+    <div class="row"><label class="field" style="width:220px">Brüt yıllık izin ücreti (TL)<input type="number" id="q4n" step="0.01"></label></div>
+    <button class="btn" id="q4b">Kontrol et</button><div id="q4fb"></div>`;
+    $('#q4').onclick=e=>{const b=e.target.closest('.opt');if(!b)return;$$('#q4 .opt').forEach(o=>o.classList.remove('sel-ok','sel-bad'));b.classList.add('sel-ok');B.pick4=b.dataset.v};
+    $('#q4b').onclick=()=>{if(B.answers.q4)return;if(!B.pick4){$('#q4fb').innerHTML='<div class="fb note"><b>Önce bir seçenek işaretle.</b></div>';return}
+      B.answers.q4=B.pick4;const n=+$('#q4n').value;const okc=B.pick4==='B',okn=Math.abs(n-11200)<1;
+      if(okc)B.score+=15;if(okn)B.score+=10;
+      if(!okc)B.log.push('Yıllık izin ücreti giydirilmiş brüt üzerinden hesaplandı: 8 gün için 1.946,67 TL fazla ödeme. Yıllık izin ve fazla mesai ücretleri çıplak brüt üzerinden hesaplanır.');
+      $('#q4fb').innerHTML=`<div class="fb ${okc&&okn?'ok':'err'}"><b>${okc&&okn?'Tebrikler, tam isabet.':'Doğrusu: (42.000 / 30) × 8 = 11.200,00 TL'}</b><p>Yeni mezunların en sık hatası, izin ücretini giydirilmiş brüt üzerinden hesaplamaktır.</p></div><button class="btn" style="margin-top:12px" id="bn">Risk karnesini gör</button>`;$('#bn').onclick=bNext;};
+  } else {
+    const kidem=49300*(4+8/12+6/365), ihbar=49300/30*56, izin=11200;
+    if(S.bordro===null||B.score>S.bordro){const first=S.bordro===null;S.bordro=B.score;save();if(first)addXP(100)}
+    a.innerHTML=`<span class="eyebrow">Adım 5 · İş müfettişi / hukuk denetim raporu</span><h3>Simülasyon puanın: <span class="num" style="color:var(--accent)">${B.score} / 100</span></h3>
+    <div class="grid g3" style="gap:10px"><div class="stat"><span class="v">${TL(kidem)}</span><span class="l">Brüt kıdem (49.300 × 4,68 yıl)</span></div><div class="stat"><span class="v">${TL(ihbar)}</span><span class="l">Brüt ihbar (56 gün)</span></div><div class="stat"><span class="v">${TL(izin)}</span><span class="l">Brüt yıllık izin ücreti</span></div></div>
+    <p class="small muted">Kıdemden yalnızca damga vergisi (${TL(kidem*0.00759)}) kesilir; ihbar ve izin ücretinden gelir ve damga vergisi kesilir. Kıdem hesabında esas ücretin dönem tavanını aşmadığı varsayılmıştır.</p>
+    ${B.log.length?`<h4>Tespit edilen riskler</h4>${B.log.map(l=>`<div class="fb err">${esc(l)}</div>`).join('')}`:`<div class="fb ok"><b>Hatasız çözüm.</b><p>Bu çözüm portfolyona "Fesih, kıdem ve ihbar hesaplama dosyası" olarak eklendi.</p></div>`}
+    <div class="row"><button class="btn ghost" id="bReset">Vakayı yeniden çöz</button><a class="btn" href="#panel">Panelime dön</a></div>`;
+    $('#bReset').onclick=()=>{Object.assign(B,{step:0,score:0,log:[],answers:{},pick4:null});bRender()};
+  }
+}
+
+/* ---------- ATS ---------- */
+const CANDS=[
+ {id:'kerem',name:'Kerem A.',meta:'27 · 3 yıl kurumsal · beklenti 70.000 TL',cv:['2023–2026: Z Holding, Kurumsal Satış Uzmanı','Prestijli üniversite, onur derecesi','CV dili kusursuz, rakamlar ekip düzeyinde'],flags:['Başarılar hep "ekip" adına yazılmış','Bireysel kota bilgisi yok'],
+  open:'Ekipçe büyük bir lojistik müşterisini elde tuttuk. Biz çok iyi bir sunum hazırladık ve müşteri sonunda ikna oldu.',
+  opts:[{t:'Harika bir başarı. CRM programlarını ne sıklıkla kullanırsınız?',p:-15,r:'Haftada birkaç kez HubSpot kullanıyorum.',fb:'Yüzeysel geçiş: adayın gerçekte ne yaptığını öğrenemedin.',star:['D','G']},
+        {t:'Fiyat ve kapanış görüşmesini bizzat siz mi yürüttünüz? Sizin bireysel aksiyonunuz neydi, sonuç kaç TL ciro oldu?',p:25,r:'Açıkçası müşteri görüşmelerini bölge müdürümüz yürüttü. Ben sunum dosyasını ve rakip analizini hazırladım; ciro rakamını tam bilmiyorum.',fb:'Doğru sondaj: "biz" dilinin arkasında destek rolü ortaya çıktı. Aksiyon zayıf, sonuç ölçülmemiş.',star:['D','G','E']},
+        {t:'Şirketinizin fiyat politikası neden rakipten pahalıydı?',p:-10,r:'Üst yönetimin kararıydı, detayını bilmiyorum.',fb:'Odak kaybı: adayın yetkinliği yerine eski şirketin politikasını sorguladın.',star:['D']}],
+  right:'out',why:'Parlak CV, ancak satış kapanışında bireysel yetkinlik derinliği yetersiz.'},
+ {id:'selin',name:'Selin T.',meta:'31 · 5 yıl rakip firma · beklenti 95.000 TL',cv:['2021–2026: Rakip SaaS, Kurumsal Satış','Kotalarını %140 aşmış','Güçlü referans müşteri listesi'],flags:['Maaş beklentisi bütçenin üst sınırını %27 aşıyor'],
+  open:'Rakip firmada 5 yılda kotamı her çeyrek aştım, geçen yıl %140. Ekip benim hızıma pek yetişemiyordu açıkçası.',
+  opts:[{t:'Etkileyici. Bu kotayı hangi kanallarla aştınız?',p:5,r:'Kendi ağımı kullandım, LinkedIn üzerinden doğrudan karar vericilere ulaştım, CRM\'de her fırsatı haftalık takip ettim.',fb:'Yetkinlik teyidi aldın ama asıl risk sinyalini (ekip ilişkisi) açmadın.',star:['D','G','E','S']},
+        {t:'Ekibinizle görüş ayrılığı yaşadığınız bir durumu, sizin ne yaptığınızı ve sonucunu anlatır mısınız?',p:25,r:'Ekip beceriksizdi, her şeyi ben topladım. Yöneticim de satıştan pek anlamıyordu, ben de onu pek dinlemedim. Bu arada beklentim 95.000 TL net.',fb:'Doğru sondaj: kültürel uyum riski ve bütçe aşımı aynı yanıtta görünür oldu.',star:['D','G','E','S']},
+        {t:'Neden ayrılmak istiyorsunuz?',p:5,r:'Hak ettiğim değeri görmüyorum.',fb:'Makul bir soru ama ekip uyumu yetkinliğini ölçmedi.',star:['D']}],
+  right:'out',why:'Yüksek performans, ancak toksik iletişim ve bütçenin %27 üzerinde beklenti.'},
+ {id:'bora',name:'Bora T.',meta:'28 · 3,5 yıl deneyim · beklenti 70.000 TL',cv:['2024–2026: X SaaS, B2B Satış Uzmanı','2023–2024: Y Kargo, Müşteri Temsilcisi','HubSpot sertifikası'],flags:['2023\'te 6 aylık kariyer boşluğu'],
+  open:'Geçen yıl lojistik sektöründen büyük bir müşterimiz rakibe geçmek üzereydi, fiyatlarımızı yüksek buluyorlardı. Ben de süreçle yakından ilgilendim ve sonunda sözleşmeyi yenilediler.',
+  opts:[{t:'Harika bir başarı, tebrik ederim. Peki CRM programlarını ne sıklıkla kullanırsınız?',p:-15,r:'Her gün; pipeline\'ı HubSpot\'ta yönetiyorum.',fb:'Yüzeysel mülakat: adayın gerçekten ne yaptığını öğrenemedin.',star:['D','G']},
+        {t:'Fiyat indirimi yapmadan müşteriyi ikna etmek için tam olarak hangi adımları attınız ve bu sözleşme ne kadarlık bir ciroyu korudu?',p:25,r:'CRM\'de müşterinin son 18 aylık gönderi verisini çıkardım; teslim süresi sapmalarımızın rakibin yarısı olduğunu gösterdim. Operasyon müdürüyle birlikte 3 haftalık pilot önerdim, fiyatı değiştirmeden teslim süresi garantisi ekledik. Sözleşme yıllık yaklaşık 4,2 milyon TL ciroyla yenilendi.',fb:'Mükemmel DGES sondajı: aksiyon ve ölçülebilir sonuç netleşti.',star:['D','G','E','S']},
+        {t:'Fiyatlarınız neden rakipten yüksekti, şirketinizin fiyat politikası hatalı mıydı?',p:-10,r:'Hizmet kalitemiz daha yüksekti, fiyat da buna göreydi.',fb:'Odak kaybı: yetkinlik yerine eski şirketin politikasını sorguladın.',star:['D','G']}],
+  right:'in',why:'Tam DGES uyumu, veri odaklı ikna ve bütçe içi beklenti.'}];
+const ETH=[{t:'Evlenmeyi ya da çocuk sahibi olmayı düşünüyor musunuz?',bad:true},{t:'Kaç yaşındasınız, sağlık sorununuz var mı?',bad:true},{t:'İşe başlama tarihiniz ve yan haklarla birlikte ücret beklentiniz nedir?',bad:false},{t:'Hangi dini bayramlarda izin kullanırsınız?',bad:true}];
+const A={stage:'pre',cur:0,picked:{},rates:{},dec:{},eth:null,boolean:''};
+const ASTEPS=['1 · Mantıksal aday arama','2 · DGES mülakatları','3 · Ücret ve etik','4 · Mülakatçı karnesi'];
+function aStepIx(){return {pre:0,int:1,eth:2,end:3}[A.stage]}
+function aRender(){
+  $('#aSteps').innerHTML=ASTEPS.map((s,i)=>`<div class="step ${i===aStepIx()?'on':i<aStepIx()?'done':''}">${s}</div>`).join('');
+  const st=$('#aStage');
+  if(A.stage==='pre'){
+    st.innerHTML=`<div class="card"><span class="eyebrow">Talep analizi</span><h3>Satış Direktörü: "B2B SaaS deneyimli, HubSpot veya Salesforce bilen, en az 3 yıl tecrübeli; stajyer istemiyorum."</h3>
+    <p class="small muted">aday takip sistemi arama çubuğuna bu talebi karşılayan Mantıksal arama dizilimii yaz. Örnek bileşenler: AND, OR, NOT, parantez, tırnak.</p>
+    <label class="field">Mantıksal arama dizilimi<input type="text" id="bool" class="mono" placeholder='("B2B" AND "SaaS") AND ("HubSpot" OR "Salesforce") NOT "Intern"' value="${esc(A.boolean)}"></label>
+    <div class="row"><button class="btn" id="boolB">Havuzu filtrele</button><span class="small muted">12 başvuru → ?</span></div><div id="boolFb"></div></div>`;
+    $('#boolB').onclick=()=>{const v=$('#bool').value;A.boolean=v;const u=v.toUpperCase();
+      const checks=[['B2B ve SaaS birlikte (AND)',/B2B/.test(u)&&/SAAS/.test(u)&&/AND/.test(u)],['CRM alternatifleri (OR)',/HUBSPOT/.test(u)&&/SALESFORCE/.test(u)&&/\bOR\b/.test(u)],['Stajyerleri dışarıda bırakma (NOT)',/\bNOT\b/.test(u)&&/(INTERN|STAJ)/.test(u)],['Parantez ile gruplama',/\(.*\)/.test(v)]];
+      const n=checks.filter(c=>c[1]).length;
+      $('#boolFb').innerHTML=`<div class="fb ${n===4?'ok':'note'}"><b>${n}/4 ölçüt karşılandı · havuz 12 → ${[12,9,7,5,4][n]} aday</b><p>${checks.map(c=>(c[1]?'✓ ':'✗ ')+c[0]).join(' · ')}</p></div><button class="btn" style="margin-top:12px" id="toInt">Ön elemeden geçen 3 adayla mülakata başla</button>`;
+      A.boolScore=n*5;$('#toInt').onclick=()=>{A.stage='int';aRender()}};
+  } else if(A.stage==='int'){
+    const c=CANDS[A.cur], pk=A.picked[c.id];
+    const starOn=pk!==undefined?c.opts[pk].star:['D','G'];
+    st.innerHTML=`<div class="cand-tabs" style="margin-bottom:12px">${CANDS.map((x,i)=>`<button data-i="${i}" aria-pressed="${i===A.cur}">${x.name} ${A.dec[x.id]?`<span class="pill ${A.dec[x.id]==='in'?'good':'bad'}">${A.dec[x.id]==='in'?'kısa liste':'elendi'}</span>`:''}<small>${x.meta}</small></button>`).join('')}</div>
+    <div class="ats">
+      <div class="card"><span class="eyebrow">Aday CV ve aday takip kartı</span><h3>${c.name}</h3><p class="small muted">${c.meta}</p><ul class="small" style="margin:0;padding-left:18px">${c.cv.map(x=>`<li>${x}</li>`).join('')}</ul><div class="fb note small"><b>CV uyarı işaretleri</b><p>${c.flags.join(' · ')}</p></div></div>
+      <div class="card"><span class="eyebrow">Yapay zekâ adayla canlı mülakat</span>
+        <div class="chat"><div class="bubble me">Geçmişte kaybetmek üzere olduğunuz önemli bir kurumsal müşteriyi ikna ederek süreci lehinize çevirdiğiniz bir durumu anlatır mısınız?</div><div class="bubble cand">${c.open}</div>
+        ${pk!==undefined?`<div class="bubble me">${c.opts[pk].t}</div><div class="bubble cand">${c.opts[pk].r}</div>`:''}</div>
+        ${pk===undefined?`<div class="fb note small"><b>Yapay zekâ koçundan ipucu</b><p>Yanıtta hangi DGES halkası eksik? Bireysel aksiyonu ve ölçülebilir sonucu açacak soruyu seç.</p></div><div style="display:flex;flex-direction:column;gap:8px" id="probe">${c.opts.map((o,i)=>`<button class="opt" data-o="${i}"><span class="k">${'ABC'[i]}</span>${o.t}</button>`).join('')}</div>`
+          :`<div class="fb ${c.opts[pk].p>=25?'ok':c.opts[pk].p>0?'note':'err'}"><b>${c.opts[pk].p>0?'+':''}${c.opts[pk].p} puan</b><p>${c.opts[pk].fb}</p></div>`}
+      </div>
+      <div class="card"><span class="eyebrow">DGES değerlendirme kartı</span>
+        <div class="star">${['D','G','E','S'].map(k=>`<span class="${starOn.includes(k)?'on':''}" title="${{D:'Durum',G:'Görev',E:'Eylem',S:'Sonuç'}[k]}">${k}</span>`).join('')}</div>
+        ${['İkna ve müzakere','Veri / CRM odaklılık','Ekip uyumu'].map((k,ki)=>`<div style="display:flex;flex-direction:column;gap:4px"><span class="small" style="font-weight:600">${k}</span><div class="rate" data-k="${ki}">${[1,2,3,4,5].map(v=>`<button data-v="${v}" aria-pressed="${(A.rates[c.id]||[])[ki]===v}">${v}</button>`).join('')}</div></div>`).join('')}
+        <div class="row"><button class="btn acc sm" data-dec="in" ${pk===undefined?'disabled':''}>Kısa listeye ekle</button><button class="btn ghost sm" data-dec="out" ${pk===undefined?'disabled':''}>Adayı ele</button></div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:14px;justify-content:flex-end"><span class="small muted">${Object.keys(A.dec).length}/3 karar verildi</span><button class="btn" id="toEth" ${Object.keys(A.dec).length<3?'disabled':''}>Ücret ve etik aşamasına geç</button></div>`;
+    $$('.cand-tabs button').forEach(b=>b.onclick=()=>{A.cur=+b.dataset.i;aRender()});
+    const pr=$('#probe'); if(pr) pr.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;A.picked[c.id]=+b.dataset.o;aRender()};
+    $$('#aStage .rate').forEach(r=>r.onclick=e=>{const b=e.target.closest('button');if(!b)return;(A.rates[c.id]=A.rates[c.id]||[])[+r.dataset.k]=+b.dataset.v;aRender()});
+    $$('#aStage [data-dec]').forEach(b=>b.onclick=()=>{A.dec[c.id]=b.dataset.dec;const nx=CANDS.findIndex(x=>!A.dec[x.id]);if(nx>=0)A.cur=nx;aRender()});
+    $('#toEth').onclick=()=>{A.stage='eth';aRender()};
+  } else if(A.stage==='eth'){
+    st.innerHTML=`<div class="card"><span class="eyebrow">Ücret müzakeresi · 6698 KVKK ve ayrımcılık yasağı</span><h3>Kısa listedeki adayla görüşmeyi hangi soruyla kapatırsın?</h3>
+    <div style="display:flex;flex-direction:column;gap:8px" id="eth">${ETH.map((e,i)=>`<button class="opt" data-e="${i}">${e.t}</button>`).join('')}</div><div id="ethFb"></div></div>`;
+    $('#eth').onclick=e=>{const b=e.target.closest('.opt');if(!b||A.eth!==null)return;A.eth=+b.dataset.e;const bad=ETH[A.eth].bad;b.classList.add(bad?'sel-bad':'sel-ok');
+      $('#ethFb').innerHTML=`<div class="fb ${bad?'err':'ok'}"><b>${bad?'Etik ve hukuki ihlal.':'Doğru ve yerinde soru.'}</b><p>${bad?'Medeni hal, aile planı, yaş, sağlık ya da din sorusu iş ile ilgisiz özel nitelikli veri talebidir; ayrımcılık yasağına ve KVKK\'ya aykırıdır.':'Başlama tarihi ve toplam ücret beklentisi, teklif aşaması için gereken iş ilişkili bilgilerdir.'}</p></div><button class="btn" style="margin-top:12px" id="toEnd">Mülakatçı karnemi gör</button>`;
+      $('#toEnd').onclick=()=>{A.stage='end';aRender()}};
+  } else {
+    const probe=CANDS.reduce((s,c)=>s+(c.opts[A.picked[c.id]]?.p||0),0);
+    const starPct=Math.max(0,Math.round(probe/75*100));
+    const hits=CANDS.filter(c=>A.dec[c.id]===c.right).length;
+    const eth=ETH[A.eth].bad?0:100;
+    const total=Math.round(starPct*0.4+hits/3*100*0.35+eth*0.15+(A.boolScore||0)/20*100*0.10);
+    if(S.ats===null||total>S.ats){const first=S.ats===null;S.ats=total;save();if(first)addXP(100)}
+    st.innerHTML=`<div class="card"><span class="eyebrow">Mülakatçı karnesi</span><h3>Genel skor: <span class="num" style="color:var(--accent)">${total} / 100</span></h3>
+    <div class="grid g4" style="gap:10px"><div class="stat"><span class="v">%${starPct}</span><span class="l">DGES derinleştirme</span></div><div class="stat"><span class="v">${hits}/3</span><span class="l">İşe alım isabeti</span></div><div class="stat"><span class="v">${eth}/100</span><span class="l">Mevzuat ve etik uyum</span></div><div class="stat"><span class="v">${A.boolScore/5||0}/4</span><span class="l">Arama ölçütleri</span></div></div>
+    <div class="tbl-wrap"><table><tr><th>Aday</th><th>Senin kararın</th><th>Doğru karar</th><th>Gerekçe</th></tr>${CANDS.map(c=>`<tr><td>${c.name}</td><td>${A.dec[c.id]==='in'?'Kısa liste':'Elendi'}</td><td><span class="pill ${A.dec[c.id]===c.right?'good':'bad'}">${c.right==='in'?'İşe alınmalı':'Elenmeli'}</span></td><td style="white-space:normal;min-width:240px">${c.why}</td></tr>`).join('')}</table></div>
+    <div class="row"><button class="btn ghost" id="aReset">Simülasyonu yeniden başlat</button><a class="btn" href="#panel">Panelime dön</a></div></div>`;
+    $('#aReset').onclick=()=>{Object.assign(A,{stage:'pre',cur:0,picked:{},rates:{},dec:{},eth:null,boolean:''});aRender()};
+  }
+}
+
+/* ---------- Excel Laboratuvarı ---------- */
+const EMP=[
+ {id:'NT-101',dep:'Yazılım (IT)',g:'G4',in:'15.01.2024',out:'',tip:'',neden:'',maas:78000},
+ {id:'NT-102',dep:'Yazılım (IT)',g:'G4',in:'10.03.2023',out:'12.08.2026',tip:'Gönüllü (İstifa)',neden:'Ücret yetersizliği',maas:74000},
+ {id:'NT-103',dep:'Satış',g:'G2',in:'01.06.2026',out:'20.08.2026',tip:'Gönüllü (İstifa)',neden:'İş/vardiya uyumsuzluğu',maas:42000},
+ {id:'NT-104',dep:'Satış',g:'G3',in:'12.09.2022',out:'05.09.2026',tip:'Zorunlu (Fesih)',neden:'Performans düşüklüğü',maas:58000},
+ {id:'NT-105',dep:'Operasyon',g:'G2',in:'18.07.2026',out:'15.09.2026',tip:'Gönüllü (İstifa)',neden:'Yönetici iletişimi',maas:40000},
+ {id:'NT-106',dep:'Operasyon',g:'G3',in:'04.01.2025',out:'',tip:'',neden:'',maas:54000}];
+const BANDS={G2:['Uzman Yardımcısı',36000,45000,54000],G3:['Uzman',48000,60000,72000],G4:['Kıdemli Uzman',72000,90000,108000]};
+const REQ=[['REQ-01','Yazılım (IT)','Arka Uç Geliştirici','01.07.2026','05.07.2026','29.08.2026','LinkedIn'],['REQ-02','Satış','Saha Satış Uzm.','10.07.2026','12.07.2026','02.08.2026','Kariyer portalı'],['REQ-03','Operasyon','Lojistik Uzm. Yrd.','01.08.2026','03.08.2026','21.08.2026','Çalışan referansı']];
+const pd=s=>{const [d,m,y]=s.split('.').map(Number);return new Date(Date.UTC(y,m-1,d))};
+const days=(a,b)=>Math.round((pd(b)-pd(a))/864e5);
+const CLEAN=[{t:'Mükerrer sicil',d:'NT-102 iki kez girilmiş; toplam ayrılan sayısı şişiyor.',fix:'Veri > Yinelenenleri Kaldır'},{t:'Metin olarak tarih',d:'"10/03/2023 " gibi hücreler tarih değil metin; gün farkı hesaplanamıyor.',fix:'=TARİHSAYISI(KIRP(D2))'},{t:'Sondaki boşluk',d:'"78.000 TL " hücreleri sayı olarak toplanmıyor.',fix:'=SAYIYAÇEVİR(YERİNEKOY(KIRP(I2);" TL";""))'}];
+function renderClean(){
+  $('#cleanCards').innerHTML=CLEAN.map((c,i)=>{const done=S.clean.includes(i);return `<div class="card" style="background:var(--surface-2)"><div class="row" style="justify-content:space-between"><h4>${c.t}</h4>${done?'<span class="pill good">Temizlendi</span>':'<span class="pill bad">Hata</span>'}</div><p class="small muted">${c.d}</p><code class="f">${esc(c.fix)}</code>${done?'':`<button class="btn sm" data-c="${i}">Uygula</button>`}</div>`}).join('');
+  $('#cleanPill').className='pill '+(S.clean.length===3?'good':'warn');$('#cleanPill').textContent=S.clean.length+'/3 düzeltildi';
+  $$('#cleanCards [data-c]').forEach(b=>b.onclick=()=>{S.clean.push(+b.dataset.c);save();renderClean();renderLab();checkLab()});
+}
+function renderLab(){
+  const th=+$('#crTh').value||90;
+  $('#empTbl').innerHTML=`<tr><th>Sicil</th><th>Departman</th><th>Kademe</th><th>Giriş</th><th>Çıkış</th><th>Çıkış tipi</th><th>Kök neden</th><th>Gün</th><th>İlk 90 gün</th><th>Brüt maaş</th><th>Orta nokta</th><th>Ücret konum oranı</th></tr>`+
+   EMP.map((e,i)=>{const d=e.out?days(e.in,e.out):null;const mid=BANDS[e.g][2];const cr=e.maas/mid*100;
+    return `<tr><td class="mono">${e.id}</td><td>${e.dep}</td><td>${e.g}</td><td>${e.in}</td><td>${e.out||'—'}</td><td>${e.tip?`<span class="pill ${e.tip.startsWith('Gön')?'warn':'info'}">${e.tip}</span>`:'<span class="pill good">Aktif</span>'}</td><td>${e.neden||'—'}</td><td>${d??'—'}</td><td>${d!==null&&d<=90?'<span class="pill bad">Erken kayıp</span>':'—'}</td><td><input type="number" data-e="${i}" value="${e.maas}" step="500" aria-label="${e.id} brüt maaş"></td><td>${nf0.format(mid)}</td><td><span class="pill ${cr<th?'bad':cr>110?'warn':'good'}">%${nf0.format(cr)}</span></td></tr>`}).join('');
+  $$('#empTbl input[data-e]').forEach(inp=>inp.addEventListener('change',()=>{EMP[+inp.dataset.e].maas=+inp.value||0;renderLab()}));
+  const start=+$('#hcStart').value||1,end=+$('#hcEnd').value||1,avg=(start+end)/2;
+  const left=EMP.filter(e=>e.out),vol=left.filter(e=>e.tip.startsWith('Gön')),early=left.filter(e=>days(e.in,e.out)<=90);
+  const ttf=REQ.map(r=>days(r[3],r[5])),tgt=+$('#ttfTarget').value||30,avgTtf=ttf.reduce((a,b)=>a+b,0)/ttf.length;
+  const dup=S.clean.includes(0)?0:1;
+  $('#labStats').innerHTML=[
+   [`%${nf0.format((left.length+dup)/avg*100)}`,'Toplam ayrılma oranı',dup?'<span class="pill bad">mükerrer kayıt şişiriyor</span>':`${left.length} ayrılan / ${nf0.format(avg)} ort. kadro`],
+   [`%${nf0.format((vol.length+dup)/avg*100)}`,'Gönüllü ayrılma oranı',`${vol.length+dup} istifa · fesih hariç`],
+   [`${early.length}/${left.length}`,'İlk 90 gün kaybı',early.map(e=>e.id).join(', ')],
+   [`${nf0.format(avgTtf)} gün`,'Ort. pozisyon doldurma süresi',avgTtf>tgt?`<span class="pill warn">hedef ${tgt} gün aşıldı</span>`:'<span class="pill good">hedefte</span>']
+  ].map(s=>`<div class="stat"><span class="v">${s[0]}</span><span class="l">${s[1]}</span><span class="small muted">${s[2]}</span></div>`).join('');
+  $('#bandTbl').innerHTML='<tr><th>Kod</th><th>Unvan grubu</th><th>Min (%80)</th><th>Orta nokta</th><th>Maks (%120)</th></tr>'+Object.entries(BANDS).map(([k,b])=>`<tr><td>${k}</td><td>${b[0]}</td><td>${nf0.format(b[1])}</td><td><b>${nf0.format(b[2])}</b></td><td>${nf0.format(b[3])}</td></tr>`).join('');
+  $('#reqTbl').innerHTML='<tr><th>İlan</th><th>Departman</th><th>Talep</th><th>Kabul</th><th>Pozisyon doldurma süresi</th><th>Kanal</th></tr>'+REQ.map((r,i)=>`<tr><td class="mono">${r[0]}</td><td>${r[1]}</td><td>${r[3]}</td><td>${r[5]}</td><td><span class="pill ${ttf[i]>tgt?'warn':'good'}">${ttf[i]} gün</span></td><td>${r[6]}</td></tr>`).join('');
+  const deps=[...new Set(EMP.map(e=>e.dep))];
+  $('#crBars').innerHTML=deps.map(d=>{const es=EMP.filter(e=>e.dep===d);const cr=es.reduce((s,e)=>s+e.maas/BANDS[e.g][2]*100,0)/es.length;return `<div class="skill-line" style="grid-template-columns:minmax(0,1fr) 120px 52px"><span>${d}</span><div class="bar"><i style="width:${Math.min(cr,120)/120*100}%;background:${cr<th?'var(--bad)':'var(--accent)'}"></i></div><b class="num">%${nf0.format(cr)}</b></div>`}).join('');
+}
+['#hcStart','#hcEnd','#crTh','#ttfTarget'].forEach(s=>$(s).addEventListener('input',renderLab));
+const INTERP=[{t:'Şirketimizde işten ayrılma vardır ve IT işe alım süresi (59 gün) çok uzundur; işe alım ekibi daha hızlı çalışmalıdır.',ok:false,fb:'Amatör bakış: semptomu raporluyor, kök nedeni (ücret bandı, erken dönem kayıpları) birbirine bağlamıyor.'},
+ {t:'IT\'de G4 uzmanların ücret konum oranı ortalaması %84; ayrılan NT-102\'nin çıkış nedeni ücret yetersizliği. Bant güncellenmezse kalan ekipte ayrılma riski yüksek ve düşük bant nedeniyle IT alımı 59 gün sürüyor. G2 kademesindeki ayrılmaların tamamı ilk 90 günde: sorun ücret değil, gerçekçi iş önizlemesi ve oryantasyon eksikliği.',ok:true,fb:'Veri odaklı İK iş ortağı bakışı: iki farklı kök neden, iki farklı aksiyon.'},
+ {t:'Satış departmanında bir fesih olduğu için performans yönetimi sistemi tamamen değiştirilmelidir.',ok:false,fb:'Tek bir işveren feshinden sistem düzeyinde sonuç çıkarılamaz; gönüllü ayrılmalar asıl tutundurma sinyalidir.'}];
+function renderInterp(){
+  $('#interp').innerHTML=INTERP.map((x,i)=>`<button class="opt ${S.interp===i?(x.ok?'sel-ok':'sel-bad'):''}" data-i="${i}"><span class="k">${'ABC'[i]}</span>${x.t}</button>`).join('')+(S.interp!==null?`<div class="fb ${INTERP[S.interp].ok?'ok':'err'}"><b>${INTERP[S.interp].ok?'Doğru yorum.':'Bu yorum eksik.'}</b><p>${INTERP[S.interp].fb}</p></div>`:'');
+  $$('#interp .opt').forEach(b=>b.onclick=()=>{S.interp=+b.dataset.i;save();renderInterp();checkLab()});
+}
+function checkLab(){
+  const sc=Math.round(S.clean.length/3*50+(S.interp!==null&&INTERP[S.interp].ok?50:0));
+  $('#lSteps').innerHTML=['1 · Veri temizleme','2 · Metrik formülleri','3 · Yönetici raporu'].map((s,i)=>`<div class="step ${(i===0&&S.clean.length===3)||(i===1&&S.clean.length===3)||(i===2&&S.interp!==null&&INTERP[S.interp].ok)?'done':i===0||(i===2&&S.clean.length===3)?'on':''}">${s}</div>`).join('');
+  if(sc===100&&!S.labDone){S.lab=100;S.labDone=true;save();addXP(100)} else if(sc>(S.lab||0)){S.lab=sc;save()}
+}
+
+/* ---------- Şablonlar ---------- */
+let LANG='tr';
+const TPL=[
+ {f:'Izin_Takip_Sistemi.xlsx',m:'Özlük işleri',p:'4857 Md. 53\'e göre yaş ve kıdem bazlı otomatik izin hakedişi.',
+  cols:[['A','Sicil_No','Metin','IK-104'],['B','Ad_Soyad','Metin','Zeynep Aydın'],['C','Dogum_Tarihi','Tarih','14.05.1973'],['D','Ise_Giris_Tarihi','Tarih','10.03.2023'],['E','Yas','Formül','53'],['F','Kidem_Yili','Formül','3'],['G','Bu_Yil_Hakedis','Formül (Md. 53)','20 gün'],['H','Devreden_Izin','Sayı','4'],['I','Kullanilan_Izin','Formül (ETOPLA)','12'],['J','Kalan_Bakiye','Formül','12'],['K','Izin_Durum_Uyarisi','Formül','Normal']],
+  fx:[['E2 · Yaş','=ETARİHLİ(C2;BUGÜN();"Y")','=DATEDIF(C2,TODAY(),"Y")'],['F2 · Kıdem yılı','=ETARİHLİ(D2;BUGÜN();"Y")','=DATEDIF(D2,TODAY(),"Y")'],['G2 · Yıllık izin hakedişi','=EĞER(F2<1;0;EĞER(F2>=15;26;EĞER(YADA(F2>5;E2<=18;E2>=50);20;14)))','=IF(F2<1,0,IF(F2>=15,26,IF(OR(F2>5,E2<=18,E2>=50),20,14)))'],['I2 · Kullanılan izin','=ETOPLA(Izin_Hareketleri!A:A;A2;Izin_Hareketleri!D:D)','=SUMIF(Izin_Hareketleri!A:A,A2,Izin_Hareketleri!D:D)'],['J2 · Kalan bakiye','=(G2+H2)-I2','=(G2+H2)-I2'],['K2 · Risk uyarısı','=EĞER(J2>20;"Kritik birikme - izne çıkar";EĞER(J2<0;"Eksi bakiye (avans izin)";"Normal"))','=IF(J2>20,"Critical accrual",IF(J2<0,"Negative balance","Normal"))']]},
+ {f:'Aylik_Puantaj_Cetveli.xlsx',m:'Bordro ve tahakkuk',p:'Fazla mesai (%50), genel tatil (%100) ve SGK eksik gün kodları. Gün kodları: X, HT, GT, YI, R (01), Üİ (21), D (15). Aylık 225 saat baz.',
+  cols:[['C','Aylik_Ciplak_Brut','Para','—'],['E:AI','31 günlük puantaj kodları','Açılır liste','X / HT / R ...'],['AJ','Normal_Calisma_Gunu','Formül','22'],['AK','Hafta_Tatili_Gunu','Formül','4'],['AL','Eksik_Gun_Toplami','Formül','2'],['AM','SGK_Prim_Gunu','Formül','28'],['AN','SGK_Eksik_Gun_Kodu','Formül','01-İstirahat'],['AO','Fazla_Mesai_Saati','Manuel','12'],['AP','Fazla_Mesai_Ucreti','Formül','—'],['AQ','Genel_Tatil_Gunu','Formül','1'],['AR','Genel_Tatil_Ucreti','Formül','—']],
+  fx:[['AJ2 · Normal çalışma','=EĞERSAY(E2:AI2;"X")+EĞERSAY(E2:AI2;"YI")','=COUNTIF(E2:AI2,"X")+COUNTIF(E2:AI2,"YI")'],['AL2 · Eksik gün','=EĞERSAY(E2:AI2;"R")+EĞERSAY(E2:AI2;"Üİ")+EĞERSAY(E2:AI2;"D")','=COUNTIF(E2:AI2,"R")+COUNTIF(E2:AI2,"Üİ")+COUNTIF(E2:AI2,"D")'],['AM2 · SGK prim günü','=EĞER(AL2=0;30;30-AL2)','=IF(AL2=0,30,30-AL2)'],['AN2 · Eksik gün kodu','=EĞER(AL2=0;"-";EĞER(VE(EĞERSAY(E2:AI2;"R")>0;EĞERSAY(E2:AI2;"Üİ")>0);"12-Birden Fazla";EĞER(EĞERSAY(E2:AI2;"R")>0;"01-İstirahat";EĞER(EĞERSAY(E2:AI2;"Üİ")>0;"21-Diğer Ücretsiz İzin";"15-Devamsızlık"))))','=IF(AL2=0,"-",IF(AND(COUNTIF(E2:AI2,"R")>0,COUNTIF(E2:AI2,"Üİ")>0),"12-Multiple",IF(COUNTIF(E2:AI2,"R")>0,"01-Sick leave",IF(COUNTIF(E2:AI2,"Üİ")>0,"21-Other unpaid","15-Absence"))))'],['AP2 · Fazla mesai ücreti','=(C2/225)*1,5*AO2','=(C2/225)*1.5*AO2'],['AR2 · Genel tatil ücreti','=(C2/30)*AQ2','=(C2/30)*AQ2']]},
+ {f:'Ayrilma_Analiz_Kiti.xlsx',m:'İK analitiği',p:'Gönüllü/zorunlu ayrılma ve ilk 90 gün erken kayıp röntgeni. İki sekme: Personel_Veri ve Aylik_İşten ayrılma_Panosu.',
+  cols:[['A','Sicil_No','Metin','NT-201'],['B','Departman','Açılır liste','Satış'],['C','Ise_Giris_Tarihi','Tarih','15.05.2026'],['D','Isten_Cikis_Tarihi','Tarih','02.08.2026'],['E','Durum','Formül','Ayrıldı'],['F','Cikis_Kategorisi','Açılır liste','Gönüllü (İstifa)'],['G','Cikis_Kok_Nedeni','Açılır liste','Ücret yetersizliği'],['H','Calisma_Suresi_Gun','Formül','79'],['I','Ilk_90_Gun_Kaybi_Mi','Formül','Evet (Erken Kayıp)'],['J','Cikis_Ayi','Formül','Ağustos 2026']],
+  fx:[['E2 · Durum','=EĞER(EBOŞSA(D2);"Aktif";"Ayrıldı")','=IF(ISBLANK(D2),"Aktif","Ayrıldı")'],['H2 · Çalışma süresi','=EĞER(EBOŞSA(D2);BUGÜN()-C2;D2-C2)','=IF(ISBLANK(D2),TODAY()-C2,D2-C2)'],['I2 · İlk 90 gün','=EĞER(VE(E2="Ayrıldı";H2<=90);"Evet (Erken Kayıp)";"Hayır")','=IF(AND(E2="Ayrıldı",H2<=90),"Evet (Erken Kayıp)","Hayır")'],['Pano E2 · Gönüllü istifa','=ÇOKEĞERSAY(Personel_Veri!B:B;A2;Personel_Veri!E:E;"Ayrıldı";Personel_Veri!F:F;"Gönüllü (İstifa)")','=COUNTIFS(Personel_Veri!B:B,A2,Personel_Veri!E:E,"Ayrıldı",Personel_Veri!F:F,"Gönüllü (İstifa)")'],['Pano G2 · Gönüllü ayrılma oranı %','=(E2/D2)*100','=(E2/D2)*100'],['Pano I2 · İlk 90 gün kaybı','=ÇOKEĞERSAY(Personel_Veri!B:B;A2;Personel_Veri!I:I;"Evet (Erken Kayıp)")','=COUNTIFS(Personel_Veri!B:B,A2,Personel_Veri!I:I,"Evet (Erken Kayıp)")']]},
+ {f:'Ise_Alim_Hunisi_ATS.xlsx',m:'Yetenek kazanımı',p:'Pozisyon doldurma süresi, işe alım süresi, hedef süre takibi ve kanal verimliliği. İki sekme: Pozisyon_Takip ve Aday_Hunisi.',
+  cols:[['A','Talep_No','Metin','REQ-2026-01'],['D','Talep_Onay_Tarihi','Tarih','01.09.2026'],['F','Aday_Basvuru_Tarihi','Tarih','10.09.2026'],['G','Teklif_Kabul_Tarihi','Tarih','12.10.2026'],['H','Hedef_Sure_Gun','Sayı (gün)','35'],['I','Doldurma_Suresi_Gun','Formül','41'],['J','Ise_Alim_Suresi_Gun','Formül','32'],['K','Hedef_Sure_Durumu','Formül','Hedef süre aşıldı (+6 gün)']],
+  fx:[['I2 · Pozisyon doldurma süresi','=EĞER(EBOŞSA(G2);BUGÜN()-D2;G2-D2)','=IF(ISBLANK(G2),TODAY()-D2,G2-D2)'],['J2 · İşe alım süresi','=EĞER(EBOŞSA(G2);"-";G2-F2)','=IF(ISBLANK(G2),"-",G2-F2)'],['K2 · Hedef süre kontrolü','=EĞER(EBOŞSA(G2);EĞER(I2>H2;"Açık - hedef süre aşıldı";"Süreç devam ediyor");EĞER(I2<=H2;"Hedef sürede kapandı";"Hedef süre aşıldı (+"&(I2-H2)&" gün)"))','=IF(ISBLANK(G2),IF(I2>H2,"Open - SLA delayed","In progress"),IF(I2<=H2,"Closed within SLA","SLA exceeded (+"&(I2-H2)&" days)"))'],['Huni I2 · Teklif kabul oranı','=EĞERHATA(H2/G2;0)','=IFERROR(H2/G2,0)'],['Huni J2 · Ön eleme verimi','=EĞERHATA(E2/C2;0)','=IFERROR(E2/C2,0)']]},
+ {f:'Egitim_Butce_ve_Getiri.xlsx',m:'Eğitim ve gelişim',p:'Adam/saat, bütçe takibi ve Kirkpatrick / Phillips yatırım getirisi. Yasal zorunlu eğitimlerde yatırım getirisi otomatik devre dışı.',
+  cols:[['B','Egitim_Adi','Metin','İleri Müzakere ve İkna'],['C','Egitim_Kategorisi','Açılır liste','Mesleki / Teknik'],['D','Katilimci_Sayisi','Sayı','15'],['E','Egitim_Suresi_Saat','Sayı','16'],['F','Toplam_Adam_Saat','Formül','240'],['G','Egitmen_Fatura_TL','Para','60.000'],['H','Lojistik_Konaklama','Para','15.000'],['I','Toplam_Egitim_Maliyeti','Formül','75.000'],['J','Kisi_Basi_Maliyet','Formül','5.000'],['K','Memnuniyet_Skoru','1-5','4,6'],['L','Olculen_Finansal_Getiri','Para','210.000'],['M','Net_Egitim_Faydasi','Formül','135.000'],['N','Egitim_Getiri_Yuzde','Formül','%180']],
+  fx:[['F2 · Adam/saat','=D2*E2','=D2*E2'],['I2 · Toplam maliyet','=TOPLA(G2:H2)','=SUM(G2:H2)'],['J2 · Kişi başı maliyet','=EĞERHATA(I2/D2;0)','=IFERROR(I2/D2,0)'],['M2 · Net fayda','=L2-I2','=L2-I2'],['N2 · Getiri %','=EĞER(C2="Zorunlu İSG/Mevzuat";"Yasal zorunluluk (getiri aranmaz)";EĞERHATA((L2-I2)/I2;0))','=IF(C2="Mandatory Compliance","Compliance (N/A)",IFERROR((L2-I2)/I2,0))'],['Kalan bütçe','=B1-TOPLA(I2:I100)','=B1-SUM(I2:I100)']]}];
+function renderTpl(){
+  const open=$$('details.tpl').map(d=>d.open);
+  $('#tplList').innerHTML=TPL.map((t,i)=>`<details class="tpl" ${open[i]?'open':''}><summary><span class="ix">${i+1}</span><span style="min-width:0"><b class="mono">${t.f}</b><br><span class="small muted">${t.m} · ${t.p}</span></span><span class="chev">›</span></summary><div class="body">
+   <div class="row"><button class="btn ghost sm" data-hdr="${i}">Sütun başlıklarını kopyala (sekmeyle ayrılmış)</button></div>
+   <div class="tbl-wrap"><table><tr><th>Sütun</th><th>Başlık</th><th>Veri tipi</th><th>Örnek</th></tr>${t.cols.map(c=>`<tr><td class="mono">${c[0]}</td><td class="mono">${c[1]}</td><td>${c[2]}</td><td>${c[3]}</td></tr>`).join('')}</table></div>
+   <div style="display:flex;flex-direction:column;gap:10px">${t.fx.map((f,j)=>`<div class="formula-row"><span class="lbl">${f[0]}</span><code class="f">${esc(LANG==='tr'?f[1]:f[2])}</code><button class="btn ghost sm" data-fx="${i}-${j}">Kopyala</button></div>`).join('')}</div></div></details>`).join('');
+  $$('[data-fx]').forEach(b=>b.onclick=()=>{const [i,j]=b.dataset.fx.split('-').map(Number);copy(TPL[i].fx[j][LANG==='tr'?1:2],b)});
+  $$('[data-hdr]').forEach(b=>b.onclick=()=>copy(TPL[+b.dataset.hdr].cols.map(c=>c[1]).join('\t'),b));
+}
+function copy(text,el){
+  const done=()=>toast('Panoya kopyalandı');
+  const fallback=()=>{const code=el.previousElementSibling;if(code&&code.tagName==='CODE'){const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r);toast('Metin seçildi; Ctrl+C ile kopyala')}else toast('Kopyalanamadı')};
+  try{navigator.clipboard.writeText(text).then(done,fallback)}catch(e){fallback()}
+}
+$$('[data-lang]').forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;$$('[data-lang]').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTpl()});
+function yearsBetween(a,b){let y=b.getFullYear()-a.getFullYear();if(b.getMonth()<a.getMonth()||(b.getMonth()===a.getMonth()&&b.getDate()<a.getDate()))y--;return y}
+function izCalc(){
+  const now=new Date(),dg=new Date($('#izDog').value),gr=new Date($('#izGir').value);
+  if(isNaN(dg)||isNaN(gr)){$('#izOut').innerHTML='';return}
+  const E=yearsBetween(dg,now),F=yearsBetween(gr,now),H=+$('#izDev').value||0,I=+$('#izKul').value||0;
+  const G=F<1?0:F>=15?26:(F>5||E<=18||E>=50)?20:14, J=G+H-I;
+  const K=J>20?['warn','Kritik birikme, izne çıkar']:J<0?['bad','Eksi bakiye (avans izin)']:['good','Normal'];
+  const why=F<1?'1 yıl kıdem dolmadı':F>=15?'15 yıl ve üzeri kıdem':F>5?'5-15 yıl arası kıdem':(E<=18||E>=50)?'Yaş kuralı: 18 ve altı / 50 ve üstü en az 20 gün':'1-5 yıl arası kıdem';
+  $('#izOut').innerHTML=[[E,'Yaş (E2)'],[F,'Kıdem yılı (F2)'],[G+' gün','Bu yıl hakediş (G2) · '+why],[J+' gün','Kalan bakiye (J2) <span class="pill '+K[0]+'">'+K[1]+'</span>']].map(s=>`<div class="stat"><span class="v">${s[0]}</span><span class="l">${s[1]}</span></div>`).join('');
+}
+['#izDog','#izGir','#izDev','#izKul'].forEach(s=>$(s).addEventListener('input',izCalc));
+
+/* ---------- Evrak ve politika şablonları ---------- */
+const DOCS=[
+ {t:'İş teklif mektubu ',k:'İşe Alım',o:['Aday bilgisi ve tarih','Pozisyon, bağlı olunan yönetici, çalışma yeri ve şekli','İşe başlama tarihi','Brüt ücret, prim ve yan haklar','Deneme süresi (4857 Md. 15: en fazla 2 ay; TİS ile 4 aya kadar)','Teklifin geçerlilik süresi ve kabul yöntemi','Koşullar: referans kontrolü ve işe giriş evrakları']},
+ {t:'Belirsiz süreli iş sözleşmesi iskeleti',k:'Özlük ve Hukuk',o:['Taraflar','İşin tanımı ve işyeri','Süre ve deneme süresi','Çalışma süresi: haftalık en fazla 45 saat, fazla çalışma onayı','Ücret, ödeme zamanı ve yöntemi','Yıllık ücretli izin','Gizlilik ve kişisel verilerin korunması','Fesih ve bildirim süreleri (Md. 17)','Uyuşmazlıklarda zorunlu arabuluculuk ve yetkili mahkeme']},
+ {t:'KVKK çalışan aydınlatma metni',k:'KVKK',o:['Veri sorumlusunun kimliği','İşlenen kişisel veri kategorileri','İşleme amaçları','Hukuki sebepler (KVKK Md. 5-6)','Aktarılan alıcı grupları (SGK, vergi idaresi vb.) ve amaçları','Toplama yöntemi','İlgili kişinin hakları (KVKK Md. 11)','Başvuru yöntemi ve iletişim bilgisi']},
+ {t:'KVKK aday aydınlatma metni',k:'KVKK',o:['Veri sorumlusu','Toplanan aday verileri (CV, mülakat notu, referans)','İşe alım sürecine özgü amaçlar','Saklama süresi ve imha','Yurt dışına aktarım (aday takip sistemi sunucusu dışarıdaysa)','Aday hakları ve başvuru yolu']},
+ {t:'Savunma istem yazısı',k:'Özlük ve Hukuk',o:['Konu ve tarih','İddia edilen olay: tarih, yer, somut davranış','Dayanak: sözleşme, disiplin yönetmeliği, 4857 maddesi','Savunma için makul süre (ör. 2 iş günü)','Savunma verilmezse doğacak sonuç','Tebliğ ve imza alanı']},
+ {t:'Oryantasyon kontrol listesi',k:'Eğitim ve Gelişim',o:['İşe başlama öncesi: hoş geldin e-postası, ekipman talebi','İlk gün: IT hesapları, kartlar, İSG eğitimi','İlk hafta: ekip tanışması, rehber çalışan ataması','1. ay: hedef kartı, yönetici birebir görüşmesi','30. ve 60. gün nabız anketi','3. ay: deneme süresi değerlendirmesi']},
+ {t:'Çıkış mülakatı formu',k:'Eğitim ve Gelişim',o:['Ayrılma kararını tetikleyen olay','Yönetici ilişkisi (1-5)','Ücret ve yan hak algısı (1-5)','İş yükü ve vardiya uyumu','Gelişim fırsatları','Tekrar çalışır mısınız? Arkadaşınıza önerir misiniz?','Kök neden kodu (İK doldurur)']},
+ {t:'Uzaktan çalışma politikası',k:'Politika',o:['Kapsam ve uygunluk kriterleri','Uzaktan Çalışma Yönetmeliği (2021) uyarınca yazılı sözleşme','Ekipman ve giderlerin karşılanması','Çalışma saatleri ve ulaşılabilirlik','İSG ve veri güvenliği yükümlülükleri','Performans takibi ve iletişim ritmi']}];
+let docF='Tümü';
+function renderDocs(){
+  const cats=['Tümü',...new Set(DOCS.map(d=>d.k))];
+  $('#docFilter').innerHTML=cats.map(c=>`<button class="chip" data-d="${c}" aria-pressed="${c===docF}">${c}</button>`).join('');
+  $$('#docFilter [data-d]').forEach(b=>b.onclick=()=>{docF=b.dataset.d;renderDocs()});
+  const list=DOCS.map((d,i)=>[d,i]).filter(([d])=>docF==='Tümü'||d.k===docF);
+  $('#docList').innerHTML=list.map(([d,i])=>`<div class="card"><span class="pill info" style="align-self:flex-start">${d.k}</span><h4>${d.t}</h4><ol class="small muted" style="margin:0;padding-left:18px">${d.o.map(x=>`<li>${x}</li>`).join('')}</ol><button class="btn ghost sm" data-doc="${i}" style="align-self:flex-start">Taslak iskeletini kopyala</button></div>`).join('');
+  $$('[data-doc]').forEach(b=>b.onclick=()=>{const d=DOCS[+b.dataset.doc];copy(d.t.toLocaleUpperCase('tr-TR')+'\n\n'+d.o.map((x,j)=>`${j+1}. ${x}`).join('\n'),b)});
+}
+
+/* ---------- Vaka analizleri ---------- */
+const CASES=[
+ {id:'v42',a:'İK Analitiği',t:'Mavi yakada ilk 3 ayda %35 işten ayrılma',p:'Üretim tesisinde ilk 3 ayda ayrılma oranı %35\'e çıktı. Ek İK bütçesi yok. Fabrika müdürü "maaşları artıralım" diyor.',d:['Ayrılanların çoğu gece vardiyasına atanmış','Çıkış mülakatlarında en sık neden vardiya ve servis saatleri','Oryantasyon 1 günlük, rehber çalışan uygulaması yok'],q:['Kök neden hipotezin nedir?','İlk 30 günde hangi 3 aksiyonu alırsın?','Başarıyı hangi metrikle ölçersin?'],f:['Ayrılmaları vardiya, işe alım kanalı ve amire göre kır; ücret yerine vardiya uyumunu test et','Mülakatta gerçekçi iş önizlemesi: vardiya ve servis bilgisi açıkça anlatılsın','Bütçesiz aksiyonlar: rehber çalışan ataması, ilk 2 hafta gündüz vardiyası, 30/60. gün nabız anketi','Metrik: 90 gün tutundurma oranı ve ilk ay devamsızlık; 3 ay sonra kıyasla']},
+ {id:'sendika',a:'İş Hukuku',t:'Sendikalı çalışanın performans düşüklüğü nedeniyle feshi',p:'Sendika temsilcisi de olan bir çalışanın hedef gerçekleşmesi iki dönemdir %60\'ın altında. Yönetici feshi istiyor.',d:['Hedefler yazılı ve imzalı değil','Önceki dönem performans görüşmesi kaydı yok','İşyerinde TİS yürürlükte, disiplin kurulu hükmü var'],q:['Feshe geçmeden önce hangi belgeleri tamamlarsın?','Sendikal neden algısı riskini nasıl yönetirsin?','Temsilcilik statüsü süreci nasıl etkiler?'],f:['Objektif ve önceden bildirilmiş hedefler olmadan geçerli fesih savunulamaz: önce yazılı hedef ve PGP','4857 Md. 18-19: savunma alınmadan performans nedeniyle fesih yapılamaz','TİS disiplin kurulu hükümlerini uygula; usule aykırılık feshi geçersiz kılar','6356 Md. 24-25: temsilci güvencesi ve sendikal tazminat riski; her adımı belgele, benzer performanslı sendikasız çalışanlara eşit uygula']},
+ {id:'cagri',a:'İşe Alım',t:'Çağrı merkezinde tutundurma projesi',p:'200 kişilik çağrı merkezinde yıllık işten ayrılma %60. İşe alım ekibi sürekli ilan açmaktan stratejik işe vakit bulamıyor.',d:['İşe alım ortalama 9 günde tamamlanıyor, mülakat 15 dakika','Ayrılanların %40\'ı ilk 60 günde çıkıyor','Ekip liderlerinin yarısı terfi eden temsilciler, liderlik eğitimi almamış'],q:['Hangi metrikleri önce birleştirirsin?','İşe alım sürecinde neyi değiştirirsin?','Ekip liderleri için ne önerirsin?'],f:['Kanal bazında 60 gün tutundurmayı ölç; referans kanalını önceliklendir','Kısa iş simülasyonu (rol oyunu çağrısı) ekle: hız biraz düşer, uyum artar','Ekip liderlerine koçluk ve geri bildirim eğitimi; lider bazında işten ayrılma panosu','Kariyer basamağı (kıdemli temsilci, kalite uzmanı) tanımla']},
+ {id:'9box',a:'Eğitim ve Gelişim',t:'Sübjektif performans değerlendirmesinden 9’lu yetenek matrisi\'a',p:'Yıllık değerlendirmelerde herkes 4 veya 5 alıyor; terfi kararlarını yöneticilerin kişisel tercihleri belirliyor.',d:['Ölçülebilir hedef kartı yok','Kalibrasyon toplantısı yapılmıyor','Potansiyel hiç değerlendirilmiyor'],q:['Performans ve potansiyeli nasıl ayrı ölçersin?','Kalibrasyonu nasıl kurgularsın?','9’lu yetenek matrisi kutularına göre hangi aksiyonları önerirsin?'],f:['Performans: hedef gerçekleşmesi; potansiyel: öğrenme çevikliği, sorumluluk alma gibi tanımlı göstergeler','Departman bazında kalibrasyon toplantısı ve önerilen dağılım','Yüksek potansiyel/düşük performans: rol uyumu ve koçluk; yüksek/yüksek: yedekleme planı','Sonuçları çalışana gelişim planıyla birlikte açıkla']},
+ {id:'kvkk',a:'İş Hukuku',t:'Aday CV\'lerinin mesajlaşma gruplarında paylaşılması',p:'Yöneticiler, aday CV\'lerini kişisel telefonlarındaki mesajlaşma gruplarında birbirine iletiyor. Bir aday durumu öğrenip şikâyet etti.',d:['Aday aydınlatma metni yok','CV\'ler e-posta ekleri ve kişisel cihazlarda dağınık','Saklama süresi tanımlı değil'],q:['İlk 48 saatte ne yaparsın?','Süreci nasıl yeniden tasarlarsın?','Yöneticilere ne söylersin?'],f:['Paylaşımı durdur, kapsamı tespit et, hukuk birimine bildir; KVKK Md. 12 veri güvenliği yükümlülüğünü değerlendir','Aday aydınlatma metni hazırla; CV\'ler yalnızca aday takip sisteminde, rol bazlı erişimle','Saklama ve imha politikası: işe alınmayan adayların verileri için süre tanımla','Yöneticilere kısa KVKK eğitimi ve "CV yalnızca aday takip sisteminde" kuralı']}];
+let caseF='Tümü';
+function renderCases(){
+  const cats=['Tümü',...new Set(CASES.map(c=>c.a))];
+  $('#caseFilter').innerHTML=cats.map(c=>`<button class="chip" data-cf="${c}" aria-pressed="${c===caseF}">${c}</button>`).join('')+`<span class="small muted">${Object.keys(S.cases).length}/${CASES.length} vaka çözüldü</span>`;
+  $$('#caseFilter [data-cf]').forEach(b=>b.onclick=()=>{caseF=b.dataset.cf;renderCases()});
+  $('#caseList').innerHTML=CASES.filter(c=>caseF==='Tümü'||c.a===caseF).map(c=>{const ans=S.cases[c.id]||'';const open=ans.length>=60;return `<div class="card">
+   <div class="row" style="justify-content:space-between"><span class="pill info">${c.a}</span>${open?'<span class="pill good">Çözüm gönderildi</span>':''}</div>
+   <h3>${c.t}</h3><p>${c.p}</p>
+   <div class="grid g2"><div><h4>Vaka verisi</h4><ul class="small muted" style="margin:6px 0 0;padding-left:18px">${c.d.map(x=>`<li>${x}</li>`).join('')}</ul></div><div><h4>Yanıtlaman gereken sorular</h4><ol class="small muted" style="margin:6px 0 0;padding-left:18px">${c.q.map(x=>`<li>${x}</li>`).join('')}</ol></div></div>
+   <label class="field" for="ca-${c.id}">Çözümün</label><textarea id="ca-${c.id}" placeholder="En az 60 karakter yazınca uzman çerçevesi açılır.">${esc(ans)}</textarea>
+   <div class="row"><button class="btn sm" data-cs="${c.id}">Çözümümü kaydet${ans?'':' (+30 puan)'}</button></div>
+   ${open?`<div class="fb ok"><b>Uzman çözüm çerçevesi</b><ul style="margin:6px 0 0;padding-left:18px;color:var(--ink)">${c.f.map(x=>`<li>${x}</li>`).join('')}</ul></div>`:''}</div>`}).join('');
+  $$('[data-cs]').forEach(b=>b.onclick=()=>{const id=b.dataset.cs,v=$('#ca-'+id).value.trim();if(v.length<60){toast('Çözüm en az 60 karakter olmalı');return}const first=!S.cases[id];S.cases[id]=v;save();if(first)addXP(30);renderCases()});
+}
+
+/* ---------- Mülakat soru bankası ---------- */
+const QB=[
+ ['Müşteri odaklılık','Bir müşterinin talebini karşılayamadığınız bir durumu anlatır mısınız?','O an müşteriye tam olarak ne söylediniz ve ilişki nasıl sonuçlandı?',['Genel ifade, müşteri suçlanıyor','Somut adım var, sonuç belirsiz','Somut aksiyon, ölçülebilir sonuç, çıkarılan ders']],
+ ['Müşteri odaklılık','Bir iç müşterinin (yönetici, ekip) beklentisini aştığınız bir örnek verir misiniz?','Beklentiyi nasıl öğrendiniz, "aşmak" neyle ölçüldü?',['Beklenti tanımlanmamış','Beklenti net, sonuç anlatılmış','Ölçüt, aksiyon ve geri bildirim kanıtı var']],
+ ['İkna ve müzakere','Karşı tarafın başta "hayır" dediği bir konuda onayı aldığınız bir durumu anlatın.','Hangi veriyi ya da argümanı kullandınız? Neyi bilinçli olarak vermediniz?',['Israr veya kişisel ilişkiyle ikna','Gerekçe sunulmuş, alternatif yok','Veri, karşı tarafın çıkarı ve kazan-kazan çözüm']],
+ ['İkna ve müzakere','Bir adayı veya yöneticiyi ücret konusunda uzlaştırmanız gerekti mi? Nasıl ilerlediniz?','Bütçe sınırını nasıl açıkladınız, sonuç ne oldu?',['Pazarlık yok veya kontrolsüz taviz','Sınır korunmuş, gerekçe zayıf','Toplam paket, şeffaf gerekçe, iki taraf da memnun']],
+ ['Stres yönetimi','Aynı gün birden fazla acil işin çakıştığı bir anı anlatır mısınız?','Önceliği neye göre belirlediniz, hangi işi ertelediniz?',['Panik veya her şeyi aynı anda yapma','Öncelik var, iletişim eksik','Açık önceliklendirme, paydaşa bilgi, sonuç']],
+ ['Stres yönetimi','Size yöneltilen sert bir eleştiriye nasıl tepki verdiğinizi anlatın.','Eleştiriden sonra somut olarak neyi değiştirdiniz?',['Savunmacı tepki','Kabul var, değişiklik yok','Dinleme, netleştirme, ölçülebilir değişiklik']],
+ ['Takım çalışması','Ekipte görüş ayrılığı yaşadığınız bir durumu ve sizin rolünüzü anlatın.','"Biz" yerine "ben": sizin bireysel aksiyonunuz neydi?',['Suçlama veya kaçınma','Uzlaşma var, rolü belirsiz','Açık rol, yapıcı iletişim, ekip sonucu']],
+ ['Takım çalışması','Bir ekip arkadaşınızın işini üstlenmek zorunda kaldığınız bir örnek verin.','Bunu yaparken kendi işinizi nasıl yönettiniz?',['Şikâyet odaklı','Destek var, plan yok','Planlı destek, yöneticiye bilgi, kalıcı çözüm']],
+ ['Analitik düşünme','Bir kararı veriyle desteklediğiniz ya da değiştirdiğiniz bir durumu anlatın.','Veriyi nereden aldınız, hangi hesaplamayı yaptınız?',['Sezgi, veri yok','Veri var, yorum yüzeysel','Kaynak, yöntem ve karara etkisi açık']],
+ ['Analitik düşünme','Dağınık bir tabloyu düzenleyip rapora çevirdiğiniz bir örnek verin.','Hangi hataları buldunuz, raporu kim kullandı?',['Araç adı sayılıyor, örnek yok','Temizlik adımları var','Hata tespiti, formül, raporun karar etkisi']],
+ ['Etik ve gizlilik','Gizli bir bilgiyi korumanız gereken bir durumu anlatır mısınız?','Baskı gördünüz mü, nasıl yanıt verdiniz?',['Gizlilik ihlali normalleştiriliyor','Kural biliniyor, uygulama zayıf','Net sınır, doğru kanal, kayıt']],
+ ['Etik ve gizlilik','Bir yöneticinin kurala aykırı bir talebiyle karşılaştınız mı?','Talebi nasıl geri çevirdiniz, alternatif önerdiniz mi?',['Talebi uygulamış','Reddetmiş, açıklama yok','Mevzuata dayalı ret ve uygulanabilir alternatif']],
+ ['Değişime uyum','Yeni bir sistem veya süreci kısa sürede öğrenmeniz gereken bir durumu anlatın.','Öğrenmek için hangi adımları attınız, ne kadar sürdü?',['Direnç veya başkasına bağımlılık','Öğrenmiş, yöntem belirsiz','Planlı öğrenme, başkalarına aktarma']],
+ ['Değişime uyum','Planladığınız bir işin son anda değiştiği bir örnek verin.','İlk tepkiniz neydi, sonucu nasıl kurtardınız?',['Şikâyet odaklı','Uyum var, sonuç belirsiz','Hızlı yeniden planlama ve ölçülebilir sonuç']]];
+let qbF='Tümü';
+function qbFiltered(){const s=($('#qbSearch').value||'').toLocaleLowerCase('tr-TR');return QB.filter(q=>(qbF==='Tümü'||q[0]===qbF)&&(!s||(q[0]+' '+q[1]+' '+q[2]).toLocaleLowerCase('tr-TR').includes(s)))}
+function qbText(q){return `[${q[0]}]\nSoru: ${q[1]}\nSondaj: ${q[2]}\nPuanlama: 1 = ${q[3][0]} | 3 = ${q[3][1]} | 5 = ${q[3][2]}`}
+function renderQB(){
+  const cats=['Tümü',...new Set(QB.map(q=>q[0]))];
+  $('#qbFilter').innerHTML=cats.map(c=>`<button class="chip" data-qf="${c}" aria-pressed="${c===qbF}">${c}</button>`).join('');
+  $$('#qbFilter [data-qf]').forEach(b=>b.onclick=()=>{qbF=b.dataset.qf;renderQB()});
+  const list=qbFiltered();$('#qbCount').textContent=list.length+' soru';
+  $('#qbList').innerHTML=list.map(q=>{const i=QB.indexOf(q);return `<div class="card"><span class="pill info" style="align-self:flex-start">${q[0]}</span><h4>${q[1]}</h4><p class="small"><b>Sondaj:</b> ${q[2]}</p><div class="tbl-wrap"><table><tr><th>1</th><th>3</th><th>5</th></tr><tr>${q[3].map(x=>`<td style="white-space:normal;min-width:110px">${x}</td>`).join('')}</tr></table></div><button class="btn ghost sm" data-qc="${i}" style="align-self:flex-start">Kopyala</button></div>`}).join('')||'<p class="muted">Aramana uyan soru yok.</p>';
+  $$('[data-qc]').forEach(b=>b.onclick=()=>copy(qbText(QB[+b.dataset.qc]),b));
+}
+$('#qbSearch').addEventListener('input',renderQB);
+$('#qbCopyAll').addEventListener('click',e=>copy(qbFiltered().map(qbText).join('\n\n'),e.currentTarget));
+
+/* ---------- Mentor eşleşme ---------- */
+const MENTORS=[
+ {n:'Selin K.',r:'Kıdemli İK İş Ortağı',y:12,s:['ise','analitik','hrbp'],slot:'Perşembe 19:00'},
+ {n:'Murat A.',r:'Bordro ve Özlük Müdürü',y:15,s:['bordro','hukuk'],slot:'Salı 18:30'},
+ {n:'Elif D.',r:'Eğitim ve Organizasyonel Gelişim Müdürü',y:10,s:['od','hrbp'],slot:'Çarşamba 20:00'},
+ {n:'Can Y.',r:'İK Analitiği Lideri',y:9,s:['analitik'],slot:'Pazartesi 19:30'},
+ {n:'Zeynep T.',r:'Yetenek Kazanımı Müdürü',y:11,s:['ise'],slot:'Cuma 17:30'},
+ {n:'Hakan B.',r:'Çalışma İlişkileri Müdürü',y:14,s:['hukuk','hrbp'],slot:'Cumartesi 11:00'}];
+const INT={ise:'İşe alım',bordro:'Bordro',hukuk:'İş hukuku',od:'Eğitim ve Gelişim',analitik:'İK analitiği',hrbp:'İK iş ortaklığı ve kariyer'};
+function renderMentors(){
+  $('#mInterests').innerHTML=Object.entries(INT).map(([k,v])=>`<button class="chip" data-mi="${k}" aria-pressed="${S.interests.includes(k)}">${v}</button>`).join('');
+  $$('[data-mi]').forEach(b=>b.onclick=()=>{const k=b.dataset.mi;S.interests=S.interests.includes(k)?S.interests.filter(x=>x!==k):[...S.interests,k];save();renderMentors()});
+  const tTop=S.test?Object.entries(S.test).sort((a,b)=>b[1]-a[1])[0][0]:null;
+  const sc=m=>{const ov=m.s.filter(x=>S.interests.includes(x)).length;let p=S.interests.length?Math.round(ov/Math.min(S.interests.length,m.s.length)*80):40;if(tTop&&m.s.includes(tTop))p+=20;return Math.min(100,p)};
+  const list=MENTORS.map(m=>[m,sc(m)]).sort((a,b)=>b[1]-a[1]);
+  $('#mList').innerHTML=list.map(([m,p])=>{const req=S.mreq.includes(m.n);return `<div class="card"><div class="row" style="justify-content:space-between"><h4>${m.n}</h4><span class="pill ${p>=70?'good':p>=40?'info':'warn'}">%${p} eşleşme</span></div><p class="small">${m.r} · ${m.y} yıl deneyim</p><div class="row">${m.s.map(x=>`<span class="chip">${INT[x]}</span>`).join('')}</div><p class="small muted">Uygun saat: ${m.slot} · 30 dk online</p><button class="btn sm ${req?'ghost':''}" data-mr="${m.n}" ${req?'disabled':''} style="align-self:flex-start">${req?'Talep kaydedildi':'Kahve sohbeti talep et'}</button></div>`}).join('');
+  $$('[data-mr]').forEach(b=>b.onclick=()=>{S.mreq.push(b.dataset.mr);save();addXP(10);renderMentors()});
+  $('#mReqs').innerHTML=S.mreq.length?S.mreq.map(n=>{const m=MENTORS.find(x=>x.n===n);return `<div class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)"><span>${n} · ${m?m.slot:''}</span><span class="pill warn">Onay bekliyor</span></div>`}).join(''):'Henüz talep yok.';
+}
+
+/* ---------- CV kliniği ---------- */
+const CK=[['CV','Tek sayfa ve PDF formatında'],['CV','Üstte hedef role yönelik 2-3 cümlelik özet'],['CV','Her deneyimde en az bir sayısal sonuç (%, TL, kişi, gün)'],['CV','Kullandığın İK araçları yazılı (Excel, aday takip sistemi, İK bilgi sistemi)'],['CV','"İletişimi güçlü" gibi kanıtsız sıfatlar yok'],['CV','Portfolyo linki eklenmiş'],['CV','Fotoğraf, medeni hal, TC kimlik no gibi gereksiz kişisel veri yok'],['LinkedIn','Başlık: unvan + odak alanı (ör. İKY Mezunu | İşe Alım ve İK Analitiği)'],['LinkedIn','Hakkında bölümünde hedef rol ve kanıtlar'],['LinkedIn','Kişiselleştirilmiş profil adresi'],['LinkedIn','Öne çıkanlar bölümünde portfolyo projeleri'],['LinkedIn','En az 2 öneri (staj yöneticisi, mentor)']];
+function renderCK(){
+  $('#ckList').innerHTML=CK.map((c,i)=>`<label class="check-item"><input type="checkbox" data-ck="${i}" ${S.cv.includes(i)?'checked':''}><span><span class="pill info">${c[0]}</span> ${c[1]}</span></label>`).join('');
+  const p=Math.round(S.cv.length/CK.length*100);const el=$('#ckScore');el.textContent='%'+p+' hazır';el.className='pill '+(p>=80?'good':p>=50?'warn':'bad');
+  $$('[data-ck]').forEach(c=>c.onchange=()=>{const i=+c.dataset.ck;S.cv=c.checked?[...S.cv,i]:S.cv.filter(x=>x!==i);save();renderCK()});
+}
+const CLICHE=['iletişimi güçlü','takım çalışmasına yatkın','sorumluluk sahibi','çalışkan','dinamik','öğrenmeye açık','problem çözme yeteneği','stres altında çalışabilen'];
+const VERBS=['hazırladım','tasarladım','yürüttüm','yönettim','analiz ettim','azalttım','artırdım','hesapladım','geliştirdim','koordine ettim','kurdum','raporladım','düzenledim','eledim','planladım'];
+function cvAnalyze(){
+  const t=$('#cvText').value, lo=t.toLocaleLowerCase('tr-TR');
+  const words=(t.match(/\S+/g)||[]).length;
+  const nums=(t.match(/%\s?\d+|\d+\s?%|\d[\d.,]*\s?(TL|kişi|gün|ay|saat|başvuru|aday)?/gi)||[]).length;
+  const cl=CLICHE.filter(c=>lo.includes(c)), vb=VERBS.filter(v=>lo.includes(v));
+  const biz=(lo.match(/\bbiz\b|ekipçe/g)||[]).length;
+  const items=[
+   [nums>=2,'Sayısal kanıt',nums+' sayısal ifade bulundu. '+(nums>=2?'İyi; sonuçlar ölçülebilir.':'Her maddeye en az bir sayı ekle (ör. "120 başvuruyu 3 günde eledim").')],
+   [vb.length>=2,'Eylem fiilleri',vb.length?'Kullanılanlar: '+vb.join(', ')+'.':'Maddeleri "hazırladım, analiz ettim, azalttım" gibi eylem fiilleriyle başlat.'],
+   [!cl.length,'Kanıtsız sıfatlar',cl.length?'Kaldır ya da kanıtla: "'+cl.join('", "')+'".':'Klişe sıfat bulunmadı.'],
+   [!biz,'"Biz" dili',biz?biz+' yerde "biz/ekipçe" geçiyor. İşverenler senin bireysel katkını arar.':'Bireysel katkı dili kullanılmış.'],
+   [words>=30&&words<=180,'Uzunluk',words+' kelime. '+(words<30?'Biraz kısa; en az iki deneyim maddesi ekle.':words>180?'Uzun; her deneyimi 2-3 maddeye indir.':'Uygun uzunluk.')]];
+  $('#cvOut').innerHTML=`<div class="row"><b>Skor: ${items.filter(x=>x[0]).length}/5</b></div>`+items.map(x=>`<div class="fb ${x[0]?'ok':'err'}"><b>${x[1]}</b><p>${esc(x[2])}</p></div>`).join('');
+}
+$('#cvText').addEventListener('input',cvAnalyze);
+
+/* ---------- Özgeçmiş–ilan uyum analizi (Türkçe NLP) ---------- */
+const NLP_SAMPLE_JOB=`İnsan Kaynakları Uzman Yardımcısı (Yeni Mezun) — örnek ilan
+Görev tanımı:
+- İşe alım süreçlerinde ilan yayınlama, aday takip sistemi üzerinden ön eleme ve mülakat planlama
+- Puantaj, izin takibi ve özlük dosyalarının güncellenmesi
+- Aylık işten ayrılma ve işe alım raporlarının Excel ile hazırlanması
+- Oryantasyon programının koordinasyonu
+Aranan nitelikler:
+- Üniversitelerin İnsan Kaynakları Yönetimi, Çalışma Ekonomisi veya İşletme bölümlerinden lisans mezunu
+- 0-2 yıl deneyimli
+- İleri düzeyde Excel (DÜŞEYARA, özet tablo) bilgisi
+- 4857 sayılı İş Kanunu ve SGK mevzuatına hâkim
+- KVKK konusunda bilgi sahibi
+- İyi derecede İngilizce
+- Power BI bilgisi tercih sebebidir`;
+const NLP_SAMPLE_CV=`Deniz Yılmaz — İnsan Kaynakları Yönetimi Lisans Mezunu (2026) — örnek özgeçmiş
+Özet: İşe alım ve İK analitiği alanında kariyer hedefleyen yeni mezun.
+Deneyim
+X Lojistik A.Ş. — İK Stajyeri (Haziran–Eylül 2025)
+- 120 başvuruyu aday takip sisteminde ön elemeden geçirdim, 18 adayla telefon ön görüşmesi yaptım.
+- Aylık işten ayrılma raporunu Excel özet tablo ve DÜŞEYARA ile hazırladım.
+- 25 yeni çalışanın oryantasyon programına destek verdim.
+Projeler
+- İK Kampüs bordro simülatörü: kıdem ve ihbar tazminatı hesaplama dosyası.
+Beceriler: Excel, puantaj, 4857 sayılı İş Kanunu, yetkinlik bazlı mülakat
+Diller: İngilizce (B2)`;
+const STOP=new Set('ve veya ile için gibi bir bu şu o da de ki mi mı mu mü ama fakat ancak çok daha en her hem ise olarak olan olan olup olması olduğu üzerinden üzere kadar sonra önce arasında içinde ayrıca dahil tüm bütün diğer sahip konusunda konularında alanında alanında yönelik ilgili göre değil var yok gerekir gereken tercih sebebidir sebebi tercihen olmak etmek yapmak edilmesi yapılması bilgi bilgisi düzeyde düzeyinde derecede iyi ileri olan kişi aday adaylar arıyoruz aranan nitelikler görev tanımı tanım örnek ilan özgeçmiş mezunu biz siz ben onlar şirket şirketimiz firmamız bünyesinde üzerine bölümlerinden bölümünden üniversitelerin'.split(' '));
+const SUF=['lerinden','larından','lerinde','larında','lerine','larına','lerini','larını','ndeki','ndaki','leri','ları','ının','inin','unun','ünün','ması','mesi','ımız','imiz','nın','nin','nun','nün','dan','den','tan','ten','nda','nde','daki','deki','lık','lik','luk','lük','ler','lar','dır','dir','dur','dür','yla','yle','la','le','da','de','ta','te','ın','in','un','ün','ya','ye','yı','yi','yu','yü','sı','si','su','sü','ı','i','u','ü','a','e'].sort((a,b)=>b.length-a.length);
+function stem(w){if(/^\d+$/.test(w)||w.length<5)return w;let s=w;for(let k=0;k<3;k++){let ch=false;for(const x of SUF){if(s.endsWith(x)&&s.length-x.length>=4){s=s.slice(0,-x.length);ch=true;break}}if(!ch)break}return s}
+function norm(t){return t.replace(/İ/g,'i').replace(/I/g,'ı').toLocaleLowerCase('tr-TR').replace(/â/g,'a').replace(/î/g,'i').replace(/û/g,'u')}
+function tokens(t){return norm(t).replace(/[^a-zçğıöşü0-9]+/g,' ').split(' ').filter(w=>w.length>1&&!STOP.has(w))}
+function feats(t){const tk=tokens(t),st=tk.map(stem),f=[...st];for(let i=0;i<st.length-1;i++)f.push(st[i]+' '+st[i+1]);return {tk,st,f}}
+const SKILLS=[
+ ['Excel','Teknik',['excel'],'lab'],['Özet tablo (pivot)','Teknik',['özet tablo','pivot'],'lab'],['DÜŞEYARA / XLOOKUP','Teknik',['düşeyara','vlookup','xlookup','çaprazara'],'lab'],['Power BI','Teknik',['power bi','powerbi'],'lab'],['SQL','Teknik',['sql'],'lab'],['Python / R','Teknik',['python',' r programlama'],'lab'],
+ ['Aday takip sistemi','Teknik',['aday takip','ats'],'ats'],['İK bilgi sistemi','Teknik',['sap','successfactors','workday','kolay ik','ik bilgi sistemi','hris'],'ats'],
+ ['İşe alım','Alan',['işe alım','ise alim','seçme ve yerleştirme','recruitment'],'ats'],['Ön eleme','Alan',['ön eleme','özgeçmiş tarama','cv tarama'],'ats'],['Yetkinlik bazlı mülakat','Alan',['yetkinlik bazlı','dges','star tekni','davranışsal mülakat'],'soru'],['Mülakat','Alan',['mülakat','görüşme'],'soru'],['İlan yazımı','Alan',['ilan yay','ilan metni','iş ilanı'],'ats'],['Aday arama','Alan',['aday arama','linkedin','mantıksal arama','boolean'],'ats'],
+ ['Bordro','Alan',['bordro','tahakkuk'],'bordro'],['Puantaj','Alan',['puantaj','fazla mesai'],'bordro'],['Özlük işlemleri','Alan',['özlük'],'bordro'],['İzin yönetimi','Alan',['izin takib','yıllık izin','izin yönetim'],'sablon'],['SGK mevzuatı','Mevzuat',['sgk','sosyal güvenlik'],'bordro'],['4857 / İş Kanunu','Mevzuat',['4857','iş kanunu','iş hukuku'],'rehber'],['KVKK','Mevzuat',['kvkk','kişisel veri','6698'],'rehber'],['Kıdem ve ihbar hesabı','Alan',['kıdem','ihbar'],'bordro'],
+ ['Oryantasyon','Alan',['oryantasyon','işe alıştırma'],'sablon'],['Eğitim ve gelişim','Alan',['eğitim planla','eğitim ve gelişim','eğitim programı','eğitim ihtiyaç'],'sablon'],['Performans yönetimi','Alan',['performans yönetim','performans değerlendirme','hedef kartı'],'vaka'],['İK raporlama','Alan',['rapor'],'lab'],['İK analitiği','Alan',['ik analiti','işten ayrılma','turnover','metrik'],'lab'],['Ücret yönetimi','Alan',['ücret yönetim','ücret band','ücret konum'],'lab'],
+ ['İngilizce','Dil',['ingilizce','english'],'sertifika'],['Almanca','Dil',['almanca'],'sertifika'],
+ ['İletişim becerisi','Kişisel',['iletişim'],'klinik'],['Takım çalışması','Kişisel',['takım çalışma','ekip çalışma'],'soru'],['Analitik düşünme','Kişisel',['analitik düşün','analitik bakış'],'lab'],['Planlama ve organizasyon','Kişisel',['planla','organize','koordinasyon','koordine'],'vaka']];
+function findSkills(t){const n=' '+norm(t)+' ';return SKILLS.filter(s=>s[2].some(p=>n.includes(p)))}
+let REF=null;
+function refCorpus(){if(REF)return REF;const docs=[...GL.map(g=>g[1]+' '+g[2]),...CASES.map(c=>c.t+' '+c.p+' '+c.d.join(' ')),...QB.map(q=>q[1]+' '+q[2]),...JOBS.map(j=>j.t+' '+j.sk.join(' ')),...DOCS.map(d=>d.t+' '+d.o.join(' '))].map(d=>new Set(feats(d).f));REF=docs;return REF}
+function tfidf(f,df,N){const tf={};f.forEach(x=>tf[x]=(tf[x]||0)+1);const v={};for(const k in tf){v[k]=(tf[k]/f.length)*(Math.log((N+1)/((df[k]||0)+1))+1)}return v}
+function cos(a,b){let d=0,na=0,nb=0;for(const k in a){na+=a[k]*a[k];if(b[k])d+=a[k]*b[k]}for(const k in b)nb+=b[k]*b[k];return na&&nb?d/Math.sqrt(na*nb):0}
+function surface(tk,st){const m={};st.forEach((s,i)=>{(m[s]=m[s]||{})[tk[i]]=((m[s]||{})[tk[i]]||0)+1});const o={};for(const s in m)o[s]=Object.entries(m[s]).sort((a,b)=>b[1]-a[1])[0][0];return o}
+function yearsReq(line){const m=norm(line).match(/(\d+)\s*(?:-|–|ile)?\s*(\d+)?\s*yıl/);return m?{min:+m[1],max:m[2]?+m[2]:null}:null}
+function cvYears(cv){const n=norm(cv);let y=0;const m=n.match(/(\d+)\s*yıl(?:lık)?\s*(?:iş\s*)?deneyim/);if(m)y=+m[1];return y}
+function biasCheck(job){const n=norm(job),out=[];
+ if(/\b(\d{2})\s*yaşını\s*(geçmemiş|aşmamış)|\b\d{2}\s*-\s*\d{2}\s*yaş|yaş sınırı/.test(n))out.push('Yaş sınırı içeriyor. İşin niteliği gerektirmiyorsa 4857 Md. 5 eşit davranma ilkesi açısından sorunlu.');
+ if(/\bbayan\b|\berkek\b|\bkadın aday|\berkek aday/.test(n))out.push('Cinsiyet belirten ifade var. Cinsiyete dayalı ayrım 4857 Md. 5 kapsamında yasaktır.');
+ if(/bekar|evli olmayan|medeni hal/.test(n))out.push('Medeni hale ilişkin şart var; iş ile ilgisiz özel bilgi talebidir.');
+ if(/fotoğraflı|fotoğraf ekl/.test(n))out.push('Fotoğraflı özgeçmiş isteniyor; görünüşe dayalı önyargı riskini artırır.');
+ if(/askerlik(ini)? (yapmış|tamamlamış)/.test(n))out.push('Askerlik şartı var; yalnızca bir cinsiyeti etkilediği için gerekçesinin ilanda açıklanması önerilir.');
+ return out}
+function scoreRing(p){const r=52,c=2*Math.PI*r,col=p>=70?'var(--good)':p>=45?'var(--warn)':'var(--bad)';return `<svg viewBox="0 0 130 130" width="130" height="130" role="img" aria-label="Uyum puanı %${p}"><circle cx="65" cy="65" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="12"/><circle cx="65" cy="65" r="${r}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${c*p/100} ${c}" transform="rotate(-90 65 65)"/><text x="65" y="62" text-anchor="middle" font-family="Plus Jakarta Sans,sans-serif" font-weight="800" font-size="28" fill="var(--ink)">%${p}</text><text x="65" y="84" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Inter,sans-serif">uyum</text></svg>`}
+function nlpAnalyze(){
+  const cv=$('#nlpCv').value.trim(),job=$('#nlpJob').value.trim(),out=$('#nlpOut');
+  if(cv.length<40||job.length<40){out.innerHTML='<div class="fb err"><b>Metin çok kısa.</b><p>Her iki alana da en az 40 karakterlik metin gir.</p></div>';return}
+  const ref=refCorpus(),N=ref.length+2,A=feats(cv),B=feats(job);
+  const df={};[...ref,new Set(A.f),new Set(B.f)].forEach(s=>s.forEach(x=>df[x]=(df[x]||0)+1));
+  const va=tfidf(A.f,df,N),vb=tfidf(B.f,df,N),sim=cos(va,vb);
+  const cvSet=new Set(A.st);
+  const sJ=findSkills(job),sC=findSkills(cv),cN=new Set(sC.map(s=>s[0]));
+  const have=sJ.filter(s=>cN.has(s[0])),miss=sJ.filter(s=>!cN.has(s[0])),extra=sC.filter(s=>!sJ.some(x=>x[0]===s[0]));
+  const cover=sJ.length?have.length/sJ.length:sim;
+  // gereksinimler
+  const lines=job.split(/\n|•|;/).map(l=>l.replace(/^[\s\-*–·\d.)]+/,'').trim()).filter(l=>l.length>12&&!/:\s*$/.test(l));
+  const cy=cvYears(cv);
+  const reqs=lines.map(l=>{const y=yearsReq(l);if(y&&/deneyim|tecrübe/.test(norm(l))){const ok=cy>=y.min;return {l,st:ok?2:0,why:ok?`İstenen en az ${y.min} yıl; özgeçmişte ${cy?cy+' yıl':'yeni mezun / staj'} görünüyor.`:`En az ${y.min} yıl isteniyor; özgeçmişte ${cy} yıl görünüyor.`}}
+    const ks=[...new Set(feats(l).st)].filter(k=>k.length>2);const sk=findSkills(l);
+    const hitSk=sk.filter(s=>cN.has(s[0])).length,hitK=ks.filter(k=>cvSet.has(k)).length;
+    const r=sk.length?(hitSk/sk.length)*0.7+(ks.length?hitK/ks.length:0)*0.3:(ks.length?hitK/ks.length:0);
+    const st=r>=0.6?2:r>=0.3?1:0;const missK=sk.filter(s=>!cN.has(s[0])).map(s=>s[0]);
+    return {l,st,why:missK.length?'Eksik: '+missK.join(', '):(st===2?'Özgeçmişte karşılığı var.':'Anahtar kelimelerin bir kısmı bulunamadı.')}});
+  const reqScore=reqs.length?reqs.reduce((a,r)=>a+r.st/2,0)/reqs.length:cover;
+  const score=Math.round((0.45*cover+0.30*reqScore+0.25*Math.min(1,sim*2))*100);
+  // anahtar kelime açıkları
+  const sfB=surface(B.tk,B.st),sfA=surface(A.tk,A.st);
+  const topB=Object.entries(vb).filter(([k])=>!k.includes(' ')&&k.length>2&&!/^\d+$/.test(k)).sort((a,b)=>b[1]-a[1]);
+  const gaps=topB.filter(([k])=>!cvSet.has(k)).slice(0,10).map(([k])=>sfB[k]||k);
+  const topBi=Object.entries(vb).filter(([k])=>k.includes(' ')).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const topA=Object.entries(va).filter(([k])=>!k.includes(' ')&&k.length>2).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxB=topB.length?topB[0][1]:1,maxA=topA.length?topA[0][1]:1;
+  const bias=biasCheck(job);
+  const chip=(s,cls)=>`<span class="pill ${cls}" title="${s[1]}">${s[0]}</span>`;
+  const verdict=score>=70?'Güçlü uyum: başvurabilirsin, eksikleri ön yazıda ele al.':score>=45?'Orta uyum: eksik becerileri özgeçmişte görünür kıl ya da kısa sürede kapat.':'Zayıf uyum: bu ilan için önce aşağıdaki açıkları kapat.';
+  const bars=(arr,mx,sf)=>arr.map(([k,v])=>`<div class="skill-line" style="grid-template-columns:minmax(0,1fr) 120px"><span>${esc(k.split(' ').map(x=>sf[x]||x).join(' '))}</span><div class="bar"><i style="width:${v/mx*100}%"></i></div></div>`).join('');
+  const sugg=[...new Map(miss.map(s=>[s[3],s])).values()];
+  out.innerHTML=`<div class="grid" style="grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center">${scoreRing(score)}
+    <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3>${verdict}</h3>
+      ${[['Beceri kapsaması',cover,`${have.length}/${sJ.length} ilan becerisi özgeçmişte var`],['Gereksinim karşılama',reqScore,`${reqs.filter(r=>r.st===2).length}/${reqs.length} madde tam karşılanıyor`],['Anlamsal yakınlık (TF-IDF kosinüs)',Math.min(1,sim*2),`kosinüs = ${sim.toFixed(2)}`]].map(x=>`<div class="skill-line" style="grid-template-columns:minmax(0,180px) minmax(0,1fr) 48px"><span>${x[0]}</span><div class="bar"><i style="width:${Math.round(x[1]*100)}%"></i></div><b class="num">%${Math.round(x[1]*100)}</b></div><span class="small muted" style="margin-top:-6px">${x[2]}</span>`).join('')}
+    </div></div>
+   <div class="grid g3">
+     <div><h4>Eşleşen beceriler</h4><div class="row" style="margin-top:6px">${have.map(s=>chip(s,'good')).join('')||'<span class="small muted">Yok</span>'}</div></div>
+     <div><h4>Eksik beceriler</h4><div class="row" style="margin-top:6px">${miss.map(s=>chip(s,'bad')).join('')||'<span class="small muted">Eksik beceri bulunamadı</span>'}</div></div>
+     <div><h4>Özgeçmişteki ek beceriler</h4><div class="row" style="margin-top:6px">${extra.map(s=>chip(s,'info')).join('')||'<span class="small muted">Yok</span>'}</div></div>
+   </div>
+   <div><h4>Gereksinim bazında eşleşme</h4><div class="tbl-wrap" style="margin-top:6px"><table><tr><th>İlan maddesi</th><th>Durum</th><th>Açıklama</th></tr>${reqs.map(r=>`<tr><td style="white-space:normal;min-width:220px">${esc(r.l)}</td><td><span class="pill ${['bad','warn','good'][r.st]}">${['Eksik','Kısmen','Karşılanıyor'][r.st]}</span></td><td style="white-space:normal;min-width:180px" class="small">${esc(r.why)}</td></tr>`).join('')}</table></div></div>
+   <div class="grid g2">
+     <div><h4>İlanın ayırt edici kavramları</h4><p class="small muted">TF-IDF ağırlığına göre ilk kelimeler ve öbekler</p><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">${bars(topB.slice(0,8),maxB,sfB)}${topBi.length?bars(topBi.slice(0,4),topBi[0][1],sfB):''}</div></div>
+     <div><h4>Özgeçmişinin ayırt edici kavramları</h4><p class="small muted">İşverenin özgeçmişinden okuyacağı öne çıkan kavramlar</p><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">${bars(topA,maxA,sfA)}</div></div>
+   </div>
+   <div><h4>Özgeçmişine eklemeyi düşünebileceğin anahtar kelimeler</h4><p class="small muted">İlanda ağırlığı yüksek olup özgeçmişinde geçmeyen kelimeler. Yalnızca gerçekten sahip olduğun beceriler için ekle.</p><div class="row" style="margin-top:6px">${gaps.map(g=>`<span class="chip">${esc(g)}</span>`).join('')||'<span class="small muted">Önemli bir anahtar kelime açığı yok.</span>'}</div></div>
+   ${sugg.length?`<div><h4>Açıkları platformda kapat</h4><div class="row" style="margin-top:6px">${sugg.map(s=>`<button class="btn ghost sm" data-go="${s[3]}">${s[0]} → ${({lab:'Excel laboratuvarı',ats:'Aday takip simülatörü',soru:'Soru bankası',bordro:'Bordro simülatörü',sablon:'Şablonlar',rehber:'İş hukuku rehberi',vaka:'Vaka analizleri',sertifika:'Sertifika rehberi',klinik:'Klinik'})[s[3]]}</button>`).join('')}</div></div>`:''}
+   <div><h4>İlan dili denetimi</h4>${bias.length?bias.map(b=>`<div class="fb note" style="margin-top:6px">${b}</div>`).join(''):'<p class="small muted">Yaş, cinsiyet, medeni hal veya fotoğraf şartı gibi ayrımcı ifade bulunmadı.</p>'}</div>`;
+  if(!S.nlpDone){S.nlpDone=true;save();addXP(30)}
+}
+$('#nlpRun').addEventListener('click',nlpAnalyze);
+$('#nlpSample').addEventListener('click',()=>{$('#nlpCv').value=NLP_SAMPLE_CV;$('#nlpJob').value=NLP_SAMPLE_JOB;nlpAnalyze()});
+$('#nlpClear').addEventListener('click',()=>{$('#nlpCv').value='';$('#nlpJob').value='';$('#nlpOut').innerHTML='';$('#nlpCv').focus()});
+function loadScript(src){return new Promise((res,rej)=>{if(document.querySelector(`script[src="${src}"]`)){res();return}const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('Kütüphane yüklenemedi'));document.head.appendChild(s)})}
+async function readFile(file){
+  const ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(ext==='txt')return await file.text();
+  if(ext==='docx'){await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');const r=await window.mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});return r.value}
+  if(ext==='pdf'){const base='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';await loadScript(base+'pdf.min.js');const lib=window.pdfjsLib;lib.GlobalWorkerOptions.workerSrc=base+'pdf.worker.min.js';
+    const pdf=await lib.getDocument({data:new Uint8Array(await file.arrayBuffer()),isEvalSupported:false}).promise;let t='';for(let i=1;i<=Math.min(pdf.numPages,10);i++){const c=await (await pdf.getPage(i)).getTextContent();let lastY=null;for(const it of c.items){if(lastY!==null&&Math.abs(it.transform[5]-lastY)>2)t+='\n';t+=it.str+' ';lastY=it.transform[5]}t+='\n'}return t}
+  throw new Error('Desteklenmeyen dosya türü');
+}
+[['#nlpCvFile','#nlpCv','#nlpCvMsg'],['#nlpJobFile','#nlpJob','#nlpJobMsg']].forEach(([fi,ta,msg])=>$(fi).addEventListener('change',async e=>{
+  const f=e.target.files[0];if(!f)return;$(msg).textContent=f.name+' okunuyor…';
+  try{const t=(await readFile(f)).replace(/[ \t]+/g,' ').replace(/\n\s*\n+/g,'\n').trim();if(t.length<20)throw new Error('Metin çıkarılamadı (taranmış görüntü olabilir)');$(ta).value=t;$(msg).textContent=f.name+' yüklendi ('+t.length+' karakter).'}
+  catch(err){$(msg).textContent=f.name+' okunamadı: '+err.message+'. Metni kopyalayıp yapıştırabilirsin.'}
+  e.target.value='';
+}));
+$('#nlpCv').value=NLP_SAMPLE_CV;$('#nlpJob').value=NLP_SAMPLE_JOB;
+function jobText(j){return `${j.t} — ${j.c} (örnek ilan)\nÇalışma şekli: ${j.mode}, ${j.city}\nİlan türü: ${j.type}\nAranan nitelikler:\n- İnsan Kaynakları Yönetimi veya ilgili bölümlerden lisans mezunu\n- 0-2 yıl deneyimli\n${j.sk.map(s=>'- '+s).join('\n')}`}
+
+/* ---------- Forum ---------- */
+const THREADS=[
+ {id:'t1',t:'Deneme süresinde fesihte ihbar süresi gerekir mi?',g:'İş Hukuku',a:'Ece (İKY \'26)',b:'Stajımı yaptığım şirkette deneme süresindeki bir çalışanın sözleşmesi feshedildi ve ihbar ödenmedi. Bu doğru mu?',r:[['Murat A. · mentor','4857 Md. 15 gereği deneme süresi içinde taraflar sözleşmeyi bildirim süresine gerek olmadan ve tazminatsız feshedebilir; çalışılan günlerin ücreti ve diğer hakları ödenir.']]},
+ {id:'t2',t:'Yemek kartı kıdeme esas ücrete girer mi?',g:'Bordro',a:'Kaan (İKY \'25)',b:'Bordro simülatöründe yemek yardımını dahil ettim ama ayni ödemelerde kafam karıştı.',r:[['Selin K. · mentor','Düzenli ve süreklilik arz eden yemek yardımı, nakit ya da kart fark etmeksizin giydirilmiş ücrete dahil edilir. Kritik nokta süreklilik.']]},
+ {id:'t3',t:'Gönüllü ayrılma oranı hesabında emeklilikle ayrılanlar?',g:'İK Analitiği',a:'Duru (İKY \'26)',b:'Emekliliği istifa gibi mi saymalıyım?',r:[]}];
+let fF='Tümü';
+function renderForum(){
+  const all=[...S.forum,...THREADS];const cats=['Tümü',...new Set(all.map(t=>t.g))];
+  $('#fFilter').innerHTML=cats.map(c=>`<button class="chip" data-ff="${c}" aria-pressed="${c===fF}">${c}</button>`).join('');
+  $$('[data-ff]').forEach(b=>b.onclick=()=>{fF=b.dataset.ff;renderForum()});
+  $('#fList').innerHTML=all.filter(t=>fF==='Tümü'||t.g===fF).map(t=>{const reps=[...t.r,...(S.replies[t.id]||[])];return `<div class="thread"><div class="row" style="justify-content:space-between"><span class="pill info">${esc(t.g)}</span><span class="small muted">${esc(t.a)}${t.mine?'':' · örnek'}</span></div><h4>${esc(t.t)}</h4><p class="small">${esc(t.b)}</p>${reps.map(r=>`<div class="reply"><b>${esc(r[0])}</b><br>${esc(r[1])}</div>`).join('')}<div class="row"><input type="text" placeholder="Yanıt yaz" data-ri="${t.id}" style="flex:1;min-width:160px"><button class="btn ghost sm" data-rb="${t.id}">Yanıtla</button></div></div>`}).join('');
+  $$('[data-rb]').forEach(b=>b.onclick=()=>{const id=b.dataset.rb,inp=$(`[data-ri="${id}"]`),v=inp.value.trim();if(v.length<5)return;(S.replies[id]=S.replies[id]||[]).push([S.name+' · sen',v]);save();renderForum()});
+}
+$('#fPost').addEventListener('click',()=>{const t=$('#fTitle').value.trim(),b=$('#fBody').value.trim();if(t.length<8||b.length<20){toast('Başlık en az 8, vaka en az 20 karakter olmalı');return}
+  S.forum.unshift({id:'u'+Date.now(),t,g:$('#fTag').value,a:S.name,b,r:[],mine:true});save();addXP(10);$('#fTitle').value='';$('#fBody').value='';fF='Tümü';renderForum()});
+
+/* ---------- İlanlar ---------- */
+const JOBS=[
+ {id:'j1',t:'İK Yönetici Adayı Programı',c:'Anadolu Lojistik',city:'İstanbul',mode:'Hibrit',type:'Yönetici Adayı Programı',area:'Genel İK',sk:['Rotasyon: işe alım, bordro, organizasyonel gelişim','Excel','Sunum'],h:'#pusula'},
+ {id:'j2',t:'İşe Alım Uzman Yardımcısı',c:'TechNova Yazılım',city:'İstanbul',mode:'Hibrit',type:'Tam zamanlı',area:'İşe Alım',sk:['Aday takip sistemi kullanımı','mantıksal arama','Yetkinlik bazlı mülakat'],h:'#ats'},
+ {id:'j3',t:'Bordro ve Özlük Uzman Yardımcısı',c:'Marmara Gıda',city:'Kocaeli',mode:'Ofis',type:'Tam zamanlı',area:'Bordro ve Özlük',sk:['Puantaj','SGK bildirgeleri','4857 temel bilgisi'],h:'#bordro'},
+ {id:'j4',t:'İK Analitiği Stajyeri (6 ay)',c:'Kuzey Perakende',city:'Ankara',mode:'Uzaktan',type:'Uzun dönem staj',area:'İK Analitiği',sk:['Excel özet tablo','Power BI temeli','İşten ayrılma hesabı'],h:'#lab'},
+ {id:'j5',t:'Eğitim ve Gelişim Uzman Yardımcısı',c:'Ege Tekstil',city:'İzmir',mode:'Ofis',type:'Tam zamanlı',area:'Eğitim ve Gelişim',sk:['Eğitim takvimi','Adam/saat raporu','Oryantasyon'],h:'#sablon'},
+ {id:'j6',t:'Genel İK Uzmanı (Yeni Mezun)',c:'Sakarya Otomotiv Yan Sanayi',city:'Sakarya',mode:'Ofis',type:'Tam zamanlı',area:'Genel İK',sk:['Özlük','İşe alım','İSG koordinasyonu'],h:'#vaka'},
+ {id:'j7',t:'İK Analitiği Yönetici Adayı',c:'Delta Enerji',city:'İstanbul',mode:'Hibrit',type:'Yönetici Adayı Programı',area:'İK Analitiği',sk:['SQL veya Python temeli','İK metrikleri','Veri görselleştirme'],h:'#lab'},
+ {id:'j8',t:'Yetenek Kazanımı Stajyeri',c:'Boğaziçi Danışmanlık',city:'İstanbul',mode:'Uzaktan',type:'Uzun dönem staj',area:'İşe Alım',sk:['LinkedIn’de aday arama','Aday iletişimi','KVKK'],h:'#soru'}];
+function renderJobs(){
+  const f={a:$('#jArea').value,t:$('#jType').value,m:$('#jMode').value,v:$('#jFav').value};
+  const list=JOBS.filter(j=>(!f.a||j.area===f.a)&&(!f.t||j.type===f.t)&&(!f.m||j.mode===f.m)&&(!f.v||S.favs.includes(j.id)));
+  $('#jList').innerHTML=list.map(j=>`<div class="job"><div class="row" style="justify-content:space-between"><span class="pill info">${j.type}</span><button class="fav" data-fv="${j.id}" aria-pressed="${S.favs.includes(j.id)}">${S.favs.includes(j.id)?'Kaydedildi':'Kaydet'}</button></div><h4>${j.t}</h4><p class="small muted">${j.c} (örnek) · ${j.city} · ${j.mode} · 0-2 yıl</p><div class="row">${j.sk.map(s=>`<span class="chip">${s}</span>`).join('')}</div><a class="small" href="${j.h}">Bu ilana hazırlan</a></div>`).join('')||'<p class="muted">Seçili filtrelere uyan ilan yok.</p>';
+  $$('[data-fv]').forEach(b=>b.onclick=()=>{const id=b.dataset.fv;S.favs=S.favs.includes(id)?S.favs.filter(x=>x!==id):[...S.favs,id];save();renderJobs()});
+}
+['#jArea','#jType','#jMode','#jFav'].forEach(s=>$(s).addEventListener('change',renderJobs));
+
+/* ---------- Etkinlikler ---------- */
+const EVENTS=[
+ {id:'e1',d:'Her Çarşamba 20:00',t:'Haftanın simülasyonu: canlı rehber yayın',k:'Çevrim içi seminer',x:'O haftanın bordro, yapay zekâ mülakat veya Excel laboratuvarı görevinin adım adım çözümü.'},
+ {id:'e2',d:'22 Ekim 2026, 19:00',t:'CV kliniği ve mülakat provası',k:'Mentorluk',x:'Kıdemli İK İş Ortağı ile canlı CV incelemesi ve DGES mülakat provası.'},
+ {id:'e3',d:'5 Kasım 2026, 20:00',t:'İK analitiğinde ilk yıl',k:'Panel',x:'People analytics ekiplerinde çalışan yeni mezunlarla soru-cevap.'},
+ {id:'e4',d:'19 Kasım 2026, 19:30',t:'4857 güncel Yargıtay kararları',k:'Çevrim içi seminer',x:'Fesih, fazla çalışma ve yıllık izin kararlarının uygulamaya etkisi.'},
+ {id:'e5',d:'Her Cuma 18:00',t:'Haftanın örnek çözümü',k:'Topluluk',x:'Haftanın en iyi vaka çözümünün mentor değerlendirmesiyle açıklanması.'},
+ {id:'e6',d:'Aralık 2026',t:'İK Kampüs mini zirvesi: 12 haftanın portfolyoları',k:'Zirve',x:'Programı tamamlayan mezunların portfolyo sunumları ve işveren buluşması.'}];
+function renderEvents(){
+  $('#evList').innerHTML=EVENTS.map(e=>{const on=S.events.includes(e.id);return `<div class="card"><div class="row" style="justify-content:space-between"><span class="pill info">${e.k}</span><span class="small muted num">${e.d}</span></div><h4>${e.t}</h4><p class="small muted">${e.x}</p><button class="fav" data-ev="${e.id}" aria-pressed="${on}" style="align-self:flex-start">${on?'Takvimimde':'Takvimime not al'}</button></div>`}).join('');
+  $$('[data-ev]').forEach(b=>b.onclick=()=>{const id=b.dataset.ev;S.events=S.events.includes(id)?S.events.filter(x=>x!==id):[...S.events,id];save();renderEvents()});
+}
+
+/* ---------- Sertifika rehberi ---------- */
+const CERTS=[
+ {n:'aPHR (Associate Professional in Human Resources)',o:'HRCI',l:'Giriş',d:'İK\'ya yeni başlayanlar için temel düzey bilgi sertifikası; İK deneyimi şartı aranmaz.',u:'https://www.hrci.org'},
+ {n:'PHR (Professional in Human Resources)',o:'HRCI',l:'Uzman',d:'Operasyonel İK ve ABD mevzuatı ağırlıklı; belirli süre İK deneyimi gerektirir.',u:'https://www.hrci.org'},
+ {n:'SHRM-CP',o:'SHRM',l:'Uzman',d:'Davranışsal yetkinlikler ve İK bilgi temeli; operasyonel İK rolleri için.',u:'https://www.shrm.org'},
+ {n:'CIPD Level 3 Foundation Certificate in People Practice',o:'CIPD',l:'Giriş',d:'İK ve öğrenme-gelişim uygulamalarının temelleri; İngiltere merkezli, uluslararası tanınır.',u:'https://www.cipd.org'},
+ {n:'CIPD Level 5 Associate Diploma in People Management',o:'CIPD',l:'Uzman',d:'Uygulayıcı düzeyinde İK yönetimi; kanıta dayalı uygulama ve çalışan ilişkileri.',u:'https://www.cipd.org'},
+ {n:'Puantaj ve Özlük Temelleri rozeti',o:'İK Kampüs',l:'Platform',d:'Bordro simülatörü Seviye 1 (Başlangıç). Aylık puantaj, fazla mesai ve izin hakedişi.',u:'#bordro'},
+ {n:'Uygulamalı Bordro ve Tazminat Uzmanı rozeti',o:'İK Kampüs',l:'Platform',d:'Seviye 2 (Uzman), Seviye 1\'den %80 başarıyla açılır: kıdem, ihbar, tavan, vergi dilimleri.',u:'#bordro'},
+ {n:'4857 İş Hukuku ve Mevzuat Stratejisti sertifikası',o:'İK Kampüs',l:'Platform',d:'Seviye 3 (İK İş Ortağı), Seviye 2\'den %85 başarıyla açılır: ikale, işe iade maliyeti, özel izinler.',u:'#bordro'}];
+let certF='Tümü';
+function renderCerts(){
+  $('#certFilter').innerHTML=['Tümü','Giriş','Uzman','Platform'].map(c=>`<button class="chip" data-cf2="${c}" aria-pressed="${c===certF}">${c==='Platform'?'Platform mikro-sertifikaları':c==='Tümü'?c:c+' seviyesi'}</button>`).join('');
+  $$('[data-cf2]').forEach(b=>b.onclick=()=>{certF=b.dataset.cf2;renderCerts()});
+  $('#certList').innerHTML=CERTS.filter(c=>certF==='Tümü'||c.l===certF).map(c=>`<div class="card"><div class="row" style="justify-content:space-between"><span class="pill ${c.l==='Platform'?'good':'info'}">${c.l==='Platform'?'Platform':c.l+' seviyesi'}</span><span class="small muted">${c.o}</span></div><h4>${c.n}</h4><p class="small muted">${c.d}</p><a class="small" href="${c.u}" ${c.u.startsWith('http')?'target="_blank" rel="noopener"':''}>${c.u.startsWith('http')?'Resmi siteyi aç':'Simülatöre git'}</a></div>`).join('');
+}
+
+/* ---------- İK sözlüğü ---------- */
+const GL=[
+ ['Analitik','İşten ayrılma oranı','Dönem içinde ayrılan çalışan sayısının ortalama çalışan sayısına oranı: Ayrılan / ((Dönem başı + Dönem sonu) / 2) × 100.'],
+ ['Analitik','Gönüllü ayrılma oranı','Yalnızca çalışanın kendi isteğiyle (istifa) ayrılmalarını sayan oran; işveren feshi dışarıda bırakılır. Tutundurma başarısını gösterir.'],
+ ['Analitik','İlk 90 gün kaybı (erken ayrılma)','İşe girişten sonraki 90 gün içinde ayrılanların oranı. Genellikle işe alım veya oryantasyon sorununa işaret eder.'],
+ ['Analitik','Ücret konum oranı','Çalışanın maaşının kademe orta noktasına (orta nokta) oranı. %100 bant ortası, %90 altı piyasa altı ödeme riskidir.'],
+ ['Analitik','Bant orta noktası','Ücret bandının ortası; genellikle piyasa medyanını temsil eder. Bant minimumu çoğu zaman orta nokta\'in %80\'i, maksimumu %120\'sidir.'],
+ ['Analitik','Ayrılma riski','Bir çalışanın veya grubun yakın dönemde ayrılma olasılığı; düşük ücret konum oranı ve çıkış nedenleriyle birlikte izlenir.'],
+ ['İşe Alım','İşe alım süresi','Seçilen adayın başvurusundan teklifi kabul ettiği güne kadar geçen süre.'],
+ ['İşe Alım','Pozisyon doldurma süresi','Kadro talebinin onaylanmasından teklif kabulüne kadar geçen süre; pozisyonun ne kadar boş kaldığını gösterir.'],
+ ['İşe Alım','İşe alım başına maliyet','İşe alım başına maliyet: (ilan, ajans ve İK ekibi zaman maliyeti) / işe alınan kişi sayısı.'],
+ ['İşe Alım','Teklif kabul oranı','Kabul edilen teklif / yapılan teklif. %70\'in altı ücret veya işveren markası sorununu düşündürür.'],
+ ['İşe Alım','Aşama geçiş oranı (huni verimi)','Huninin bir aşamasından diğerine geçen aday oranı; hangi kanalın nitelikli aday getirdiğini gösterir.'],
+ ['İşe Alım','Mantıksal arama','AND (ve), OR (veya), NOT ve parantezle kurulan arama dizilimi; LinkedIn ve aday takip sisteminde pasif aday bulmak için kullanılır.'],
+ ['İşe Alım','DGES tekniği','Durum, Görev, Eylem, Sonuç (DGES) yapısıyla geçmiş davranışı soran mülakat yöntemi.'],
+ ['İşe Alım','Sondaj sorusu','Adayın yuvarlak cevabındaki eksik DGES halkasını açmak için sorulan takip sorusu.'],
+ ['İşe Alım','Gerçekçi iş önizlemesi','Adaya işin zorlukları dahil gerçekçi resmini vermek; erken dönem ayrılmayı azaltır.'],
+ ['İşe Alım','İşe alım kalitesi','İşe alınan kişinin performansı, tutundurulması ve yönetici memnuniyetiyle ölçülen işe alım kalitesi.'],
+ ['İşe Alım','İşveren markası','Kurumun mevcut ve potansiyel çalışanlar gözündeki "çalışılacak yer" algısı.'],
+ ['Teknoloji','Aday takip sistemi',' ilan, başvuru, mülakat puan kartı ve teklif süreçlerini yöneten yazılım.'],
+ ['Teknoloji','İK bilgi sistemi',' personel ana verisi, organizasyon, izin ve özlük kayıtları.'],
+ ['Teknoloji','Öğrenme yönetim sistemi',' eğitim kayıtları, içerik ve adam/saat raporlaması.'],
+ ['Bordro ve Hukuk','Çıplak brüt ücret','Yan haklar eklenmemiş kök brüt ücret. Yıllık izin ve fazla mesai ücreti bunun üzerinden hesaplanır.'],
+ ['Bordro ve Hukuk','Giydirilmiş brüt ücret','Çıplak brüte süreklilik arz eden yan hakların (yol, yemek, düzenli ikramiye) eklenmiş hali; kıdem tazminatına esas alınır.'],
+ ['Bordro ve Hukuk','Kıdem tazminatı','En az 1 yıl çalışmış işçiye kanunda sayılan hallerde her tam yıl için 30 günlük giydirilmiş ücret tutarında ödeme; tavanla sınırlıdır (1475 Md. 14).'],
+ ['Bordro ve Hukuk','İhbar öneli','Belirsiz süreli sözleşmeyi fesheden tarafın uyması gereken bildirim süresi: kıdeme göre 2, 4, 6 veya 8 hafta (4857 Md. 17).'],
+ ['Bordro ve Hukuk','İkale','İşçi ve işverenin karşılıklı anlaşmayla iş sözleşmesini sona erdirmesi; genellikle ek ödeme içerir.'],
+ ['Bordro ve Hukuk','Puantaj','Çalışanın aylık çalışma, tatil, izin ve devamsızlık günlerinin kodlu kaydı; bordronun girdisidir.'],
+ ['Bordro ve Hukuk','SGK eksik gün kodu','Ay içinde 30 günden eksik prim bildiriminin nedenini gösteren kod (ör. 01 istirahat, 15 devamsızlık, 21 diğer ücretsiz izin).'],
+ ['Bordro ve Hukuk','Performans geliştirme planı (PGP)','Düşük performanslı çalışana hedef, süre ve destekle verilen yazılı gelişim planı; geçerli fesihte belgeleme sağlar.'],
+ ['Eğitim ve Gelişim','Oryantasyon (işe alıştırma)','Yeni çalışanın işe ve kuruma uyumunu sağlayan, ilk günden ilk 90 güne uzanan süreç.'],
+ ['Eğitim ve Gelişim','İşe başlama öncesi hazırlık','Teklif kabulü ile ilk iş günü arasındaki hazırlık: hoş geldin iletişimi, ekipman ve hesaplar.'],
+ ['Eğitim ve Gelişim','Rehber çalışan','Yeni çalışana ilk haftalarda rehberlik eden, yöneticisi olmayan deneyimli çalışan.'],
+ ['Eğitim ve Gelişim','Nabız anketi','Kısa aralıklarla uygulanan birkaç soruluk bağlılık ve uyum anketi.'],
+ ['Eğitim ve Gelişim','Çıkış mülakatı','Ayrılan çalışanla yapılan, ayrılma nedenlerini kodlayan görüşme; işten ayrılma kök neden analizinin girdisidir.'],
+ ['Eğitim ve Gelişim','9’lu yetenek matrisi','Çalışanları performans ve potansiyel eksenlerinde 3×3 ızgaraya yerleştiren yetenek değerlendirme aracı.'],
+ ['Eğitim ve Gelişim','Kirkpatrick modeli','Eğitimi dört düzeyde değerlendirir: tepki, öğrenme, davranış, sonuç.'],
+ ['Eğitim ve Gelişim','Eğitim yatırım getirisi (Phillips)','(Ölçülen finansal getiri − eğitim maliyeti) / eğitim maliyeti × 100.'],
+ ['Eğitim ve Gelişim','Hedefler ve anahtar sonuçlar','İddialı bir hedef ve onu ölçen 2-5 sayısal sonuç.'],
+ ['Eğitim ve Gelişim','İK İş Ortağı','İK iş ortağı: bir iş birimine stratejik İK danışmanlığı veren, uzman ekiplerle köprü kuran rol.']];
+let glF='Tümü';
+function renderGlossary(){
+  const cats=['Tümü',...new Set(GL.map(g=>g[0]))];
+  $('#glFilter').innerHTML=cats.map(c=>`<button class="chip" data-gf="${c}" aria-pressed="${c===glF}">${c}</button>`).join('');
+  $$('[data-gf]').forEach(b=>b.onclick=()=>{glF=b.dataset.gf;renderGlossary()});
+  const q=($('#glSearch').value||'').toLocaleLowerCase('tr-TR');
+  const list=GL.filter(g=>(glF==='Tümü'||g[0]===glF)&&(!q||(g[1]+' '+g[2]).toLocaleLowerCase('tr-TR').includes(q))).sort((a,b)=>a[1].localeCompare(b[1],'tr'));
+  $('#glCount').textContent=list.length+' kavram';
+  $('#glList').innerHTML=list.map(g=>`<div class="term"><div class="row" style="justify-content:space-between"><b>${g[1]}</b><span class="pill info">${g[0]}</span></div><span class="small muted">${g[2]}</span></div>`).join('')||'<p class="muted">Aramana uyan kavram yok.</p>';
+}
+$('#glSearch').addEventListener('input',renderGlossary);
+
+/* ---------- İş hukuku rehberi ---------- */
+const LAW=[
+ ['Genel','4857 Md. 5','Eşit davranma ilkesi','Dil, ırk, renk, cinsiyet, engellilik, siyasi düşünce, felsefi inanç, din ve mezhep gibi nedenlere dayalı ayrım yapılamaz. Aynı veya eşit değerdeki iş için cinsiyet nedeniyle daha düşük ücret kararlaştırılamaz. Mülakatta ayrımcı soru sormama yükümlülüğünün temelidir.'],
+ ['Genel','4857 Md. 8','İş sözleşmesi','Bir yıl ve daha uzun süreli sözleşmeler yazılı yapılır. Yazılı sözleşme yapılmayan hallerde işveren en geç iki ay içinde genel ve özel çalışma koşullarını gösteren yazılı belge vermekle yükümlüdür.'],
+ ['Genel','4857 Md. 15','Deneme süresi','Deneme süresi en fazla iki ay olabilir; toplu iş sözleşmeleriyle dört aya kadar uzatılabilir. Bu süre içinde taraflar sözleşmeyi bildirim süresine gerek olmadan ve tazminatsız feshedebilir; çalışılan sürenin ücreti ve diğer hakları ödenir.'],
+ ['Fesih','4857 Md. 17','Süreli fesih ve ihbar','Belirsiz süreli sözleşmede bildirim süreleri: 6 aydan az kıdemde 2 hafta, 6 ay-1,5 yıl 4 hafta, 1,5-3 yıl 6 hafta, 3 yıldan fazla 8 hafta. Süreye uymayan taraf bu süreye ait ücret tutarında ihbar tazminatı öder.'],
+ ['Fesih','4857 Md. 18','Feshin geçerli sebebe dayandırılması','30 veya daha fazla işçi çalıştıran işyerinde en az 6 aylık kıdemi olan, belirsiz süreli sözleşmeyle çalışan işçinin sözleşmesini fesheden işveren, işçinin yeterliliğinden, davranışlarından veya işletme gereklerinden kaynaklanan geçerli bir sebebe dayanmak zorundadır.'],
+ ['Fesih','4857 Md. 19','Fesih bildirimi ve savunma','Fesih bildirimi yazılı ve sebebi açık şekilde yapılır. Davranışı veya verimi nedeniyle sözleşmesi feshedilecek işçinin savunması alınmadan fesih yapılamaz (25/II hükümleri saklıdır).'],
+ ['Fesih','4857 Md. 20-21','Feshe itiraz ve işe iade','İşçi fesih bildiriminin tebliğinden itibaren bir ay içinde arabulucuya başvurur. Fesih geçersiz bulunursa işçi işe iade edilir; işveren bir ay içinde işe başlatmazsa 4-8 aylık ücret tutarında işe başlatmama tazminatı ve en çok 4 aylık boşta geçen süre ücreti öder.'],
+ ['Fesih','4857 Md. 22','Çalışma koşullarında esaslı değişiklik','İşveren esaslı değişikliği yazılı bildirir; işçinin altı iş günü içinde yazılı olarak kabul etmediği değişiklik işçiyi bağlamaz.'],
+ ['Fesih','4857 Md. 24','İşçinin haklı nedenle derhal feshi','Sağlık sebepleri, ahlak ve iyiniyet kurallarına uymayan haller (ör. ücretin ödenmemesi, taciz) ve zorlayıcı sebeplerle işçi sözleşmeyi bildirim süresi beklemeden feshedebilir.'],
+ ['Fesih','4857 Md. 25','İşverenin haklı nedenle derhal feshi','Sağlık sebepleri, ahlak ve iyiniyet kurallarına uymayan haller, zorlayıcı sebepler ve gözaltı/tutukluluk. 25/II-g: işçinin izinsiz veya haklı sebebe dayanmaksızın ardı ardına iki iş günü veya bir ayda iki defa herhangi bir tatil gününden sonraki iş günü ya da bir ayda üç iş günü işine devam etmemesi.'],
+ ['Fesih','4857 Md. 26','Haklı fesih süresi','24 ve 25. maddelerdeki ahlak ve iyiniyet kurallarına aykırılık hallerinde fesih hakkı, öğrenmeden itibaren altı iş günü ve her halde olayın gerçekleşmesinden itibaren bir yıl içinde kullanılmalıdır.'],
+ ['Fesih','1475 Md. 14','Kıdem tazminatı','En az bir yıl çalışmış işçiye, işveren tarafından haklı neden olmaksızın fesih, işçinin haklı nedenle feshi, askerlik, emeklilik, kadın işçinin evlilikten itibaren bir yıl içinde ayrılması ve ölüm hallerinde her tam yıl için 30 günlük giydirilmiş ücret ödenir; kıdem tazminatı tavanını aşamaz. Yalnızca damga vergisi kesilir.'],
+ ['Ücret ve Süre','4857 Md. 32','Ücret','Ücret kural olarak Türk parasıyla, işyerinde veya banka hesabına ödenir; ödeme süresi en çok bir aydır.'],
+ ['Ücret ve Süre','4857 Md. 41','Fazla çalışma','Haftalık 45 saati aşan çalışmalar fazla çalışmadır; her saati için normal saat ücretinin %50 fazlası ödenir. Fazla çalışma için işçinin onayı gerekir ve yılda 270 saati aşamaz.'],
+ ['Ücret ve Süre','4857 Md. 46-47','Hafta tatili ve genel tatil','Yedi günlük dönemde en az 24 saat kesintisiz hafta tatili verilir. Genel tatil günlerinde çalışılırsa ayrıca bir günlük ücret ödenir (o gün için toplam iki yevmiye).'],
+ ['Ücret ve Süre','4857 Md. 63','Çalışma süresi','Genel bakımdan haftalık çalışma süresi en çok 45 saattir; aksi kararlaştırılmamışsa haftanın çalışılan günlerine eşit bölünür.'],
+ ['İzinler','4857 Md. 53','Yıllık ücretli izin','1-5 yıl (5 dahil) kıdemde 14 gün, 5-15 yıl arasında 20 gün, 15 yıl ve fazlasında 26 gün. 18 ve daha küçük yaştaki işçilerle 50 ve daha yukarı yaştaki işçilere verilecek izin 20 günden az olamaz.'],
+ ['İzinler','4857 Md. 56','İzinin bölünmesi','Yıllık izin işveren tarafından bölünemez; tarafların anlaşmasıyla bölümlerden biri 10 günden aşağı olmamak üzere en fazla üçe bölünebilir.'],
+ ['İzinler','4857 Md. 59','Fesihte izin ücreti','Sözleşme herhangi bir nedenle sona erdiğinde kullanılmamış yıllık izin süresine ait ücret, son ücret üzerinden ödenir.'],
+ ['İzinler','4857 Md. 74','Doğum ve süt izni','Kadın işçinin doğumdan önce 8 ve doğumdan sonra 8 hafta olmak üzere toplam 16 hafta çalıştırılmaması esastır; çoğul gebelikte doğumdan önceki süreye 2 hafta eklenir. Bir yaşından küçük çocuğu için günde toplam bir buçuk saat süt izni verilir.'],
+ ['İlgili kanunlar','6356 Md. 25','Sendikal güvence','İşçiler sendikaya üye olmaları veya olmamaları, sendikal faaliyetlere katılmaları nedeniyle işe alınmada ve iş ilişkisinin devamında farklı işleme tabi tutulamaz; sendikal nedenle feshe karşı sendikal tazminat öngörülür.'],
+ ['İlgili kanunlar','6698 KVKK Md. 5-6, 10-12','Kişisel verilerin korunması','Kişisel veriler kanundaki şartlardan birine dayanılarak işlenir (Md. 5); sağlık, din, sendika üyeliği gibi özel nitelikli veriler için ek şartlar aranır (Md. 6). Veri sorumlusu aydınlatma yükümlülüğünü yerine getirir (Md. 10), ilgili kişi haklarına saygı gösterir (Md. 11) ve veri güvenliğini sağlar (Md. 12).'],
+ ['İlgili kanunlar','7036 Md. 3','Zorunlu arabuluculuk','Kanuna, bireysel veya toplu iş sözleşmesine dayanan işçi/işveren alacağı, tazminat ve işe iade taleplerinde dava açmadan önce arabulucuya başvurulması dava şartıdır.']];
+let lawF='Tümü';
+function renderLaw(){
+  const cats=['Tümü',...new Set(LAW.map(l=>l[0]))];
+  $('#lawFilter').innerHTML=cats.map(c=>`<button class="chip" data-lf="${c}" aria-pressed="${c===lawF}">${c}</button>`).join('');
+  $$('[data-lf]').forEach(b=>b.onclick=()=>{lawF=b.dataset.lf;renderLaw()});
+  const q=($('#lawSearch').value||'').toLocaleLowerCase('tr-TR');
+  const list=LAW.filter(l=>(lawF==='Tümü'||l[0]===lawF)&&(!q||l.join(' ').toLocaleLowerCase('tr-TR').includes(q)));
+  $('#lawList').innerHTML=list.map(l=>`<details class="law"><summary><span class="mono">${l[1]}</span><span>${l[2]}</span></summary><div>${l[3]}</div></details>`).join('')||'<p class="muted">Aramana uyan madde yok.</p>';
+}
+$('#lawSearch').addEventListener('input',renderLaw);
+
+/* ---------- KVKK: verileri sil ---------- */
+let wipeArm=false;
+$('#wipeBtn').addEventListener('click',()=>{
+  if(!wipeArm){wipeArm=true;$('#wipeBtn').textContent='Eminim, kalıcı olarak sil';$('#wipeMsg').textContent='Bu işlem geri alınamaz.';setTimeout(()=>{wipeArm=false;$('#wipeBtn').textContent='Tüm verilerimi sil';$('#wipeMsg').textContent=''},5000);return}
+  try{localStorage.removeItem(KEY);localStorage.removeItem(KEY+'.case')}catch(e){}
+  S=mkBlank();save();wipeArm=false;$('#wipeBtn').textContent='Tüm verilerimi sil';$('#wipeMsg').textContent='Tüm veriler silindi.';$('#caseAns').value='';renderAll();
+});
+
+/* ---------- İletişim ---------- */
+$('#ctForm').addEventListener('submit',e=>{e.preventDefault();
+  const n=$('#ctName').value.trim(),m=$('#ctMsg').value.trim();
+  if(!n||m.length<10){$('#ctOut').textContent='Adını ve en az 10 karakterlik mesajını yaz.';return}
+  const txt=`Konu: ${$('#ctTopic').value}\nGönderen: ${n}\n\n${m}`;
+  $('#ctOut').innerHTML='Mesajın hazır. <button class="btn ghost sm" type="button" id="ctCopy">Metni kopyala</button>';
+  $('#ctCopy').onclick=ev=>copy(txt,ev.currentTarget);
+});
+
+/* ---------- Portfolyo eylemleri ---------- */
+const slug=n=>n.toLocaleLowerCase('tr-TR').replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+$('#pfShare').addEventListener('click',e=>{const n=S.name==='Deniz'?'Deniz Yılmaz':S.name;copy('https://ikkampus.com/portfolyo/'+slug(n),e.currentTarget)});
+$('#pfInviteBtn').addEventListener('click',()=>{const f=$('#pfInvite');f.hidden=!f.hidden;$('#pfInviteBtn').setAttribute('aria-expanded',!f.hidden);if(!f.hidden){$('#invCase').innerHTML=PROJ.map(p=>`<option>${p.t}</option>`).join('');$('#invCo').focus()}});
+$('#pfInvite').addEventListener('submit',e=>{e.preventDefault();
+  const co=$('#invCo').value.trim(),pos=$('#invPos').value.trim();
+  if(!co||!pos){$('#invOut').innerHTML='<div class="fb err"><b>Kurum ve pozisyon alanlarını doldur.</b></div>';return}
+  const n=S.name==='Deniz'?'Deniz Yılmaz':S.name;
+  $('#invOut').innerHTML=`<div class="fb ok"><b>Davet önizlemesi</b><p>Merhaba ${esc(n)}, ${esc(co)} olarak ${esc(pos)} pozisyonu için sizi mülakata davet ediyoruz. Portfolyonuzdaki "${esc($('#invCase').value)}" çalışmanızı inceledik. ${esc($('#invMsg').value.trim())}</p></div>`;
+});
+
+/* ---------- Panel ---------- */
+function skillValues(){
+  const t=S.test||{ise:20,hukuk:20,bordro:20,od:20,analitik:20};
+  const v={...t};
+  if(S.bordro!==null){v.hukuk+=S.bordro*0.35;v.bordro+=S.bordro*0.35}
+  if(S.ats!==null){v.ise+=S.ats*0.4;v.hukuk+=5}
+  if(S.lab!==null){v.analitik+=S.lab*0.4;v.bordro+=5}
+  const tasks=Object.keys(S.tasks).length; v.od+=Math.min(30,tasks*6)+(S.caseSaved?8:0);
+  for(const k in v) v[k]=Math.round(Math.min(100,v[k]));
+  return v;
+}
+function radarSVG(v){
+  const keys=Object.keys(AREAS),cx=170,cy=150,R=100,n=keys.length;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]};
+  let g='';[25,50,75,100].forEach(l=>{g+=`<polygon points="${keys.map((_,i)=>pt(i,R*l/100).join(',')).join(' ')}" fill="none" stroke="var(--line)" stroke-width="1"/>`});
+  keys.forEach((_,i)=>{const [x,y]=pt(i,R);g+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/>`});
+  const poly=keys.map((k,i)=>pt(i,R*v[k]/100).join(',')).join(' ');
+  g+=`<polygon points="${poly}" fill="var(--accent)" fill-opacity=".22" stroke="var(--accent)" stroke-width="2"/>`;
+  keys.forEach((k,i)=>{const [x,y]=pt(i,R*v[k]/100);g+=`<circle cx="${x}" cy="${y}" r="4" fill="var(--accent)"/>`;const [lx,ly]=pt(i,R+26);const anc=Math.abs(lx-cx)<8?'middle':lx>cx?'start':'end';g+=`<text x="${lx}" y="${ly}" text-anchor="${anc}" dominant-baseline="middle" font-size="12" font-family="Inter,sans-serif" fill="var(--ink)" font-weight="600">${AREAS[k]}</text><text x="${lx}" y="${ly+15}" text-anchor="${anc}" dominant-baseline="middle" font-size="11" font-family="Inter,sans-serif" fill="var(--muted)">${v[k]}</text>`});
+  return `<svg viewBox="0 0 340 310" role="img" aria-label="Yetkinlik radarı">${g}</svg>`;
+}
+const TASKS=['Örnek bir İK Uzman Yardımcısı ilanı için 3 DGES sorusu hazırla.','Son ayında 2 gün rapor alan çalışan için SGK eksik gün kodunu belirle.','Bir departman için ilk 90 gün işten ayrılma formülünü yaz.','Bir oryantasyon kontrol listesine 5 madde ekle (IT, idari işler, yönetici).','Bir çıkış mülakatı için 5 açık uçlu soru yaz.','Bir eğitim için Kirkpatrick 1. ve 4. seviye ölçütlerini yaz.','"Biz" diliyle cevap veren adaya sorulacak 2 sondaj sorusu yaz.'];
+function renderPanel(){
+  $('#pName').textContent=S.name;$('#pNameIn').value=S.name;$('#pGoal').value=S.goal;
+  const mods=[['Kariyer pusulası testi',S.test!==null,'#pusula',S.test?100:0],['Bordro ve 4857 simülatörü',S.bordro!==null,'#bordro',S.bordro??0],['Yapay zekâ mülakat ve aday takip',S.ats!==null,'#ats',S.ats??0],['Analitik ve Excel Laboratuvarı',S.lab===100,'#lab',S.lab??0],['Vaka analizleri',Object.keys(S.cases).length===CASES.length,'#vaka',Math.round(Object.keys(S.cases).length/CASES.length*100)]];
+  const pct=Math.round((mods.filter(m=>m[1]).length+(S.caseSaved?1:0)+(S.cv.length>=CK.length*0.8?1:0))/7*100);
+  $('#pPct').textContent='%'+pct;$('#pBar').style.width=pct+'%';
+  $('#pMods').innerHTML=mods.map(m=>`<div class="skill-line" style="grid-template-columns:minmax(0,1fr) 120px 72px"><a href="${m[2]}">${m[0]}</a><div class="bar"><i style="width:${m[3]}%"></i></div>${m[1]?`<span class="pill good">${m[3]}/100</span>`:'<span class="pill info">başla</span>'}</div>`).join('');
+  const nxt=mods.find(m=>!m[1]);
+  $('#pNext').innerHTML=nxt?`<h3>${nxt[0]}</h3><p class="small muted">${S.lastView?'Son açtığın modül kaydedildi. ':''}Sıradaki adımın bu modül.</p><a class="btn" href="${nxt[2]}" style="align-self:flex-start">Simülasyona devam et</a>`:`<h3>Tüm çekirdek modülleri tamamladın</h3><p class="small muted">12 haftalık takvimden bir sonraki haftanın vakasını seç.</p><a class="btn" href="#takvim" style="align-self:flex-start">Takvimi aç</a>`;
+  const d=new Date();const key=d.toISOString().slice(0,10);const ti=(d.getDate()+d.getMonth())%TASKS.length;
+  $('#pTask').innerHTML=`<p>${TASKS[ti]}</p><textarea id="taskAns" placeholder="Yanıtını buraya yaz">${esc(S.tasks[key]||'')}</textarea><div class="row"><button class="btn sm" id="taskBtn">${S.tasks[key]?'Güncelle':'Görevi tamamla (+50 puan)'}</button></div>`;
+  $('#taskBtn').onclick=()=>{const v=$('#taskAns').value.trim();if(v.length<20){toast('En az 20 karakterlik bir yanıt yaz');return}const first=!S.tasks[key];S.tasks[key]=v;save();if(first)addXP(50);renderPanel()};
+  $('#pEvents').innerHTML=S.events.length?EVENTS.filter(e=>S.events.includes(e.id)).map(e=>`<div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>${e.t}</b><br><span class="muted">${e.d}</span></div>`).join(''):'<span class="muted">Henüz not aldığın etkinlik yok.</span>';
+  $('#mentorBtn').textContent=S.events.includes('e2')?'Takvimimde':'Takvimime not al';
+  const v=skillValues();$('#radar').innerHTML=radarSVG(v);
+  const low=Object.entries(v).sort((a,b)=>a[1]-b[1])[0];
+  const tipMap={analitik:['Excel Laboratuvarı işten ayrılma vakasını çöz','#lab'],ise:['Aday takip ve mülakat simülatörünü tamamla','#ats'],hukuk:['Bordro ve 4857 vakasını çöz','#bordro'],bordro:['Bordro ve 4857 vakasını çöz','#bordro'],od:['Günlük pratik görevleri tamamla','#panel']};
+  $('#radarTip').innerHTML=`Öneri: <b>${AREAS[low[0]]}</b> puanını artırmak için <a href="${tipMap[low[0]][1]}">${tipMap[low[0]][0]}</a>.`;
+  const port=[['Fesih, kıdem ve ihbar hesaplama dosyası','Bordro ve 4857',S.bordro!==null,S.bordro],['Aday değerlendirme ve kısa liste raporu','Yapay zekâ mülakat ve aday takip',S.ats!==null,S.ats],['İşten ayrılma ve ücret konum oranı analiz panosu','Excel Laboratuvarı',S.lab===100,S.lab]];
+  $('#pPort').innerHTML=port.map(p=>`<div class="port-card ${p[2]?'':'locked'}"><span class="pill ${p[2]?'good':'info'}" style="align-self:flex-start">${p[2]?'Doğrulandı · '+p[3]+'/100':'Kilitli'}</span><h4>${p[0]}</h4><span class="small muted">${p[2]?p[1]+' modülünden':'Modülü bitir: '+p[1]}</span></div>`).join('');
+}
+$('#pNameIn').addEventListener('input',e=>{S.name=e.target.value.trim()||'Deniz';$('#pName').textContent=S.name;save()});
+$('#pGoal').addEventListener('change',e=>{S.goal=e.target.value;save()});
+$('#mentorBtn').addEventListener('click',()=>{if(!S.events.includes('e2')){S.events.push('e2');save()}toast('Takvimine eklendi');renderPanel()});
+let resetArm=false;
+$('#resetBtn').addEventListener('click',()=>{if(!resetArm){resetArm=true;$('#resetBtn').textContent='Emin misin? Tekrar bas';$('#resetMsg').textContent='Tüm puanlar ve puan silinecek.';setTimeout(()=>{resetArm=false;$('#resetBtn').textContent='İlerlememi sıfırla';$('#resetMsg').textContent=''},4000);return}
+  S=mkBlank();save();resetArm=false;$('#resetBtn').textContent='İlerlememi sıfırla';$('#resetMsg').textContent='Sıfırlandı.';renderAll();renderPanel()});
+
+/* ---------- Portfolyo ---------- */
+const PROJ=[
+ {c:'Analitik',t:'250 kişilik perakende şirketi için işten ayrılma ve devamsızlık takip panosu',i:['Araçlar: Excel, özet tablo, DÜŞEYARA','Departman bazında yıllık ve ilk 90 gün işten ayrılma, işe alım süresi','1 sayfalık yönetici özeti: lojistikte ilk 3 ayda %28 ayrılma, kök neden vardiya uyumsuzluğu']},
+ {c:'İşe Alım',t:'Yazılım ve satış rolleri için DGES tekniğiyle yapılandırılmış mülakat seti',i:['Kapsayıcı dille yazılmış ilan metni','3 mantıksal arama dizilimi','5 yetkinlik için 1-5 puanlama rubriği']},
+ {c:'Bordro',t:'Performans düşüklüğü nedeniyle geçerli fesih ve savunma isteme kurgusu',i:['4857 Md. 18-19 kapsamında ihtar, savunma ve PGP evrakları','Giydirilmiş brüt ve kıdem/ihbar hesaplama cetveli','Uzman notu: 9,5/10 hukuka uygunluk']},
+ {c:'Eğitim ve Gelişim',t:'Hibrit çalışanlar için ilk 90 gün oryantasyon yol haritası',i:['İşe başlama öncesi hazırlık, ilk gün, ilk hafta, 1. ve 3. ay akışı','IT, idari işler ve yönetici kontrol listesi','30. ve 60. gün nabız anketi soruları']},
+ {c:'Eğitim ve Gelişim',t:'Performans değerlendirme ve 9’lu yetenek matrisi yetenek matrisi',i:['Örnek departman için Hedef ve performans göstergesi kartı','20 çalışanın performans × potansiyel yerleşimi','Her kutu için gelişim ve tutundurma aksiyonu']}];
+let pfF='Tümü';
+function renderPortfolio(){
+  const ini=S.name.split(/\s+/).map(x=>x[0]||'').join('').slice(0,2).toLocaleUpperCase('tr-TR');
+  $('#pfName').textContent=S.name==='Deniz'?'Deniz Yılmaz':S.name;$('#pfAv').textContent=S.name==='Deniz'?'DY':ini;
+  const v=skillValues();
+  $('#pfSkills').innerHTML=Object.entries(AREAS).map(([k,n])=>`<div class="skill-line"><span>${n}</span><div class="bar"><i style="width:${v[k]}%"></i></div><b class="num">%${v[k]}</b></div>`).join('');
+  const cats=['Tümü','İşe Alım','Bordro','Eğitim ve Gelişim','Analitik'];
+  $('#pfFilters').innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c===pfF}" data-f="${c}">${c}</button>`).join('');
+  $$('#pfFilters [data-f]').forEach(b=>b.onclick=()=>{pfF=b.dataset.f;renderPortfolio()});
+  $('#pfProjects').innerHTML=PROJ.filter(p=>pfF==='Tümü'||p.c===pfF).map(p=>`<div class="proj"><span class="pill info" style="align-self:flex-start">${p.c}</span><h4>${p.t}</h4><ul>${p.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+}
+
+/* ---------- Takvim ---------- */
+const WEEKS=[
+ [1,1,'Oryantasyon ve tanışma','İK Pusulası yetkinlik envanteri ve "Hangi İK modülüne yatkınsın?" testi','Kariyer yolu keşif aracı','#pusula'],
+ [2,1,'Özlük ve izin yönetimi','4857 Md. 53: 50 yaş üstü ve 18 yaş altı çalışanlar için izin krizleri','Izin_Takip_Sistemi.xlsx','#sablon'],
+ [3,1,'Puantaj ve bordro laboratuvarı','Haftalık çalışma saatleri, fazla mesai (%50) ve genel tatil hesaplama','Aylik_Puantaj_Cetveli.xlsx','#sablon'],
+ [4,1,'Fesih prosedürleri','Performans düşüklüğü ve devamsızlıkta ihtar, savunma ve fesih bildirimi','Bordro ve 4857 simülatörü','#bordro'],
+ [5,2,'Aday arama ve mantıksal','LinkedIn\'de pasif aday bulma ve mantıksal arama dizilimi atölyesi','Aday takip sistemi deneme ortamı ve ilan tasarımı','#ats'],
+ [6,2,'Aday takip sisteminde ön eleme ve huni','120 başvuruluk havuzda kriterlere göre ön eleme ve huni verimliliği','Ise_Alim_Hunisi_ATS.xlsx','#sablon'],
+ [7,2,'Yapay zekâ mülakat simülasyonu','Yapay zekâ adaylarla canlı mülakat, kaçamak cevapları DGES sondajıyla açma','Yapay zekâ mülakat simülatörü','#ats'],
+ [8,2,'Teklif ve aday deneyimi','Ücret müzakeresi ve KVKK/etik sınırlarıyla teklif mektubu hazırlama','Aday değerlendirme ve kısa liste','#ats'],
+ [9,3,'İşten ayrılma ve Excel laboratuvarı','Kirli veriyi temizleme, gönüllü/zorunlu ayrılma ve ilk 90 gün analizi','Ayrilma_Analiz_Kiti.xlsx','#lab'],
+ [10,3,'Ücret yönetimi ve bant','Ücret konum oranı: kademe orta noktasına göre ücret adaleti analizi','İK analitiği ve ücret konum oranı laboratuvarı','#lab'],
+ [11,3,'Eğitim bütçesi ve yatırım getirisi','Adam/saat, bütçe takibi ve Kirkpatrick/Phillips ile eğitim yatırım getirisi\'si','Egitim_Butce_ve_Getiri.xlsx','#sablon'],
+ [12,3,'Portfolyo ve mezuniyet','12 haftanın vaka ve Excel projelerini tek linkte toplama','Doğrulanmış İK portfolyo sayfası','#portfolyo']];
+const MONTHS={1:['1. Ay','Temel İK operasyonları, özlük ve hukuk'],2:['2. Ay','Yetenek kazanımı ve işe alım simülasyonları'],3:['3. Ay','İK analitiği, performans ve eğitim bütçesi']};
+let calF=0;
+function renderCal(){
+  $('#calFilter').innerHTML=[[0,'Tüm program'],[1,'1. Ay'],[2,'2. Ay'],[3,'3. Ay']].map(m=>`<button class="chip" aria-pressed="${calF===m[0]}" data-m="${m[0]}">${m[1]}</button>`).join('');
+  $$('#calFilter [data-m]').forEach(b=>b.onclick=()=>{calF=+b.dataset.m;renderCal()});
+  let html='',lastM=0;
+  WEEKS.filter(w=>!calF||w[1]===calF).forEach(w=>{
+    if(w[1]!==lastM){lastM=w[1];html+=`<div class="month-head"><h3>${MONTHS[w[1]][0]}</h3><span class="muted small">${MONTHS[w[1]][1]}</span></div>`}
+    html+=`<div class="wk"><div class="n">Hafta ${w[0]}<small>${MONTHS[w[1]][0]}</small></div><div><b>${w[2]}</b></div><div class="small">${w[3]}</div><div><a class="btn ghost sm" href="${w[5]}">${w[4]}</a></div></div>`});
+  $('#cal').innerHTML=html;
+}
+
+/* ---------- boot ---------- */
+function renderAll(){renderXP();heroCalc();renderTest();bRender();aRender();renderClean();renderLab();renderInterp();checkLab();renderTpl();izCalc();renderCal();renderDocs();renderCases();renderQB();renderCK();cvAnalyze();renderForum();renderJobs();renderEvents();renderCerts();renderLadder();renderMentors();renderGlossary();renderLaw()}
+renderAll();show();
+})();
+</script>
